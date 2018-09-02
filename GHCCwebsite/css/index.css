@@ -590,6 +590,14 @@
      #footer{
          position: relative;
      }
+     /* 白皮书背景高度 */
+     #seeWhiteBook{
+         height: 200px;
+     }
+
+
+
+
    .muneBot{margin-top: 5%;}
    .fp-slidesNav.bottom{bottom: -22px;}
    .fp-slidesNav li p{margin-top: 11px;}
@@ -659,6 +667,17 @@
         display: flex;
         justify-content: space-around;
     }
+    #seeWhiteBook{
+    height: 600px;
+    background-color: #72b772;
+    text-align: center;
+    line-height: 600px;
+}
+#seeWhiteBook>a{
+    color: #fff;
+    font-size: 18px;
+    text-decoration: underline;
+}
     /* #footerRight{
         display: flex;
         justify-content: space-around;
@@ -720,6 +739,18 @@ footer>div{
 }
 .fl{
     float: left;
+}
+/* ***************************白皮书******************************* */
+#seeWhiteBook{
+    height: 600px;
+    background-color: #72b772;
+    text-align: center;
+    line-height: 600px;
+}
+#seeWhiteBook>a{
+    color: #fff;
+    font-size: 18px;
+    text-decoration: underline;
 }
 
 
