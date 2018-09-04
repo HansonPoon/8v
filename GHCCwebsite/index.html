@@ -24,7 +24,6 @@
 </head>
 
 <body>
-	<!-- <video width="320" height="240" controls src="./file/myvideo.mp4"></video> -->
 	<div class="mainContainer">
 		<!-- 手机导航 -->
 		<div class="fixed_bg" style=""></div>
@@ -99,9 +98,9 @@
 				<div class="swiper-slide">
 					<a href="javascript:;">
 						<picture>
-							<source srcset='./images/banner/timg.jpg' media='(max-width:440px)'>
-							<source srcset='./images/banner/timg(2).jpg' media='(max-width:1024px)'>
-							<img src="./images/banner/banner01.png">
+							<source srcset='./images/banner/banner01_s.png' media='(max-width:440px)'>
+							<source srcset='./images/banner/banner01_m.png' media='(max-width:1024px)'>
+							<img src="./images/banner/banner01_l.png">
 						</picture>
 					</a>
 				</div>
@@ -127,10 +126,11 @@
 		</div>
 		<!-- 应用场景 -->
 		<div class="homeLeader about6F">
-			<div class="f4title">
-				GHCC落地应用场景
-			</div>
-			<div class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+			<div class="f4_title applyTitle"></div>
+			<div id="f4_l_01" class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+				<div id="f4_l_01_img" class="fl_top">
+					<img src="./images/index/f4_01.jpg" alt="">
+				</div>
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -140,7 +140,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderRight about0 about6 scrollcomm leaderCon fr">
+			<div id="f4_r_01" class="leaderRight about0 about6 scrollcomm leaderCon fr">
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -152,7 +152,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+			<div id="f4_l_02" class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+				<div id="f4_l_02_img" class="fl_top">
+					<img src="./images/index/f4_02.png" alt="">
+				</div>
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -162,7 +165,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderRight about0 about6 scrollcomm leaderCon fr">
+			<div id="f4_r_02" class="leaderRight about0 about6 scrollcomm leaderCon fr">
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -174,7 +177,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+			<div id="f4_l_03" class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+				<div id="f4_l_03_img" class="fl_top">
+					<img src="./images/index/f4_03.jpg" alt="">
+				</div>
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -184,7 +190,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderRight about0 about6 scrollcomm leaderCon fr">
+			<div id="f4_r_03" class="leaderRight about0 about6 scrollcomm leaderCon fr">
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -196,7 +202,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+			<div id="f4_l_04" class="leaderLeft leaderCon scrollcomm about6 about0 fl">
+				<div id="f4_l_04_img" class="fl_top">
+					<img src="./images/index/f4_04.jpg" alt="">
+				</div>
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -206,7 +215,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="leaderRight about0 about6 scrollcomm leaderCon fr">
+			<div id="f4_r_04" class="leaderRight about0 about6 scrollcomm leaderCon fr">
 				<div class="absolute">
 					<div class="mid_table">
 						<div class="mid_cell">
@@ -221,9 +230,7 @@
 			<div class="clear"></div>
 			<!-- 优势 -->
 			<div class="ghccgood">
-				<div class="f4title">
-					GHCC优势
-				</div>
+				<div class="f4_title youshi"></div>
 				<div class="f3">
 					<div class="f3item">
 						<div class="f3title">
@@ -253,9 +260,7 @@
 
 			</div>
 			<!-- 时间线图 -->
-			<div class="f4title">
-				GHCC时间线图
-			</div>
+			<div class="f4_title time_line"></div>
 			<section id="cd-timeline" class="cd-container">
 				<div class="cd-timeline-block">
 					<div class="cd-timeline-img cd-picture">
@@ -322,6 +327,7 @@
 			</section>
 
 		</div>
+		<script src="./js/myindex/f4.js"></script>
 	</div>
 
 	<!-- 底部 -->
