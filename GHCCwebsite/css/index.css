@@ -2352,9 +2352,11 @@
    }
 
    /* f4hover效果 */
-   #f4_l_01_img,#f4_l_02_img,#f4_l_03_img,#f4_l_04_img{
+
+   #f4_l_01_img, #f4_l_02_img, #f4_l_03_img, #f4_l_04_img {
        transition: all 1s;
    }
+
    /* #f4_l_01:hover #f4_l_01_img{
        opacity: 1;
        transition: 1s;
@@ -2363,8 +2365,6 @@
        opacity: 1;
        transition: 1s;
    } */
-
-
 
    @media screen and (min-width:1025px) {
        .pagelogo img {
@@ -2383,13 +2383,11 @@
        .applyTitle {
            background: url(../images/index/01.png) no-repeat center center;
        }
-       .youshi{
-        background: url(../images/index/03.png) no-repeat center center;
-
+       .youshi {
+           background: url(../images/index/03.png) no-repeat center center;
        }
-       .time_line{
-        background: url(../images/index/02.png) no-repeat center center;
-
+       .time_line {
+           background: url(../images/index/02.png) no-repeat center center;
        }
        .f4title {
            text-align: center;
@@ -2529,10 +2527,225 @@
        text-decoration: underline;
    }
 
-   .fl_top{
-    opacity: 0;
+   .fl_top {
+       opacity: 0;
    }
-   .fl_top img{
-    width: 100%;
-    height: 100%;
+
+   .fl_top img {
+       width: 100%;
+       height: 100%;
+   }
+
+   /* ************************项目介绍 ***************************/
+
+   .introduce {
+       /* height: 171px; */
+       margin-top: 50px;
+   }
+
+   .in_imgBox {
+       height: 260px;
+       width: 40%;
+       display: inline-block;
+       margin-right: 5%;
+   }
+
+   .in_imgBox img {
+       width: 100%;
+       height: 100%;
+   }
+
+   .in_txt {
+       width: 50%;
+       display: inline-block;
+   }
+
+   .in_title {
+       width: 45px;
+       padding-bottom: 8px;
+       color: rgb(80, 209, 102);
+       font-size: 12px;
+       border-bottom: 2px solid rgb(80, 209, 102);
+   }
+
+   .about_title {
+       font-size: 30px;
+       color: rgb(77, 77, 77);
+       margin: 30px 0;
+   }
+
+   .in_des {
+       font-size: 14px;
+       color: rgb(77, 77, 77);
+       line-height: 25px;
+   }
+
+   /* 愿景 */
+
+   .vision {
+       margin: 100px 0 60px;
+       border-radius: 6px;
+       background: url(../images/about//bc.png) no-repeat;
+       padding: 40px 50px;
+   }
+
+   .vision>div {
+       border-radius: 6px;
+       background-color: #fff;
+       color: rgb(140, 140, 140);
+   }
+
+   .vi_left {
+       margin-right: 30px;
+       margin-left: 60px;
+   }
+
+   .vi_txt {
+       padding: 60px;
+       font-size: 14px;
+       line-height: 22px;
+   }
+
+   /* 方向 */
+
+   .direction {
+       margin-top: 60px;
+   }
+
+   /* 公用的title */
+
+   .sec_title {
+       width: 100%;
+       margin-bottom: 60px;
+       padding: 35px;
+       position: relative;
+       text-align: center;
+       font-size: 30px;
+       color: rgb(77, 77, 77);
+   }
+
+   .sec_line {
+       width: 70px;
+       height: 3px;
+       background-color: rgb(80, 209, 102);
+       position: absolute;
+       bottom: 0;
+       left: calc(50% - 35px);
+   }
+
+   .dec_f4 {
+       height: 380px;
+       display: flex;
+       justify-content: space-between;
+   }
+
+   .dec_f4_item {
+       border-radius: 6px;
+       overflow: hidden;
+       width: 22%;
+       text-align: center;
+       position: relative;
+       background-color: #fff;
+   }
+
+   .dec_f4_en {
+       font-size: 12px;
+       color: rgb(80, 209, 102);
+       font-weight: bold;
+       line-height: 40px;
+   }
+
+   .dec_f4_title {
+       color: rgb(140, 140, 140);
+       line-height: 40px;
+       font-size: 18px;
+   }
+
+   .dec_f4_des {
+       color: rgb(140, 140, 140);
+       font-size: 14px;
+       line-height: 24px;
+   }
+
+   .dec_f4_bc {
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       z-index: 1;
+       opacity: 0;
+       transition: 1.5s;
+   }
+
+   .dec_f4_bc img {
+       width: 100%;
+       height: 100%;
+   }
+
+   .dec_main {
+       padding: 8%;
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       z-index: 2;
+   }
+
+   /* hover效果 */
+
+   .dec_f4_item:hover .dec_f4_bc {
+       opacity: 1;
+   }
+
+   .dec_f4_item:hover .dec_f4_title, .dec_f4_item:hover .dec_f4_des {
+       color: #fff;
+   }
+
+   /* 落地项目 */
+
+   .land {
+       margin-top: 60px;
+       margin-bottom: 100px;
+   }
+
+   .landBox {
+       display: flex;
+       justify-content: space-between;
+   }
+
+   .land_item {
+       width: 30%;
+   }
+
+   .land_imgBox {
+       position: relative;
+       height: 240px;
+       overflow: hidden;
+       border-radius: 6px;
+   }
+
+   .land_imgBox img {
+       width: 100%;
+       height: 100%;
+   }
+
+   .land_new {
+       position: absolute;
+       background-color: rgb(80,209,102);
+       color: #fff;
+       font-size: 12px;
+       font-weight: bold;
+       padding: 5px 8px;
+   }
+
+   .land_title {
+       font-size: 18px;
+       color: rgb(140, 140, 140);
+       line-height: 30px;
+       text-align: center;
+   }
+   .team{
+       margin-top: 60px;
    }
