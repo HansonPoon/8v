@@ -2488,6 +2488,7 @@
        font-size: 14px;
        color: #454545;
        line-height: 28px;
+       border:1px solid rgba(0, 0, 0, 0.08);
    }
 
    /* footer */
@@ -2675,7 +2676,7 @@
        width: 22%;
        text-align: center;
        position: relative;
-       background-color: #fff;
+       border: 1px solid rgba(0, 0, 0, 0.08);
    }
 
    .dec_f4_en {
@@ -2720,10 +2721,27 @@
        position: absolute;
        top: 0;
        left: 0;
+       z-index: 3;
+   }
+
+   /* 中间层 */
+
+   .dec_f4_mid {
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
        z-index: 2;
+       background-color: rgba(0, 0, 0, 0.3);
+       opacity: 0;
    }
 
    /* hover效果 */
+
+   .dec_f4_item:hover .dec_f4_mid {
+       opacity: 1;
+   }
 
    .dec_f4_item:hover .dec_f4_bc {
        opacity: 1;
@@ -2771,6 +2789,7 @@
    }
 
    .land_title {
+       margin-top: 10px;
        font-size: 18px;
        color: rgb(140, 140, 140);
        line-height: 30px;

@@ -3,8 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import header from '@/components/header.vue'  //头部组件
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
+Vue.use(iView);
 
 Vue.config.productionTip = false
+
+Vue.component('v-header', header)    //没有更多数据了~
+
 
 /* eslint-disable no-new */
 new Vue({
