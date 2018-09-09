@@ -14,3 +14,13 @@ display: block;
 content: '';
 clear: both;
 }
+/* ************************覆盖iView样式*********************** */
+/* otc页面顶部tab */
+.ivu-tabs-nav{
+    width: 100%;
+}
+.ivu-tabs-nav .ivu-tabs-tab{
+    width: calc(100% / 3);
+    text-align: center;
+    margin-right: 0;
+}
