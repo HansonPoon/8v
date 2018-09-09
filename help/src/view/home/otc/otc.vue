@@ -1,0 +1,360 @@
+<template>
+  <div id="otc">
+    <div id="tab">
+      <div class="tab-nav">
+        <div class="tabItem" :class="{'tabActive':isActive==idx}" v-for="(item,idx) in tabItem" :key="idx" @click="tabPage(idx)">{{item}}</div>
+        <!-- 横线 -->
+        <div id="bottomLine"></div>
+      </div>
+      <div id="tabContent" class="tabContent clearfix" style="left:0;">
+        <div class="contentPage fl">
+          <ul class="orderList">
+            <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
+              <div class="left">
+                <div class="top">
+                  <span class="phone">
+                    {{item.phone}}
+                  </span>
+                  <span class="star">
+                    星级：{{item.star}}
+                  </span>
+                </div>
+                <div class="bottom">
+                  {{item.time}}
+                </div>
+              </div>
+              <div class="right fr">
+                <span class="money">
+                  {{item.money}} USDT
+                </span>
+                <span class="circle" v-if=true>买</span>
+                <span class="circle" v-else>卖</span>
+              </div>
+            </li>
+          </ul>
+          <div class="fenye" align='center'>
+            <Page :total="100" size="small" />
+          </div>
+          <div class="buysell">
+            <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
+            <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
+          </div>
+        </div>
+        <div class="contentPage fl">
+          <ul class="orderList">
+            <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
+              <div class="left">
+                <div class="top">
+                  <span class="phone">
+                    {{item.phone}}
+                  </span>
+                  <span class="star">
+                    星级：{{item.star}}
+                  </span>
+                </div>
+                <div class="bottom">
+                  {{item.time}}
+                </div>
+              </div>
+              <div class="right fr">
+                <span class="money">
+                  {{item.money}} USDT
+                </span>
+                <span class="circle" v-if=false>买</span>
+                <span class="circle" v-else>卖</span>
+              </div>
+            </li>
+          </ul>
+          <div class="btnBox">
+            <Page :total="100" size="small" />
+          </div>
+          <div class="buysell">
+            <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
+            <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
+          </div>
+        </div>
+        <div class="contentPage fl">
+          <div class="main">
+            <div class="main">
+              <ul>
+                <li>
+                  <span>
+                    付款地址
+                  </span>
+                  <span>
+                    <div id="address">{{payAddress}}</div>
+                    <div class="changeAddressIcon">
+                      <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
+                    </div>
+                  </span>
+                </li>
+                <li>
+                  <span>单价</span>
+                  <span>{{singlePrice}}USDT</span>
+                </li>
+                <li>
+                  <span>购买数量</span>
+                  <span id="priceIptBox">
+                    <Input type="number" v-model.number="buyNum">
+                        <span @click="dec" slot="prepend">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+                        <span @click="add" slot="append">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+                    </Input>
+                  </span>
+                </li>
+                <li>
+                  <span>交易单号</span>
+                  <span>
+                  <Input v-model="orderNum"></Input>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="btnBox">
+              <Button type="primary" size="large" style="width:80%;" @click="confirm">确认购买</Button>
+            </div>
+          </div>
+          <div class="notice">
+            <p>温馨提示：</p>
+            <p>• 请根据投注需要购买相应数量的门票，购买时，请用钱包向付款地址转账，转账后提交交易单号作为凭证，系统会在确认收到转账后，直接将门票发放到您的账户上</p>
+            <p>• 投注金额200~500 USDT，消耗门票2张</p>
+            <p>• 投注金额500~1000 USDT，消耗门票5张</p>
+            <p>• 投注金额1000~3000.00 USDT，消耗门票10张</p>
+            <p>• 投注金额3000.00 USDT以上，消耗门票30张</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      tabItem: ["买单", "卖单", "门票"],
+      isActive: "",
+      buyOrder: [
+        {
+          phone: 12345678901,
+          star: 19,
+          time: "2015-11-11 13:00:00",
+          money: 123
+        },
+        {
+          phone: 12345678901,
+          star: 19,
+          time: "2015-11-11 13:00:00",
+          money: 123
+        },
+        {
+          phone: 12345678901,
+          star: 19,
+          time: "2015-11-11 13:00:00",
+          money: 123
+        },
+        {
+          phone: 12345678901,
+          star: 19,
+          time: "2015-11-11 13:00:00",
+          money: 123
+        },
+        {
+          phone: 12345678901,
+          star: 19,
+          time: "2015-11-11 13:00:00",
+          money: 123
+        }
+      ],
+      payAddress: "0x11707d2AD3768B27988f9bA0ddc0f28aC466F07B",
+      singlePrice: "1",
+      buyNum:1,   //购买数量
+      orderNum:'',  //交易单号
+    };
+  },
+  methods: {
+    tabPage(idx) {
+      // 获取页面容器
+      const tabContent = document.getElementById("tabContent");
+      // 获取页面实际宽度
+      const pageWidth = tabContent.getElementsByClassName("contentPage")[0]
+        .offsetWidth;
+      //   根据下标来位移
+      tabContent.style.left = -idx * pageWidth + "px";
+      // 改变导航文字颜色
+      this.isActive = idx;
+      //   改变横线位置
+      document.getElementById("bottomLine").style.left =
+        idx * pageWidth / 3 + "px";
+    },
+    // 加减数量
+    dec(){
+      if (this.buyNum>1) {
+        this.buyNum--
+      }
+    },
+    add(){
+        this.buyNum++
+    },
+    // 确认购买
+    confirm() {}
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+@import "../../../myconfig/public.scss";
+#otc {
+  height: calc(100% - 50px);
+}
+#tab {
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  .tab-nav {
+    display: flex;
+    display: -ms-flexbox;
+    border-bottom: 1px solid #dcdee2;
+    position: relative;
+  }
+  #bottomLine {
+    width: calc(100% / 3);
+    height: 2px;
+    background-color: #2d8cf0;
+    position: absolute;
+    bottom: 0;
+    transition: 0.3s ease-in-out;
+  }
+  .tabItem {
+    width: calc(100% / 3);
+    line-height: 44px;
+    text-align: center;
+  }
+  .tabActive {
+    color: #2d8cf0;
+  }
+  // 内容页面
+  .tabContent {
+    position: relative;
+    width: calc(100% * 3);
+    height: calc(100% - 38px);
+    transition: 0.3s ease-in-out;
+    overflow-y: scroll;
+  }
+  .contentPage {
+    width: calc(100% / 3);
+    height: 100%;
+    display: inline-block;
+  }
+}
+// 买卖订单
+.orderList {
+  font-size: $orderfont;
+  width: 100%;
+  li {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 1px;
+    background-color: #fff;
+  }
+  .left {
+    display: inline-block;
+    width: 55%;
+    height: 100%;
+    .top {
+      margin-bottom: 5px;
+      .phone {
+        margin-right: 5px;
+      }
+      .star {
+        color: #4f9995;
+      }
+    }
+    // .bottom{
+
+    // }
+  }
+  .right {
+    display: inline-block;
+    width: 45%;
+    height: 100%;
+    text-align: right;
+    line-height: 47px;
+
+    .money {
+      color: $money;
+    }
+    .circle {
+      display: inline-block;
+      width: 22px;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 50%;
+      border: 1px solid $darkfont;
+    }
+  }
+}
+// 按钮
+.buysell {
+  margin: 10% 0;
+  text-align: center;
+}
+// 分页
+.fenye {
+  margin-top: 20px;
+}
+// 通用按钮外层
+.btnBox {
+  text-align: center;
+  margin: 20px 0;
+}
+// 门票
+.main {
+  background-color: #fff;
+  padding-bottom: 1px;
+  li {
+    text-align: left;
+    height: auto;
+    font-size: 0;
+    overflow: hidden;
+    padding: 10px 15px;
+
+    & > span {
+      display: inline-block;
+      height: inherit;
+      font-size: 14px;
+    }
+    & > span:first-child {
+      width: 30%;
+      line-height: 42px;
+    }
+    & > span:last-child {
+      width: 70%;
+      position: relative;
+    }
+    #address {
+      word-wrap: break-word;
+      width: 80%;
+      position: relative;
+      top: 15px;
+    }
+    .changeAddressIcon{
+      position: absolute;
+      right: 0;
+      top: 20px;
+    }
+    #priceIptBox{
+      position: relative;
+      top: 10px;
+    }
+  }
+}
+// 提示
+.notice{
+  padding: 15px;
+  font-size: 12px;
+  line-height: 25px;
+}
+</style>

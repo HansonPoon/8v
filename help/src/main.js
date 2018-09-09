@@ -6,8 +6,10 @@ import router from './router'
 import header from '@/components/header.vue'  //头部组件
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import publicjs from '@/myconfig/public.js';
 
 Vue.use(iView);
+Vue.use(publicjs);
 
 Vue.config.productionTip = false
 

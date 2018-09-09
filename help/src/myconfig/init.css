@@ -14,6 +14,9 @@ display: block;
 content: '';
 clear: both;
 }
+ul,ol{
+    list-style: none;
+}
 /* ************************覆盖iView样式*********************** */
 /* otc页面顶部tab */
 .ivu-tabs-nav{
