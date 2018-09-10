@@ -32,7 +32,7 @@
               </div>
             </li>
           </ul>
-          <div class="fenye" align='center'>
+          <div class="fenye">
             <Page :total="100" size="small" />
           </div>
           <div class="buysell">
@@ -65,7 +65,7 @@
               </div>
             </li>
           </ul>
-          <div class="btnBox">
+          <div class="fenye">
             <Page :total="100" size="small" />
           </div>
           <div class="buysell">
@@ -96,15 +96,15 @@
                   <span>购买数量</span>
                   <span id="priceIptBox">
                     <Input type="number" v-model.number="buyNum">
-                        <span @click="dec" slot="prepend">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-                        <span @click="add" slot="append">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+                    <span @click="dec" slot="prepend">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+                    <span @click="add" slot="append">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
                     </Input>
                   </span>
                 </li>
                 <li>
                   <span>交易单号</span>
                   <span>
-                  <Input v-model="orderNum"></Input>
+                    <Input v-model="orderNum"></Input>
                   </span>
                 </li>
               </ul>
@@ -126,7 +126,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -168,8 +167,8 @@ export default {
       ],
       payAddress: "0x11707d2AD3768B27988f9bA0ddc0f28aC466F07B",
       singlePrice: "1",
-      buyNum:1,   //购买数量
-      orderNum:'',  //交易单号
+      buyNum: 1, //购买数量
+      orderNum: "" //交易单号
     };
   },
   methods: {
@@ -188,13 +187,13 @@ export default {
         idx * pageWidth / 3 + "px";
     },
     // 加减数量
-    dec(){
-      if (this.buyNum>1) {
-        this.buyNum--
+    dec() {
+      if (this.buyNum > 1) {
+        this.buyNum--;
       }
     },
-    add(){
-        this.buyNum++
+    add() {
+      this.buyNum++;
     },
     // 确认购买
     confirm() {}
@@ -304,57 +303,7 @@ export default {
 // 分页
 .fenye {
   margin-top: 20px;
-}
-// 通用按钮外层
-.btnBox {
   text-align: center;
-  margin: 20px 0;
 }
-// 门票
-.main {
-  background-color: #fff;
-  padding-bottom: 1px;
-  li {
-    text-align: left;
-    height: auto;
-    font-size: 0;
-    overflow: hidden;
-    padding: 10px 15px;
-
-    & > span {
-      display: inline-block;
-      height: inherit;
-      font-size: 14px;
-    }
-    & > span:first-child {
-      width: 30%;
-      line-height: 42px;
-    }
-    & > span:last-child {
-      width: 70%;
-      position: relative;
-    }
-    #address {
-      word-wrap: break-word;
-      width: 80%;
-      position: relative;
-      top: 15px;
-    }
-    .changeAddressIcon{
-      position: absolute;
-      right: 0;
-      top: 20px;
-    }
-    #priceIptBox{
-      position: relative;
-      top: 10px;
-    }
-  }
-}
-// 提示
-.notice{
-  padding: 15px;
-  font-size: 12px;
-  line-height: 25px;
-}
+@import "../../../myconfig/otc.public.scss";
 </style>

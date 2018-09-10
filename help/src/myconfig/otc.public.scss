@@ -1,0 +1,52 @@
+/* 
+    门票/我要买/我要卖 的相同样式
+*/
+.main {
+    background-color: #fff;
+    padding-bottom: 1px;
+    .btnBox {
+      text-align: center;
+      margin: 20px 0;
+    }
+    li {
+      text-align: left;
+      height: auto;
+      font-size: 0;
+      overflow: hidden;
+      padding: 10px 15px;
+  
+      & > span {
+        display: inline-block;
+        height: inherit;
+        font-size: 14px;
+      }
+      & > span:first-child {
+        width: 30%;
+        line-height: 42px;
+      }
+      & > span:last-child {
+        width: 70%;
+        position: relative;
+      }
+      #address {
+        word-wrap: break-word;
+        width: 80%;
+        position: relative;
+        top: 15px;
+      }
+      .changeAddressIcon {
+        position: absolute;
+        right: 0;
+        top: 20px;
+      }
+      #priceIptBox {
+        position: relative;
+        top: 10px;
+      }
+    }
+  }
+  .notice{
+    padding: 15px;
+    font-size: 12px;
+    line-height: 25px;
+  }
