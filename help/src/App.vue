@@ -12,11 +12,13 @@ export default {
 
 <style lang='scss'>
 @import "./myconfig/init.css";
+@import './myconfig/public.scss';
 #app {
   width: 100%;
   height: 100%;
   &>div{
     height: 100%;
+    background-color: $bc;
   }
 }
 

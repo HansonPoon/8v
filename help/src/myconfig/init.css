@@ -17,13 +17,31 @@ clear: both;
 ul,ol{
     list-style: none;
 }
-/* ************************覆盖iView样式*********************** */
-/* otc页面顶部tab */
-.ivu-tabs-nav{
+/* 弹出框 */
+#alert{
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    font-size: 14px;
 }
-.ivu-tabs-nav .ivu-tabs-tab{
-    width: calc(100% / 3);
-    text-align: center;
-    margin-right: 0;
+#alert>#pop{
+    width: 80%;
+    height: 200px;
+    padding: 10%;
+    border-radius: 5px;
+    background-color: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
+#alert>#pop .btns{
+    font-size: 0;
+    text-align: center
+}
+/* ************************覆盖iView样式*********************** */

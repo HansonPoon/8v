@@ -53,6 +53,46 @@ export default new Router({
         },
       ]
     },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('@/view/home/me/setting/setting.vue')
+    },
+    {
+      path: '/myinvite',
+      name: 'myinvite',
+      component: () => import('@/view/home/me/myinvite.vue')
+    },
+    {
+      path: '/mybuyorder',
+      name: 'mybuyorder',
+      component: () => import('@/view/home/me/mybuyorder.vue')
+    },
+    {
+      path: '/mysellorder',
+      name: 'mysellorder',
+      component: () => import('@/view/home/me/mysellorder.vue')
+    },
+    {
+      path: '/receiveaddress',
+      name: 'receiveaddress',
+      component: () => import('@/view/home/me/setting/receiveaddress.vue')
+    },
+    {
+      path: '/tradepasswd',
+      name: 'tradepasswd',
+      component: () => import('@/view/home/me/setting/tradepasswd.vue')
+    },
+    {
+      path: '/loginpasswd',
+      name: 'loginpasswd',
+      component: () => import('@/view/home/me/setting/loginpasswd.vue')
+    },
+    {
+      path: '/changereceiveaddress',
+      name: 'changereceiveaddress',
+      component: () => import('@/view/home/me/setting/changereceiveaddress.vue')
+    },
 
 
   ]
