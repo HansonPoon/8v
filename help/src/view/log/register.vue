@@ -1,28 +1,28 @@
 <template>
-    <div id="register">
-        <v-header headname='注册'></v-header>
-        <Form ref="form" :model="form" :rules="ruleCustom">
-            <FormItem prop='phone'>
-                <Input v-model="form.phone" placeholder="手机号码"></Input>
-            </FormItem>
-            <FormItem prop='code' id="codeIpt">
-                <Input v-model="form.code" placeholder="验证码"></Input>
-                <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
-            </FormItem>
-            <FormItem prop='passwd'>
-                <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
-            </FormItem>
-            <FormItem prop='rpasswd'>
-                <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
-            </FormItem>
-            <FormItem>
-                <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
-            </FormItem>
-            <FormItem>
-                <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
-            </FormItem>
-        </Form>
-    </div>
+  <div id="register">
+    <v-header headname='注册'></v-header>
+    <Form ref="form" :model="form" :rules="ruleCustom">
+      <FormItem prop='phone'>
+        <Input v-model="form.phone" placeholder="手机号码"></Input>
+      </FormItem>
+      <FormItem prop='code' id="codeIpt">
+        <Input v-model="form.code" placeholder="验证码"></Input>
+        <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
+      </FormItem>
+      <FormItem prop='passwd'>
+        <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
+      </FormItem>
+      <FormItem prop='rpasswd'>
+        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+      </FormItem>
+      <FormItem>
+        <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
+      </FormItem>
+      <FormItem>
+        <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
+      </FormItem>
+    </Form>
+  </div>
 </template>
 
 <script>
@@ -60,6 +60,13 @@ export default {
       },
       ruleCustom: {
         phone: [{ validator: phoneIdentify, trigger: "blur" }],
+        code: [
+          {
+            required: true,
+            message: "请输入验证码",
+            trigger: "blur"
+          }
+        ],
         passwd: [
           {
             required: true,
@@ -84,29 +91,52 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success("注册成功!");
+          this.$axios
+            .post("hzp/user/regist", {
+              userPhone: this.form.phone,
+              validateCode: this.form.code,
+              pwd: this.form.passwd,
+              rePwd: this.form.rpasswd,
+              inviterPhone: this.form.inviter,
+              type: 0
+            })
+            .then(res => {
+              console.log(res);
+              this.$Message.success(res.data.message);
+            });
         } else {
-          this.$Message.error("注册失败!");
+          this.$Message.error("请完善信息!");
         }
       });
     },
     getCode() {
-      // ajax..........
       if (this.timer == null) {
-        this.ifSend = true;
-        let count = 60;
-        this.timer = setInterval(() => {
-          if (count >= 0) {
-            this.msg = `获取(${count--})`;
-          } else {
-            clearInterval(this.timer);
-            console.log(this.timer);
-            //   再次获取
-            this.msg = "重新获取";
-            this.timer = null;
-            this.ifSend = false;
-          }
-        }, 1000);
+        if (this.form.phone == "") {
+          this.$Message.error("请先输入手机号!");
+        } else {
+          this.$axios
+            .post("hzp/verifying/ObtainCode", {
+              iPhone: this.form.phone,
+              type: 0
+            })
+            .then(res => {
+              console.log(res);
+            });
+          this.ifSend = true;
+          let count = 60;
+          this.timer = setInterval(() => {
+            if (count >= 0) {
+              this.msg = `获取(${count--})`;
+            } else {
+              clearInterval(this.timer);
+              console.log(this.timer);
+              //   再次获取
+              this.msg = "重新获取";
+              this.timer = null;
+              this.ifSend = false;
+            }
+          }, 1000);
+        }
       }
     }
   }

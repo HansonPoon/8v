@@ -1,24 +1,28 @@
 <template>
   <div id="forgetpassword">
-    <v-header headname='找回密码'></v-header>
-    <Form ref="form" :model="form" :rules="ruleCustom">
-      <FormItem prop='phone'>
-        <Input v-model="form.phone" placeholder="手机号码"></Input>
-      </FormItem>
-      <FormItem prop='code' id="codeIpt">
-        <Input v-model="form.code" placeholder="验证码"></Input>
-        <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
-      </FormItem>
-      <FormItem prop='passwd'>
-        <Input v-model="form.passwd" placeholder="新密码：8~20位"></Input>
-      </FormItem>
-      <FormItem prop='rpasswd'>
-        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
-      </FormItem>
-      <FormItem>
-        <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
-      </FormItem>
-    </Form>
+    <div id="logBox">
+      <Form ref="form" :model="form" :rules="ruleCustom">
+        <FormItem prop='phone'>
+          <Input v-model="form.phone" placeholder="手机号码"></Input>
+        </FormItem>
+        <FormItem prop='code' id="codeIpt">
+          <Input v-model="form.code" placeholder="验证码"></Input>
+          <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
+        </FormItem>
+        <FormItem prop='passwd'>
+          <Input v-model="form.passwd" placeholder="新密码：8~20位"></Input>
+        </FormItem>
+        <FormItem prop='rpasswd'>
+          <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+        </FormItem>
+        <FormItem>
+          <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
+        </FormItem>
+        <div class="foot">
+        <router-link :to="{name:'login'}" tag="span" class="fr">返回登录</router-link>
+      </div>
+      </Form>
+    </div>
   </div>
 </template>
 
@@ -81,51 +85,29 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$axios
-            .post("hzp/user/modifyPwd", {
-              userPhone: this.form.phone,
-              validateCode: this.form.code,
-              pwd: this.form.passwd,
-              rePwd: this.form.rpasswd,
-              type: 1
-            })
-            .then(res => {
-              console.log(res);
-              this.$Message.success(res.data.message);
-            });
+          this.$Message.success("操作成功!");
         } else {
           this.$Message.error("操作失败!");
         }
       });
     },
     getCode() {
+      // ajax..........
       if (this.timer == null) {
-        if (this.form.phone == "") {
-          this.$Message.error("请先输入手机号!");
-        } else {
-          this.$axios
-            .post("hzp/verifying/ObtainCode", {
-              iPhone: this.form.phone,
-              type: 1
-            })
-            .then(res => {
-              console.log(res);
-            });
-          this.ifSend = true;
-          let count = 60;
-          this.timer = setInterval(() => {
-            if (count >= 0) {
-              this.msg = `获取(${count--})`;
-            } else {
-              clearInterval(this.timer);
-              console.log(this.timer);
-              //   再次获取
-              this.msg = "重新获取";
-              this.timer = null;
-              this.ifSend = false;
-            }
-          }, 1000);
-        }
+        this.ifSend = true;
+        let count = 60;
+        this.timer = setInterval(() => {
+          if (count >= 0) {
+            this.msg = `获取(${count--})`;
+          } else {
+            clearInterval(this.timer);
+            console.log(this.timer);
+            //   再次获取
+            this.msg = "重新获取";
+            this.timer = null;
+            this.ifSend = false;
+          }
+        }, 1000);
       }
     }
   }
@@ -136,7 +118,17 @@ export default {
 @import "../../myconfig/public.scss";
 
 #forgetpassword {
-  background-color: $bc;
+  background: url("../../assets/image/login_bc.jpg");
+  position: relative;
+}
+#logBox {
+  width: 400px;
+  height: 380px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 form {
   padding: 10%;
@@ -158,5 +150,8 @@ form {
 .active {
   border: 1px solid $lightfont;
   color: $lightfont;
+}
+.foot {
+  color: $lightblue;
 }
 </style>

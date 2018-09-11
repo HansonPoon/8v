@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       tabItem: ["利息榜", "邀请榜"],
-      isActive: "",
+      isActive: 0,
       interestList: [
         {
           rank: 1,

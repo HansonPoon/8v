@@ -83,7 +83,7 @@
                   </span>
                   <span>
                     <div id="address">{{payAddress}}</div>
-                    <div class="changeAddressIcon">
+                    <div @click="$goto('changereceiveaddress')" class="changeAddressIcon">
                       <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
                     </div>
                   </span>
@@ -132,7 +132,7 @@ export default {
   data() {
     return {
       tabItem: ["买单", "卖单", "门票"],
-      isActive: "",
+      isActive: 0,
       buyOrder: [
         {
           phone: 12345678901,
@@ -197,6 +197,17 @@ export default {
     },
     // 确认购买
     confirm() {}
+  },
+  beforeCreate () {
+
+  },
+  mounted () {
+    const index = this.$route.params.index;
+    // 如果是从我要买进入
+    if(index == 2){
+      this.isActive == index;
+      this.tabPage(index)
+    }
   }
 };
 </script>

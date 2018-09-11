@@ -21,7 +21,7 @@
           <span>持有门票</span>
           <span>
             {{myTicket}}
-            <router-link :to="{name:'buyticket'}" tag="span" style="color:#2d8cf0"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;购买门票&nbsp;</router-link>
+            <router-link :to="{name:'otc',params:{index: 2}}" replace tag="span" style="color:#2d8cf0"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;购买门票&nbsp;</router-link>
           </span>
         </li>
       </ul>
