@@ -93,6 +93,31 @@ export default new Router({
       name: 'changereceiveaddress',
       component: () => import('@/view/home/me/setting/changereceiveaddress.vue')
     },
+    {
+      path: '/starrule',
+      name: 'starrule',
+      component: () => import('@/view/home/me/starrule.vue')
+    },
+    {
+      path: '/balance',
+      name: 'balance',
+      component: () => import('@/view/home/me/balance.vue')
+    },
+    {
+      path: '/interest',
+      name: 'interest',
+      component: () => import('@/view/home/me/interest.vue')
+    },
+    {
+      path: '/principal',
+      name: 'principal',
+      component: () => import('@/view/home/me/principal.vue')
+    },
+    {
+      path: '/invitemoney',
+      name: 'invitemoney',
+      component: () => import('@/view/home/me/invitemoney.vue')
+    },
 
 
   ]

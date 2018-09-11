@@ -19,31 +19,31 @@
                         邀请人：&nbsp;&nbsp;{{inviter}}
                     </div>
                 </div>
-                <span class="star fr">
+                <span @click="$goto('starrule')" class="star fr">
                     星级：{{star}}
                 </span>
             </div>
             <div class="f4">
                 <div class="line">
-                    <div class="item">
+                    <div @click="$goto('balance')" class="item">
                         <p class="title">账户余额</p>
                         <p class="money">
                             {{balance}} USDT
                         </p>
                     </div>
-                    <div class="item">
+                    <div @click="$goto('principal')" class="item">
                         <p class="title">本金</p>
                         <p class="money">
                             {{principal}} USDT
                         </p>
                     </div>
-                    <div class="item">
+                    <div @click="$goto('interest')" class="item">
                         <p class="title">利息</p>
                         <p class="money">
                             {{interest}} USDT
                         </p>
                     </div>
-                    <div class="item">
+                    <div @click="$goto('invitemoney')" class="item">
                         <p class="title">邀请金</p>
                         <p class="money">
                             {{invite}} USDT
