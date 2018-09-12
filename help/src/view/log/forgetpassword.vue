@@ -109,7 +109,7 @@ export default {
               type: 1
             })
             .then(res => {
-              console.log(res);
+              this.$Message.success(res.data.message);
             });
           this.ifSend = true;
           let count = 60;

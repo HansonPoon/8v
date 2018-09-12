@@ -129,8 +129,19 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    // 获取买单
+    const getBuyTicket = () => {
+      this.$aixos.post();
+    };
+    // 获取卖单
+    // 获取门票
+  },
   data() {
     return {
+      data: null, //id和token
       tabItem: ["买单", "卖单", "门票"],
       isActive: 0,
       buyOrder: [
@@ -198,15 +209,13 @@ export default {
     // 确认购买
     confirm() {}
   },
-  beforeCreate () {
-
-  },
-  mounted () {
+  beforeCreate() {},
+  mounted() {
     const index = this.$route.params.index;
     // 如果是从我要买进入
-    if(index == 2){
+    if (index == 2) {
       this.isActive == index;
-      this.tabPage(index)
+      this.tabPage(index);
     }
   }
 };

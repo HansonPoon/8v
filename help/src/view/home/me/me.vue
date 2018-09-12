@@ -25,25 +25,25 @@
             </div>
             <div class="f4">
                 <div class="line">
-                    <div @click="$goto('balance')" class="item">
+                    <div @click="$goto('balance',{num:balance})" class="item">
                         <p class="title">账户余额</p>
                         <p class="money">
                             {{balance}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('principal')" class="item">
+                    <div @click="$goto('principal',{num:principal})" class="item">
                         <p class="title">本金</p>
                         <p class="money">
                             {{principal}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('interest')" class="item">
+                    <div @click="$goto('interest',{num:interest})" class="item">
                         <p class="title">利息</p>
                         <p class="money">
                             {{interest}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('invitemoney')" class="item">
+                    <div @click="$goto('invitemoney',{num:invite})" class="item">
                         <p class="title">邀请金</p>
                         <p class="money">
                             {{invite}} USDT
@@ -78,37 +78,65 @@
                     </router-link>
                 </span>
             </section>
+            <section class="secItem">
+                我的门票
+                <span class="red fr">
+                    <router-link :to="{name:'myticket'}" tag="div">
+                        {{myTicket}} 张
+                        <Icon type="ios-arrow-forward" size='30' color='#999' />
+                    </router-link>
+                </span>
+            </section>
         </main>
         <footer>
-              <Button type="primary" size="large" style="width:80%;" @click="exit">退出登录</Button>
+            <Button type="primary" size="large" style="width:80%;" @click="exit">退出登录</Button>
         </footer>
     </div>
 </template>
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.$axios.post("hzp/personal/loadPersonal", this.data).then(res => {
+     const resData = res.data.data;
+      this.userPhone = resData.iPhone;
+      this.accountType = resData.userType;
+      this.inviter = resData.inviterPhone;
+      this.star = resData.userLevel;
+      this.balance = resData.restMoney;
+      this.principal = resData.principalMoney;
+      this.interest = resData.interestMoney;
+      this.invite = resData.invitationMoney;
+      this.people = resData.invitationCount;
+      this.myBuyOrder = resData.myBuyOrder;
+      this.mySellOrder = resData.mySellOrder;
+      this.myTicket = resData.userTicketCount;
+    });
+  },
   data() {
     return {
+      data: null,
       /* user */
-      userPhone: 12345678900,
+      userPhone: '00000000000',
       accountType: "团队账户",
-      inviter: 12345678900,
-      star: 18,
+      inviter: '',
+      star: 0,
       /* f4 */
-      balance: 40000,
-      principal: 3123123,
-      interest: 8983249,
-      invite: 21390821,
-      /* 下面3个 */
-      people: 10, //我的邀请
-      myBuyOrder: 1,
-      mySellOrder: 1
+      balance: 0,
+      principal: 0,
+      interest: 0,
+      invite: 0,
+      /* 下面4个 */
+      people: 0, //我的邀请
+      myBuyOrder: 0,
+      mySellOrder: 0,
+      myTicket:0
     };
   },
   methods: {
-      exit(){
-
-      }
+    exit() {}
   }
 };
 </script>
@@ -117,9 +145,9 @@ export default {
 <style lang="scss" scoped>
 @import "../../../myconfig/public.scss";
 #me {
-    height: calc(100% - 50px);
-    overflow-y: scroll;
-    overflow-x: hidden;
+  height: calc(100% - 50px);
+  overflow-y: scroll;
+  overflow-x: hidden;
   header {
     line-height: 44px;
     text-align: center;
@@ -192,19 +220,19 @@ export default {
       }
     }
     .secItem {
-      line-height: 62px;
+      line-height: 50px;
       background-color: #fff;
       margin: 10px 0;
       padding: 0 15px;
 
-      .red {
-        color: $money;
-      }
+    //   .red {
+    //     color: $money;
+    //   }
     }
   }
-  footer{
-      text-align: center;
-      margin: 10% 0;
+  footer {
+    text-align: center;
+    margin: 10% 0;
   }
 }
 </style>

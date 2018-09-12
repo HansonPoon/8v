@@ -1,21 +1,25 @@
 <template>
   <div id="f4Item">
-    <v-header headname='利息'></v-header>
+    <v-header headname='我的门票'></v-header>
     <main>
       <div class="top">
         <div class="left">
-          <p>当前利息</p>
-          <p class="money">{{interest}} USDT</p>
+          <p>剩余门票</p>
+          <p class="money">{{balance}} 张</p>
         </div>
-        <!-- <div class="right">
-                    <Button type="default" style="color:#2d8cf0;border-color:#2d8cf0;">我要卖</Button>
-                </div> -->
+        <div class="right">
+          <Button type="default" style="color:#2d8cf0;border-color:#2d8cf0;">购买门票</Button>
+        </div>
       </div>
       <div class="bottom">
         <ul>
-          <li class="clearfix" v-for='(item,idx) in list' :key='idx'>
-            {{item.remark}}
-            <span class="time fr">{{item.createTime}}</span>
+          <li class="clearfix">
+            利息
+            <span class="time fr">2018-09-05 14:00:00</span>
+          </li>
+          <li class="clearfix">
+            利息
+            <span class="time fr">2018-09-05 14:00:00</span>
           </li>
         </ul>
         <div class="fenye">
@@ -31,16 +35,21 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
-    // 获取路由的参数
-    this.interest = this.$route.params.num;
+    // 添加参数
+    this.data.fromNum = 1;
+    this.data.pageSize = 5;
+    this.$axios.post("hzp/personal/myTicketList", this.data).then(res => {
+      console.log(res);
+      this.buyList = res.data.data;
+    });
     this.getList(1, this.pageSize);
   },
   data() {
     return {
       data: null,
-      interest: 0,
-      totalCount: 10,
-      pageSize: 6, //每页条数
+      balance: 0,
+      totalCount: 0,
+      pageSize: 8, //每页条数
       list: []
     };
   },
@@ -53,7 +62,7 @@ export default {
       // 添加参数
       this.data.fromNum = pageIdx;
       this.data.pageSize = pageSize;
-      this.$axios.post("hzp/personal/interestLsit", this.data).then(res => {
+      this.$axios.post("hzp/personal/balanceLsit", this.data).then(res => {
         this.list = res.data.data.list;
         this.totalCount = res.data.data.totalCount;
       });
@@ -69,8 +78,11 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 @import "../../../myconfig/public.scss";
 @import "../../../myconfig/mef4.public.scss";
 </style>
+
+
+
+

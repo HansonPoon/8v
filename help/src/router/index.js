@@ -74,6 +74,11 @@ export default new Router({
       component: () => import('@/view/home/me/mysellorder.vue')
     },
     {
+      path: '/myticket',
+      name: 'myticket',
+      component: () => import('@/view/home/me/myticket.vue')
+    },
+    {
       path: '/receiveaddress',
       name: 'receiveaddress',
       component: () => import('@/view/home/me/setting/receiveaddress.vue')

@@ -102,7 +102,7 @@ export default {
             })
             .then(res => {
               console.log(res);
-              this.$Message.success(res.data.message);
+              this.$Message.info(res.data.message);
             });
         } else {
           this.$Message.error("请完善信息!");
@@ -120,7 +120,7 @@ export default {
               type: 0
             })
             .then(res => {
-              console.log(res);
+            this.$Message.success(res.data.message);              
             });
           this.ifSend = true;
           let count = 60;

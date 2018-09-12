@@ -13,17 +13,13 @@
             </div>
             <div class="bottom">
                 <ul>
-                    <li class="clearfix">
-                        利息
-                        <span class="time fr">2018-09-05 14:00:00</span>
-                    </li>
-                    <li class="clearfix">
-                        利息
-                        <span class="time fr">2018-09-05 14:00:00</span>
+                    <li class="clearfix" v-for='(item,idx) in newList' :key='idx'>
+                        {{item.remark}}
+                        <span class="time fr">{{item.createTime}}</span>
                     </li>
                 </ul>
                 <div class="fenye">
-                    <Page :total="100" size="small" />
+                    <Page :total="totalCount" @on-change='changePageIdx' size="small" />
                 </div>
             </div>
         </main>
@@ -32,10 +28,43 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    // 获取路由的参数
+    this.balance = this.$route.params.num;
+    this.getList(1, this.pageSize);
+  },
   data() {
     return {
-      balance: 500.0
+      data: null,
+      balance: 0,
+      totalCount: 0,
+      pageSize: 8, //每页条数
+      list: []
     };
+  },
+  methods: {
+    changePageIdx(pageIdx) {
+      this.getList(pageIdx, this.pageSize);
+    },
+    getList(pageIdx, pageSize) {
+      //当前页码，每页条数
+      // 添加参数
+      this.data.fromNum = pageIdx;
+      this.data.pageSize = pageSize;
+      this.$axios.post("hzp/personal/balanceLsit", this.data).then(res => {
+        this.list = res.data.data.list;
+        this.totalCount = res.data.data.totalCount;
+      });
+    }
+  },
+  computed: {
+    newList() {
+      let newList = this.list;
+      this.$timeToTime(newList);
+      return newList;
+    }
   }
 };
 </script>

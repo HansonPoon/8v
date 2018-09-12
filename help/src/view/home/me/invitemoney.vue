@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <div class="fenye">
-                    <Page :total="100" size="small" />
+                    <Page :total="totalCount" size="small" />
                 </div>
             </div>
         </main>
@@ -39,10 +39,43 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    // 获取路由的参数
+    this.invitemoney = this.$route.params.num;
+    this.getList(1, this.pageSize);    
+  },
   data() {
     return {
-      invitemoney: 500.0
+      data: null,
+      invitemoney: 0,
+      totalCount: 0,
+      pageSize: 8, //每页条数
+      list: []
     };
+  },
+  methods: {
+    changePageIdx(pageIdx) {
+      this.getList(pageIdx, this.pageSize);
+    },
+    getList(pageIdx, pageSize) {
+      //当前页码，每页条数
+      // 添加参数
+      this.data.fromNum = pageIdx;
+      this.data.pageSize = pageSize;
+      this.$axios.post("hzp/personal/invitationLsit", this.data).then(res => {
+        this.list = res.data.data.list;
+        this.totalCount = res.data.data.totalCount;
+      });
+    }
+  },
+  computed: {
+    newList() {
+      let newList = this.list;
+      this.$timeToTime(newList);      
+      return newList;
+    }
   }
 };
 </script>

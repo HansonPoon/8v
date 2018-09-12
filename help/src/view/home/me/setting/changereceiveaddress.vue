@@ -1,21 +1,26 @@
 <template>
-    <div id="changereceiveaddress">
-        <v-header headname='修改收款地址'></v-header>
-        <main>
-            <Input v-model="usdtAddress" placeholder="USDT钱包收款地址" style="width: 100%" />
-            <div id="codeIpt">
-                <Input v-model="code" placeholder="验证码" />
-                <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
-            </div>
-            <Button type="primary" size="large" style="width:100%;margin:15px 0;" @click="save">保存</Button>
-        </main>
-    </div>
+  <div id="changereceiveaddress">
+    <v-header headname='修改收款地址'></v-header>
+    <main>
+      <Input v-model="usdtAddress" placeholder="USDT钱包收款地址" style="width: 100%" />
+      <div id="codeIpt">
+        <Input v-model="code" placeholder="验证码" />
+        <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
+      </div>
+      <Button type="primary" size="large" style="width:100%;margin:15px 0;" @click="save">保存</Button>
+    </main>
+  </div>
 </template>
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+  },
   data() {
     return {
+      data: null,
       usdtAddress: "",
       code: "",
       msg: "获取",
@@ -23,26 +28,46 @@ export default {
     };
   },
   methods: {
-       getCode() {
+    getCode() {
       // ajax..........
       if (this.timer == null) {
-        this.ifSend = true;
-        let count = 60;
-        this.timer = setInterval(() => {
-          if (count >= 0) {
-            this.msg = `获取(${count--})`;
-          } else {
-            clearInterval(this.timer);
-            console.log(this.timer);
-            //   再次获取
-            this.msg = "重新获取";
-            this.timer = null;
-            this.ifSend = false;
-          }
-        }, 1000);
+        if (this.usdtAddress == "") {
+          this.$Message.error("请先输入钱包收款地址!");
+        } else {
+          // 添加参数
+          this.data.type = 3;
+          this.$axios.post("hzp/verifying/ObtainCode", this.data).then(res => {
+            this.$Message.success(res.data.message);
+          });
+          this.ifSend = true;
+          let count = 60;
+          this.timer = setInterval(() => {
+            if (count >= 0) {
+              this.msg = `获取(${count--})`;
+            } else {
+              clearInterval(this.timer);
+              //   再次获取
+              this.msg = "重新获取";
+              this.timer = null;
+              this.ifSend = false;
+            }
+          }, 1000);
+        }
       }
     },
-    save() {}
+    save() {
+      if (this.usdtAddress == "") {
+        this.$Message.error("请先输入钱包收款地址!");
+      } else if (this.code == "") {
+        this.$Message.error("请先输入验证码!");
+      } else {
+        // 添加参数
+        this.data.address = this.usdtAddress;
+        this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
+            this.$Message.success(res.data.message);                        
+        });
+      }
+    }
   }
 };
 </script>
@@ -55,8 +80,8 @@ main {
   padding: 10%;
   background-color: #fff;
 
-  &>div{
-      margin-bottom: 20px;
+  & > div {
+    margin-bottom: 20px;
   }
 
   #codeIpt {
@@ -73,7 +98,6 @@ main {
     border: 1px solid $lightblue;
     border-radius: 6px;
     line-height: 30px;
-
   }
   .active {
     border: 1px solid $lightfont;
