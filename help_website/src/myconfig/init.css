@@ -1,0 +1,38 @@
+  /* ********************样式初始化********************** */
+
+  * {
+      box-sizing: border-box;
+  }
+
+  html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+  }
+
+  .fl {
+      float: left;
+  }
+
+  .fr {
+      float: right;
+  }
+
+  .clearfix::after {
+      display: block;
+      content: "";
+      clear: both;
+  }
+
+  ul, ol {
+      list-style: none;
+  }
+
+  /* ********************公共样式 ***************************/
+
+  .container {
+      width: 1200px;
+      height: 100%;
+      margin: 0 auto;
+  }
