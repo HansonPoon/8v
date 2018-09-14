@@ -1,27 +1,31 @@
 <template>
-    <div id="tradepasswd">
-        <v-header headname='交易密码'></v-header>
-        <Form ref="form" :model="form" :rules="ruleCustom">
-            <FormItem prop='code' id="codeIpt">
-                <Input v-model="form.code" placeholder="验证码"></Input>
-                <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
-            </FormItem>
-            <FormItem prop='passwd'>
-                <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
-            </FormItem>
-            <FormItem prop='rpasswd'>
-                <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
-            </FormItem>
+  <div id="tradepasswd">
+    <v-header headname='交易密码'></v-header>
+    <Form ref="form" :model="form" :rules="ruleCustom">
+      <FormItem prop='code' id="codeIpt">
+        <Input v-model="form.code" placeholder="验证码"></Input>
+        <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
+      </FormItem>
+      <FormItem prop='passwd'>
+        <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
+      </FormItem>
+      <FormItem prop='rpasswd'>
+        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+      </FormItem>
 
-            <FormItem>
-                <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
-            </FormItem>
-        </Form>
-    </div>
+      <FormItem>
+        <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
+      </FormItem>
+    </Form>
+  </div>
 </template>
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+  },
   data() {
     // 确认密码
     const repeatpasswd = (rule, value, callback) => {
@@ -34,11 +38,12 @@ export default {
       }
     };
     return {
+      data: null,
       msg: "获取",
       form: {
         code: "",
         passwd: "",
-        rpasswd: "",
+        rpasswd: ""
       },
       ruleCustom: {
         passwd: [
@@ -65,15 +70,32 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$Message.success("注册成功!");
+          if (this.form.code == "") {
+            this.$Message.error("验证码不能为空!");
+          } else {
+            // 添加参数
+            this.data.transactionPassword = this.form.passwd;
+            this.data.confirmPwd = this.form.rpasswd;
+            this.data.validateCode = this.form.code;
+            this.$axios
+              .post("hzp/personal/updateTransactionPassword", this.data)
+              .then(res => {
+                this.$Message.success(res.data.message);
+              });
+          }
         } else {
-          this.$Message.error("注册失败!");
+          this.$Message.error("操作失败!");
         }
       });
     },
     getCode() {
       // ajax..........
       if (this.timer == null) {
+        // 添加参数
+        this.data.type = 4;
+        this.$axios.post("hzp/verifying/ObtainCode", this.data).then(res => {
+          this.$Message.success(res.data.message);
+        });
         this.ifSend = true;
         let count = 60;
         this.timer = setInterval(() => {
@@ -81,7 +103,6 @@ export default {
             this.msg = `获取(${count--})`;
           } else {
             clearInterval(this.timer);
-            console.log(this.timer);
             //   再次获取
             this.msg = "重新获取";
             this.timer = null;

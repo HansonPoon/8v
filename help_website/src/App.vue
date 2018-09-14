@@ -11,10 +11,9 @@ export default {
 </script>
 
 <style lang='scss'>
-@import './myconfig/init.css';
+
+@import "./myconfig/init.css";
 #app {
-  font: 16px sans-serif;
-
-
+  font-size: 16px;
 }
 </style>

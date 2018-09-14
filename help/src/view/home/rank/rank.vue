@@ -1,131 +1,65 @@
 <template>
-    <div id="rank">
-        <div id="tab">
-            <div class="tab-nav">
-                <div class="tabItem" :class="{'tabActive':isActive==idx}" v-for="(item,idx) in tabItem" :key="idx" @click="tabPage(idx)">{{item}}</div>
-                <!-- 横线 -->
-                <div id="bottomLine"></div>
+  <div id="rank">
+    <div id="tab">
+      <div class="tab-nav">
+        <div class="tabItem" :class="{'tabActive':isActive==idx}" v-for="(item,idx) in tabItem" :key="idx" @click="tabPage(idx)">{{item}}</div>
+        <!-- 横线 -->
+        <div id="bottomLine"></div>
+      </div>
+      <div id="tabContent" class="tabContent clearfix" style="left:0;">
+        <div class="contentPage fl">
+          <v-nodata v-if="interestList.length==0"></v-nodata>
+          <div v-else>
+            <ul class="list">
+              <li v-for="(item,idx) in interestList" :key="idx">
+                <div class="number">{{item.rank}}</div>
+                <span>{{item.iphone}}</span>
+                <span class="money fr">{{item.money}} USDT</span>
+              </li>
+            </ul>
+            <div class="fenye">
+              <Page :total="totalCount_interest" @on-change='changeInterestPageIdx' size="small" />
             </div>
-            <div id="tabContent" class="tabContent clearfix" style="left:0;">
-                <div class="contentPage fl">
-                    <ul class="list">
-                        <li v-for="(item,idx) in interestList" :key="idx">
-                            <div class="number">{{item.rank}}</div>
-                            <span>{{item.phone}}</span>
-                            <span class="money fr">{{item.money}} USDT</span>
-                        </li>
-                    </ul>
-                    <!-- <div class="fenye">
-                        <Page :total="100" size="small" />
-                    </div> -->
-                </div>
-                <div class="contentPage fl">
-                    <ul class="list">
-                        <li v-for="(item,idx) in inviteList" :key="idx">
-                            <div class="number">{{item.rank}}</div>
-                            <span>{{item.phone}}</span>
-                            <span class="money fr">{{item.money}} USDT</span>
-                        </li>
-                    </ul>
-                    <!-- <div class="fenye">
-                        <Page :total="100" size="small" />
-                    </div> -->
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="contentPage fl">
+          <v-nodata v-if="inviteList.length==0"></v-nodata>
+          <div v-else>
+            <ul class="list">
+              <li v-for="(item,idx) in inviteList" :key="idx">
+                <div class="number">{{item.rank}}</div>
+                <span>{{item.iphone}}</span>
+                <span class="money fr">{{item.money}} USDT</span>
+              </li>
+            </ul>
+            <div class="fenye">
+              <Page :total="totalCount_invite" @on-change='changeInvitePageIdx' size="small" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.changeInterestPageIdx(1, this.pageSize);
+    this.changeInvitePageIdx(1, this.pageSize);
+  },
   data() {
     return {
+      data: null,
       tabItem: ["利息榜", "邀请榜"],
       isActive: 0,
-      interestList: [
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        }
-      ],
-      inviteList: [
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        },
-        {
-          rank: 1,
-          phone: 12345678901,
-          money: 123
-        }
-      ]
+      interestList: [],
+      inviteList: [],
+      totalCount_interest: 0,
+      totalCount_invite: 0,
+      pageSize: 1 //每页条数
     };
   },
   methods: {
@@ -142,6 +76,36 @@ export default {
       //   改变横线位置
       document.getElementById("bottomLine").style.left =
         idx * pageWidth / 2 + "px";
+    },
+    changeInterestPageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("/hzp/rankingList/reankingInterestRoInvitation", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 0
+        })
+        .then(res => {
+          this.interestList = res.data.data.list;
+          this.totalCount_interest = res.data.data.totalCount;
+        });
+    },
+    changeInvitePageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("/hzp/rankingList/reankingInterestRoInvitation", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 1
+        })
+        .then(res => {
+          this.inviteList = res.data.data.list;
+          this.totalCount_invite = res.data.data.totalCount;
+        });
     }
   }
 };

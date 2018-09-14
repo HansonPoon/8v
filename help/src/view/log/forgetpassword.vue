@@ -53,7 +53,8 @@ export default {
         code: "",
         passwd: "",
         rpasswd: "",
-        inviter: ""
+        inviter: "",
+        showPop:true
       },
       ruleCustom: {
         phone: [{ validator: phoneIdentify, trigger: "blur" }],

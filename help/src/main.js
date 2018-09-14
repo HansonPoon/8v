@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import header from '@/components/header.vue'  //头部组件
+import nodata from '@/components/nodata.vue'  //头部组件
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import publicjs from '@/myconfig/public.js'
@@ -18,7 +19,8 @@ Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://192.168.0.162:8001'
 
 
-Vue.component('v-header', header)    //没有更多数据了~
+Vue.component('v-header', header)    //顶部
+Vue.component('v-nodata', nodata)    //没有数据
 
 
 /* eslint-disable no-new */

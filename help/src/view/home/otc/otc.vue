@@ -13,19 +13,19 @@
               <div class="left">
                 <div class="top">
                   <span class="phone">
-                    {{item.phone}}
+                    {{item.userPhone}}
                   </span>
                   <span class="star">
-                    星级：{{item.star}}
+                    星级：{{item.userLevel}}
                   </span>
                 </div>
                 <div class="bottom">
-                  {{item.time}}
+                  {{item.dateSdf}}
                 </div>
               </div>
               <div class="right fr">
                 <span class="money">
-                  {{item.money}} USDT
+                  {{item.transactionAmount}} USDT
                 </span>
                 <span class="circle" v-if=true>买</span>
                 <span class="circle" v-else>卖</span>
@@ -33,7 +33,7 @@
             </li>
           </ul>
           <div class="fenye">
-            <Page :total="100" size="small" />
+            <Page :total="buy_totalCount" @on-change='getBuyTicket' size="small" />
           </div>
           <div class="buysell">
             <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
@@ -42,23 +42,23 @@
         </div>
         <div class="contentPage fl">
           <ul class="orderList">
-            <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
+            <li class="clearfix" v-for="(item,idx) in sellOrder" :key="idx">
               <div class="left">
                 <div class="top">
                   <span class="phone">
-                    {{item.phone}}
+                    {{item.userPhone}}
                   </span>
                   <span class="star">
-                    星级：{{item.star}}
+                    星级：{{item.userLevel}}
                   </span>
                 </div>
                 <div class="bottom">
-                  {{item.time}}
+                  {{item.dateSdf}}
                 </div>
               </div>
               <div class="right fr">
                 <span class="money">
-                  {{item.money}} USDT
+                  {{item.transactionAmount}} USDT
                 </span>
                 <span class="circle" v-if=false>买</span>
                 <span class="circle" v-else>卖</span>
@@ -66,7 +66,7 @@
             </li>
           </ul>
           <div class="fenye">
-            <Page :total="100" size="small" />
+            <Page :total="sell_totalCount" @on-change='getSellTicket' size="small" />
           </div>
           <div class="buysell">
             <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
@@ -133,53 +133,36 @@ export default {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
     // 获取买单
-    const getBuyTicket = () => {
-      this.$aixos.post();
-    };
+    this.getBuyTicket(1);
     // 获取卖单
-    // 获取门票
+    this.getSellTicket(1);
+  },
+  mounted() {
+    const index = this.$route.params.index;
+    // 如果是从我要买进入
+    if (index == 2) {
+      this.isActive == index;
+      this.tabPage(index);
+    }
+    // iview消息框提示配置
+    this.$Message.config({
+      duration: 3
+    });
   },
   data() {
     return {
       data: null, //id和token
       tabItem: ["买单", "卖单", "门票"],
       isActive: 0,
-      buyOrder: [
-        {
-          phone: 12345678901,
-          star: 19,
-          time: "2015-11-11 13:00:00",
-          money: 123
-        },
-        {
-          phone: 12345678901,
-          star: 19,
-          time: "2015-11-11 13:00:00",
-          money: 123
-        },
-        {
-          phone: 12345678901,
-          star: 19,
-          time: "2015-11-11 13:00:00",
-          money: 123
-        },
-        {
-          phone: 12345678901,
-          star: 19,
-          time: "2015-11-11 13:00:00",
-          money: 123
-        },
-        {
-          phone: 12345678901,
-          star: 19,
-          time: "2015-11-11 13:00:00",
-          money: 123
-        }
-      ],
-      payAddress: "0x11707d2AD3768B27988f9bA0ddc0f28aC466F07B",
+      buyOrder: [],
+      sellOrder: [],
+      payAddress: "",
       singlePrice: "1",
       buyNum: 1, //购买数量
-      orderNum: "" //交易单号
+      orderNum: "", //交易单号
+      buy_totalCount: 0, //分页的总数据条数
+      sell_totalCount: 0, //分页的总数据条数
+      pageSize: 6 //每页条数
     };
   },
   methods: {
@@ -206,16 +189,52 @@ export default {
     add() {
       this.buyNum++;
     },
-    // 确认购买
-    confirm() {}
-  },
-  beforeCreate() {},
-  mounted() {
-    const index = this.$route.params.index;
-    // 如果是从我要买进入
-    if (index == 2) {
-      this.isActive == index;
-      this.tabPage(index);
+    // 获取买单
+    getBuyTicket(pageIdx) {
+      this.$axios
+        .post("/hzp/otc/getOrders", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 0
+        })
+        .then(res => {
+          this.buyOrder = res.data.data.list;
+          this.buy_totalCount=res.data.data.totalCount;
+        });
+    },
+    // 获取卖单
+    getSellTicket(pageIdx) {
+      this.$axios
+        .post("/hzp/otc/getOrders", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 1
+        })
+        .then(res => {
+          this.sellOrder = res.data.data.list;
+          this.sell_totalCount = res.data.data.totalCount;
+        });
+    },
+    // 购买门票
+    confirm() {
+      if (this.orderNum == "") {
+        this.$Message.error("请输入交易单号!");
+      } else {
+        this.$axios
+          .post("/hzp/otc/buyTickets", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            amount: this.buyNum,
+            transactionOrder: this.orderNum
+          })
+          .then(res => {
+            this.$Message.info(res.data.message);
+          });
+      }
     }
   }
 };

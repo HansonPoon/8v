@@ -3,9 +3,10 @@
 */
 exports.install = function (Vue, options) {
     // 返回上一页
-    Vue.prototype.goBack = function () {
+    Vue.prototype.$goBack = function () {
         this.$router.go(-1);
     };
+    // 去指定页
     Vue.prototype.$goto = function (pageName, param) {
         this.$router.push({
             name: pageName,
@@ -29,6 +30,20 @@ exports.install = function (Vue, options) {
             var m = date.getMinutes() + ":";
             var s = date.getSeconds();
             return Y + M + D + h + m + s;
+        }
+    }
+    // 消耗门票计算
+    Vue.prototype.$useTicket = function (num) {
+        if (num == "") {
+            return 0;
+        } else if (num <= 500) {
+            return 2;
+        } else if (num <= 1000) {
+            return 5;
+        } else if (num <= 3000) {
+            return 10;
+        } else {
+            return 30;
         }
     }
 }

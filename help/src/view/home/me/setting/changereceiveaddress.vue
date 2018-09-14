@@ -18,6 +18,11 @@ export default {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
   },
+  mounted() {
+    this.$Message.config({
+      duration: 2
+    });
+  },
   data() {
     return {
       data: null,
@@ -56,22 +61,23 @@ export default {
       }
     },
     save() {
-      if (this.usdtAddress == "") {
-        this.$Message.error("请先输入钱包收款地址!");
+      const reg = /^[0-9a-zA-Z]{42}$/;
+      if (!reg.test(this.usdtAddress)) {
+        this.$Message.error("请检查收款地址!");
       } else if (this.code == "") {
         this.$Message.error("请先输入验证码!");
       } else {
         // 添加参数
         this.data.address = this.usdtAddress;
+        this.data.validateCode = this.code;
         this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
-            this.$Message.success(res.data.message);                        
+          this.$Message.success(res.data.message);
         });
       }
     }
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 @import "../../../../myconfig/public.scss";

@@ -143,7 +143,7 @@ export default {
   computed: {
     newList() {
       let newList = this.list;
-      this.$timeToTime(newList);      
+      this.$timeToTime(newList);
       return newList;
     }
   }

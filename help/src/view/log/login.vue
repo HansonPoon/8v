@@ -72,11 +72,10 @@ export default {
               pwd: this.form.passwd
             })
             .then(res => {
-              console.log(res);
               this.$Message.success(res.data.message);
               if (res.data.code == 1006) {
                 // 保存id与token
-                sessionStorage.setItem('data', JSON.stringify(res.data.data));
+                sessionStorage.setItem("data", JSON.stringify(res.data.data));
                 this.$router.replace({ name: "home" });
               }
             });
