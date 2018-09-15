@@ -10,7 +10,7 @@
                         </span>
                         <span>
                             <div id="address">{{receiveAddress}}</div>
-                            <div class="changeAddressIcon">
+                            <div @click="$goto('changereceiveaddress')" class="changeAddressIcon">
                                 <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
                             </div>
                         </span>

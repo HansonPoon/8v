@@ -18,7 +18,7 @@
               </li>
             </ul>
             <div class="fenye">
-              <Page :total="totalCount_interest" @on-change='changeInterestPageIdx' size="small" />
+              <Page :total="totalCount_interest" :pageSize='pageSize' @on-change='changeInterestPageIdx' size="small" />
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
               </li>
             </ul>
             <div class="fenye">
-              <Page :total="totalCount_invite" @on-change='changeInvitePageIdx' size="small" />
+              <Page :total="totalCount_invite" :pageSize='pageSize' @on-change='changeInvitePageIdx' size="small" />
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default {
       inviteList: [],
       totalCount_interest: 0,
       totalCount_invite: 0,
-      pageSize: 1 //每页条数
+      pageSize: 6 //每页条数
     };
   },
   methods: {

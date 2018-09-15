@@ -90,7 +90,7 @@
                 </li>
                 <li>
                   <span>单价</span>
-                  <span>{{singlePrice}}USDT</span>
+                  <span>{{singlePrice}} USDT</span>
                 </li>
                 <li>
                   <span>购买数量</span>
@@ -136,6 +136,10 @@ export default {
     this.getBuyTicket(1);
     // 获取卖单
     this.getSellTicket(1);
+    // 获取付款地址
+    this.$axios.post("/hzp/otc/getUserInfo", this.data).then(res => {
+      this.payAddress = res.data.data.receivableAddress;
+    });
   },
   mounted() {
     const index = this.$route.params.index;
@@ -201,7 +205,7 @@ export default {
         })
         .then(res => {
           this.buyOrder = res.data.data.list;
-          this.buy_totalCount=res.data.data.totalCount;
+          this.buy_totalCount = res.data.data.totalCount;
         });
     },
     // 获取卖单
@@ -221,8 +225,10 @@ export default {
     },
     // 购买门票
     confirm() {
-      if (this.orderNum == "") {
+      if (this.orderNum === "") {
         this.$Message.error("请输入交易单号!");
+      } else if (!this.payAddress) {
+        this.$Message.error("请完善交易地址!");
       } else {
         this.$axios
           .post("/hzp/otc/buyTickets", {

@@ -2,7 +2,7 @@
   <div id="myinvite">
     <v-header headname='我的邀请'></v-header>
     <main>
-      <v-nodata v-if='list.lenght==0'></v-nodata>
+      <v-nodata v-if='list.length==0'></v-nodata>
       <div v-else>
         <ul class="clearfix">
           <li class="fl" v-for="(item,idx) in list" :key="idx">
@@ -16,7 +16,7 @@
           <Page :total="totalCount" :page-size='pageSize' size="small" @on-change='changePageIdx' />
         </div>
       </div>
-    </main>
+    </main>   
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
       data: null,
       totalCount: 10,
       pageSize: 12, //每页条数
-      list: []
+      list: [],
     };
   },
   methods: {

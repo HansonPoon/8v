@@ -8,7 +8,7 @@
           <p class="money">{{balance}} 张</p>
         </div>
         <div class="right">
-          <Button type="default" style="color:#2d8cf0;border-color:#2d8cf0;">购买门票</Button>
+          <Button @click="$goto('otc',{index:2})" type="default" style="color:#2d8cf0;border-color:#2d8cf0;">购买门票</Button>
         </div>
       </div>
       <div class="bottom">

@@ -7,7 +7,7 @@
                     <p>当前本金</p>
                     <p class="money">{{principal}} USDT</p>
                     <div class="daoqi">
-                        生息到期：2018-09-10 &nbsp;
+                        生息到期：{{endTime}} &nbsp;
                         <Button @click="showPop=true" type="default" style="color:#2d8cf0;border-color:#2d8cf0;">延长10天</Button>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
             </div>
             <div class="bottom">
                 <ul>
-                    <li class="clearfix" v-for='(item,idx) in list' :key='idx'>
+                    <li class="clearfix" v-for='(item,idx) in newList' :key='idx'>
                         {{item.remark}}
                         <span class="time fr">{{item.createTime}}</span>
                     </li>
@@ -51,7 +51,9 @@ export default {
     this.data = JSON.parse(sessionStorage.getItem("data"));
     // 获取路由的参数
     this.principal = this.$route.params.num;
-    this.getList(1, this.pageSize);    
+    this.principalId = this.$route.params.principalId;
+    this.endTime = this.$route.params.endTime;
+    this.getList(1, this.pageSize);
   },
   data() {
     return {
@@ -59,13 +61,15 @@ export default {
       showPop: false,
       totalCount: 0,
       pageSize: 8, //每页条数
-      list: []
+      list: [],
+      principalId: null,
+      endTime:''
     };
   },
   computed: {
     newList() {
       let newList = this.list;
-      this.$timeToTime(newList);      
+      this.$timeToTime(newList);
       return newList;
     }
   },
@@ -82,6 +86,23 @@ export default {
         this.list = res.data.data.list;
         this.totalCount = res.data.data.totalCount;
       });
+    },
+    secendConfirm() {
+      this.showPop = false;
+      this.$axios
+        .post("/hzp/otc/addPrincipalTime", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          principalId: this.principalId
+        })
+        .then(res => {
+          if (res.data.code == 4015) {
+            this.$Message.success(res.data.message);
+            this.endTime = res.data.data;
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
     }
   }
 };

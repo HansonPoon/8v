@@ -1,58 +1,63 @@
 <template>
   <div id="mysellorder">
     <v-header headname='我的卖单'></v-header>
-    <div class="noOrder" v-if="buyList.length===0">
+    <div class="noOrder" v-if="list.length===0">
       暂无卖单，赶快
       <router-link :to="{name:'sell'}" style="text-decoration:underline;">去下单</router-link>
       吧
     </div>
     <div class="hasOrder" v-else>
       <ul>
-        <li v-for="(item,idx) in buyList" :key="idx">
+        <li v-for="(item,idx) in list" :key="idx">
           <div class="top">
             <p>
               <span>排单单号</span>
-              <span>{{item.num}}</span>
+              <span>{{item.sellId}}</span>
             </p>
             <p>
               <span>交易数量</span>
-              <span>{{item.amount}} USDT</span>
+              <span>{{item.transactionAmount}} USDT</span>
             </p>
             <p>
               <span>下单时间</span>
-              <span>{{item.time}}</span>
+              <span>{{item.createTime}}</span>
             </p>
-            <div class="status" v-if="item.status==1">未匹配</div>
+            <p @click="showMatchList[idx].checkMatch=!showMatchList[idx].checkMatch" v-if="item.status!=='未匹配'" style='text-align:center;color:#2d8cf0'>查看匹配</p>
+            <div class="status" v-if="item.status=='未匹配'">未匹配</div>
             <div class="matching status" v-else>已匹配</div>
           </div>
-          <div class="mid">
-            <Icon style="margin-right:-15px" size='40' type="ios-arrow-round-up" />
-            <Icon style="margin-left:-15px" size='40' type="ios-arrow-round-down" />
-          </div>
-          <div class="bottom">
-            <p v-if="item.status==1" class="noOrder">暂无匹配卖单</p>
-            <div class="hasOrder" v-else>
-              <p>
-                <span>排单单号</span>
-                <span>{{item.num}}</span>
-              </p>
-              <p>
-                <span>交易数量</span>
-                <span>{{item.amount}} USDT</span>
-              </p>
-              <p>
-                <span>下单时间</span>
-                <span>{{item.time}}</span>
-              </p>
-              <p class="clearfix">
-                <span>付款地址</span>
-                <span class="fr" style="word-wrap: break-word;display:inline-block;width:calc(90% - 60px)">
-                  {{item.address}}
-                </span>
-              </p>
-              <div class="btnBox">
-                <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.address)">复制单号</Button>
-                <Button type="primary" size="default" style="width:35%;" @click="showPop=true;">确认收款</Button>
+          <div v-if="showMatchList[idx].checkMatch">
+            <div class="mid">
+              <Icon style="margin-right:-15px" size='40' type="ios-arrow-round-up" />
+              <Icon style="margin-left:-15px" size='40' type="ios-arrow-round-down" />
+            </div>
+            <div class="bottom">
+              <p v-if="item.status==1" class="noOrder">暂无匹配卖单</p>
+              <div class="hasOrder" v-else>
+                <p>
+                  <span>匹配单号</span>
+                  <span>{{item.platoonId}}</span>
+                </p>
+                <p>
+                  <span>买家账号</span>
+                  <span>{{item.buyIPhone}}</span>
+                </p>
+                <p>
+                  <span>交易数量</span>
+                  <span>{{item.actualAmount}}</span>
+                </p>
+                <p class="clearfix">
+                  <span>交易单号</span>
+                  <span class="fr" style="word-wrap: break-word;display:inline-block;width:calc(90% - 60px)">
+                    {{item.transactionOrderNo}}
+                  </span>
+                </p>
+                <div class="btnBox">
+                  <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.address)">复制单号</Button>
+                  <Button v-if="item.yesOrNo==0" type="primary" size="default" style="width:35%;">等待买家付款</Button>
+                  <Button v-if="item.yesOrNo==1" type="primary" size="default" style="width:35%;" @click="firstConfirm(idx)">确认收款</Button>
+                  <Button v-else-if="item.yesOrNo==2" type="default" size="default" style="width:35%;">已完成</Button>
+                </div>
               </div>
             </div>
           </div>
@@ -89,43 +94,36 @@ export default {
       showPop: false,
       confirmIpt: "", //二次确认地址
       totalCount: 0,
-      pageSize: 8, //每页条数
-      buyList: [
-        {
-          num: "GHCC044334337619",
-          amount: 3000.0,
-          time: "2018-09-05 14:00:00",
-          status: 1
-        },
-        {
-          num: "GHCC044334337619",
-          amount: 3000.0,
-          time: "2018-09-05 14:00:00",
-          status: 1
-        },
-        {
-          num: "GHCC044334337619",
-          amount: 3000.0,
-          time: "2018-09-05 14:00:00",
-          status: 10,
-          address: "0x11707d2AD3768B27988f9bA0ddc0f28aC466F07B"
-        },
-        {
-          num: "GHCC044334337619",
-          amount: 3000.0,
-          time: "2018-09-05 14:00:00",
-          status: 10,
-          address: "1233"
-        }
-      ]
+      pageSize: 3, //每页条数
+      list: [],
+      confirmIdx: null, //确认付款的下标
+      showMatchList: []
     };
   },
   methods: {
     copyAddress(val) {
-      this.confirmIpt = val;
+      // this.confirmIpt = val;
+    },
+    firstConfirm(idx) {
+      this.showPop = true;
+      this.confirmIdx = idx;
     },
     secendConfirm() {
       this.showPop = false;
+      this.$axios
+        .post("/hzp/otc/confirmSellOrder", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          platoonId: this.list[this.confirmIdx].platoonId
+        })
+        .then(res => {
+          if (res.data.code == 4013) {
+            this.$Message.success(res.data.message);
+            this.getList(1, this.pageSize);
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
     },
     changePageIdx(pageIdx) {
       this.getList(pageIdx, this.pageSize);
@@ -138,14 +136,11 @@ export default {
       this.$axios.post("hzp/personal/mySellOrderList", this.data).then(res => {
         this.list = res.data.data.list;
         this.totalCount = res.data.data.totalCount;
+        //生成匹配详情显隐状态数组
+        for (let index = 0; index < this.list.length; index++) {
+          this.showMatchList.push({ checkMatch: false });
+        }
       });
-    }
-  },
-  computed: {
-    newList() {
-      let newList = this.list;
-      this.$timeToTime(newList);      
-      return newList;
     }
   }
 };

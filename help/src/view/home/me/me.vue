@@ -31,7 +31,7 @@
                             {{balance}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('principal',{num:principal})" class="item">
+                    <div @click="$goto('principal',{num:principal,principalId,endTime})" class="item">
                         <p class="title">本金</p>
                         <p class="money">
                             {{principal}} USDT
@@ -100,7 +100,7 @@ export default {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
     this.$axios.post("hzp/personal/loadPersonal", this.data).then(res => {
-     const resData = res.data.data;
+      const resData = res.data.data;
       this.userPhone = resData.iPhone;
       this.accountType = resData.userType;
       this.inviter = resData.inviterPhone;
@@ -113,15 +113,28 @@ export default {
       this.myBuyOrder = resData.myBuyOrder;
       this.mySellOrder = resData.mySellOrder;
       this.myTicket = resData.userTicketCount;
+      this.principalId = resData.principalId;
+      this.endTime = resData.endTime;
+
+      //   存f4储存
+      sessionStorage.setItem(
+        "f4",
+        JSON.stringify({
+          balance: this.balance,
+          principal: this.principal,
+          interest: this.interest,
+          invite: this.invite
+        })
+      );
     });
   },
   data() {
     return {
       data: null,
       /* user */
-      userPhone: '00000000000',
+      userPhone: "00000000000",
       accountType: "团队账户",
-      inviter: '',
+      inviter: "",
       star: 0,
       /* f4 */
       balance: 0,
@@ -132,15 +145,25 @@ export default {
       people: 0, //我的邀请
       myBuyOrder: 0,
       mySellOrder: 0,
-      myTicket:0
+      myTicket: 0,
+      principalId: null, //传送到本金
+      endTime: null //传送到本金
     };
   },
   methods: {
-    exit() {}
+    exit() {
+      this.$axios.post("hzp/personal/loginOut", this.data).then(res => {
+        console.log(res);
+        if (res.data.code === 1006) {
+          this.$Message.success(res.data.message);
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
+    }
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 @import "../../../myconfig/public.scss";
@@ -224,10 +247,6 @@ export default {
       background-color: #fff;
       margin: 10px 0;
       padding: 0 15px;
-
-    //   .red {
-    //     color: $money;
-    //   }
     }
   }
   footer {
