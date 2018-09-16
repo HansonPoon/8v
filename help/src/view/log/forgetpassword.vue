@@ -10,10 +10,10 @@
         <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
       </FormItem>
       <FormItem prop='passwd'>
-        <Input v-model="form.passwd" placeholder="新密码：8~20位"></Input>
+        <Input v-model="form.passwd" type='password' placeholder="新密码：8~20位"></Input>
       </FormItem>
       <FormItem prop='rpasswd'>
-        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+        <Input v-model="form.rpasswd" type='password' placeholder="确认密码"></Input>
       </FormItem>
       <FormItem>
         <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>

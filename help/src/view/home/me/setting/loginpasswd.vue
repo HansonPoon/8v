@@ -80,6 +80,9 @@ export default {
               .post("/hzp/personal/updateLoginPassword", this.data)
               .then(res => {
                 this.$Message.success(res.data.message);
+                if (res.data.code == 1005) {
+                  this.$router.go(-1);
+                }
               });
           }
         } else {

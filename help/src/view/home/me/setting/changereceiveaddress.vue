@@ -20,7 +20,7 @@ export default {
   },
   mounted() {
     this.$Message.config({
-      duration: 2
+      duration: 3
     });
   },
   data() {
@@ -72,6 +72,9 @@ export default {
         this.data.validateCode = this.code;
         this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
           this.$Message.success(res.data.message);
+          if (res.data.code == 1005) {
+            this.$router.go(-1);
+          }
         });
       }
     }

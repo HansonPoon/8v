@@ -10,10 +10,10 @@
         <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
       </FormItem>
       <FormItem prop='passwd'>
-        <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
+        <Input v-model="form.passwd" type='password' placeholder="密码：8~20位"></Input>
       </FormItem>
       <FormItem prop='rpasswd'>
-        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+        <Input v-model="form.rpasswd" type='password' placeholder="确认密码"></Input>
       </FormItem>
       <FormItem>
         <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
@@ -101,8 +101,12 @@ export default {
               type: 0
             })
             .then(res => {
-              console.log(res);
-              this.$Message.info(res.data.message);
+              if (res.data.code == 1004) {
+                this.$Message.success(res.data.message);
+                this.$router.push({name:"login"});
+              } else {
+                this.$Message.error(res.data.message);
+              }
             });
         } else {
           this.$Message.error("请完善信息!");
@@ -120,7 +124,7 @@ export default {
               type: 0
             })
             .then(res => {
-            this.$Message.success(res.data.message);              
+              this.$Message.success(res.data.message);
             });
           this.ifSend = true;
           let count = 60;
@@ -129,7 +133,6 @@ export default {
               this.msg = `获取(${count--})`;
             } else {
               clearInterval(this.timer);
-              console.log(this.timer);
               //   再次获取
               this.msg = "重新获取";
               this.timer = null;

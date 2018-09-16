@@ -89,8 +89,20 @@
             </section>
         </main>
         <footer>
-            <Button type="primary" size="large" style="width:80%;" @click="exit">退出登录</Button>
+            <Button type="primary" size="large" style="width:80%;" @click="showPop=true">退出登录</Button>
         </footer>
+        <!-- 弹出框 -->
+        <div id="alert" v-if="showPop">
+            <div id="pop">
+                <div class="top">
+                    <p style='margin-bottom:80px'>是否要退出登录？</p>
+                    <div class="btns">
+                        <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+                        <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -103,7 +115,7 @@ export default {
       const resData = res.data.data;
       this.userPhone = resData.iPhone;
       this.accountType = resData.userType;
-      this.inviter = resData.inviterPhone;
+      this.inviter = resData.invitationPhone;
       this.star = resData.userLevel;
       this.balance = resData.restMoney;
       this.principal = resData.principalMoney;
@@ -147,15 +159,17 @@ export default {
       mySellOrder: 0,
       myTicket: 0,
       principalId: null, //传送到本金
-      endTime: null //传送到本金
+      endTime: null, //传送到本金
+      showPop: false
     };
   },
   methods: {
     exit() {
       this.$axios.post("hzp/personal/loginOut", this.data).then(res => {
-        console.log(res);
+        this.showPop = false;
         if (res.data.code === 1006) {
           this.$Message.success(res.data.message);
+          this.$router.replace({ name: "login" });
         } else {
           this.$Message.error(res.data.message);
         }

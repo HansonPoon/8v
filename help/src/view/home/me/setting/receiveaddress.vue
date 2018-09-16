@@ -13,34 +13,40 @@
 
 <script>
 export default {
-    data () {
-        return {
-            address:'0x11707d2AD3768B27988f9bA0ddc0f28aC466F07B'
-        }
-    }
-}
+  created() {
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.$axios.post("hzp/personal/loadPersonal", this.data).then(res => {
+        this.address = res.data.data.receivableAddress;
+    });
+  },
+  data() {
+    return {
+      data: null,
+      address: ""
+    };
+  }
+};
 </script>
 
-
 <style lang="scss" scoped>
-@import '../../../../myconfig/public.scss';
+@import "../../../../myconfig/public.scss";
 
-main{
-    font-size: 14px;
-    background-color: #fff;
-    padding: 10%;
+main {
+  font-size: 14px;
+  background-color: #fff;
+  padding: 10%;
 
-    &>p{
-        line-height: 35px;
-        margin-bottom: 10px;
-    }
-    .address{
-        word-wrap: break-word;
-        color: $lightfont;
-    }
-    .btnBox{
-        text-align: center;
-        margin: 10px 0;
-    }
+  & > p {
+    line-height: 35px;
+    margin-bottom: 10px;
+  }
+  .address {
+    word-wrap: break-word;
+    color: $lightfont;
+  }
+  .btnBox {
+    text-align: center;
+    margin: 10px 0;
+  }
 }
 </style>

@@ -8,7 +8,8 @@
       </div>
       <div id="tabContent" class="tabContent clearfix" style="left:0;">
         <div class="contentPage fl">
-          <ul class="orderList">
+          <v-nodata v-if="buyOrder.length == 0"></v-nodata>
+          <ul v-else class="orderList">
             <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
               <div class="left">
                 <div class="top">
@@ -41,7 +42,8 @@
           </div>
         </div>
         <div class="contentPage fl">
-          <ul class="orderList">
+          <v-nodata v-if="sellOrder.length == 0"></v-nodata>
+          <ul v-else class="orderList">
             <li class="clearfix" v-for="(item,idx) in sellOrder" :key="idx">
               <div class="left">
                 <div class="top">

@@ -7,10 +7,10 @@
         <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
       </FormItem>
       <FormItem prop='passwd'>
-        <Input v-model="form.passwd" placeholder="密码：8~20位"></Input>
+        <Input v-model="form.passwd" type="password" placeholder="密码：8~20位"></Input>
       </FormItem>
       <FormItem prop='rpasswd'>
-        <Input v-model="form.rpasswd" placeholder="确认密码"></Input>
+        <Input v-model="form.rpasswd" type="password" placeholder="确认密码"></Input>
       </FormItem>
 
       <FormItem>
@@ -81,6 +81,9 @@ export default {
               .post("hzp/personal/updateTransactionPassword", this.data)
               .then(res => {
                 this.$Message.success(res.data.message);
+                if (res.data.code == 1005) {
+                  this.$router.go(-1)
+                }
               });
           }
         } else {

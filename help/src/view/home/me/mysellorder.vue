@@ -24,6 +24,7 @@
             </p>
             <p @click="showMatchList[idx].checkMatch=!showMatchList[idx].checkMatch" v-if="item.status!=='未匹配'" style='text-align:center;color:#2d8cf0'>查看匹配</p>
             <div class="status" v-if="item.status=='未匹配'">未匹配</div>
+            <div class="status" v-else-if="item.status=='已完成'">已完成</div>
             <div class="matching status" v-else>已匹配</div>
           </div>
           <div v-if="showMatchList[idx].checkMatch">

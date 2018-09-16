@@ -14,20 +14,20 @@
             </div>
             <div class="bottom">
                 <ul>
-                    <li class="clearfix">
+                    <li v-for="(item,idx) in newList" :key="idx" class="clearfix">
                         <div>
-                            利息
-                            <span class="time fr">2018-09-05 14:00:00</span>
+                            {{item.remark}}
+                            <span class="time fr">{{item.remark}}</span>
                         </div>
                         <div>
-                            12331312312
-                            <span class="time fr">投注 {{1}}</span>
+                            {{item.invitationPhone}}
+                            <span class="time fr">投注 {{item.betMoney}}</span>
                         </div>
                     </li>
-                    <li class="clearfix">
+                    <!-- <li class="clearfix">
                         利息
                         <span class="time fr">2018-09-05 14:00:00</span>
-                    </li>
+                    </li> -->
                 </ul>
                 <div class="fenye">
                     <Page :total="totalCount" size="small" />
@@ -70,6 +70,13 @@ export default {
       transNum: "" //转入余额数量
     };
   },
+  computed: {
+    newList(){
+        let arr = this.list;
+        this.$timeToTime(arr);
+        return arr
+    }  
+  },
   methods: {
     changePageIdx(pageIdx) {
       this.getList(pageIdx, this.pageSize);
@@ -102,13 +109,6 @@ export default {
             }
           });
       }
-    }
-  },
-  computed: {
-    newList() {
-      let newList = this.list;
-      this.$timeToTime(newList);
-      return newList;
     }
   }
 };
