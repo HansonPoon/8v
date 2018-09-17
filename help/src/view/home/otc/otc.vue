@@ -1,7 +1,7 @@
 <template>
   <div id="otc">
     <div id="tab">
-      <div class="tab-nav">
+      <div class="tab-nav cp">
         <div class="tabItem" :class="{'tabActive':isActive==idx}" v-for="(item,idx) in tabItem" :key="idx" @click="tabPage(idx)">{{item}}</div>
         <!-- 横线 -->
         <div id="bottomLine"></div>
@@ -79,16 +79,17 @@
           <div class="main">
             <div class="main">
               <ul>
-                <li>
-                  <span>
-                    付款地址
-                  </span>
-                  <span>
-                    <div id="address">{{payAddress}}</div>
+                <li class='clearix'>
+                    <span>
+                      收款地址
+                    </span>
+                    <span class='fr' style='word-break:break-word;'>
+                      {{systemReceipt}}
+                      <!-- <div id="address">{{payAddress}}</div>
                     <div @click="$goto('changereceiveaddress')" class="changeAddressIcon">
                       <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
-                    </div>
-                  </span>
+                    </div> -->
+                    </span>
                 </li>
                 <li>
                   <span>单价</span>
@@ -141,6 +142,7 @@ export default {
     // 获取付款地址
     this.$axios.post("/hzp/otc/getUserInfo", this.data).then(res => {
       this.payAddress = res.data.data.receivableAddress;
+      this.systemReceipt = res.data.data.systemReceipt;
     });
   },
   mounted() {
@@ -163,6 +165,7 @@ export default {
       buyOrder: [],
       sellOrder: [],
       payAddress: "",
+      systemReceipt:'',//系统地址
       singlePrice: "1",
       buyNum: 1, //购买数量
       orderNum: "", //交易单号
@@ -231,6 +234,9 @@ export default {
         this.$Message.error("请输入交易单号!");
       } else if (!this.payAddress) {
         this.$Message.error("请完善交易地址!");
+        setTimeout(() => {
+          this.$router.push({ name: "changereceiveaddress" });
+        }, 1000);
       } else {
         this.$axios
           .post("/hzp/otc/buyTickets", {

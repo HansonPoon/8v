@@ -1,7 +1,7 @@
 <template>
   <div id="rank">
     <div id="tab">
-      <div class="tab-nav">
+      <div class="tab-nav cp">
         <div class="tabItem" :class="{'tabActive':isActive==idx}" v-for="(item,idx) in tabItem" :key="idx" @click="tabPage(idx)">{{item}}</div>
         <!-- 横线 -->
         <div id="bottomLine"></div>

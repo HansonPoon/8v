@@ -2,9 +2,9 @@
     <div id="home">
         <router-view></router-view>
         <footer>
-            <router-link tag="span" :to="{name:'otc'}">OTC</router-link>
-            <router-link tag="span" :to="{name:'rank'}">排行榜</router-link>
-            <router-link tag="span" :to="{name:'me'}">个人中心</router-link>
+            <router-link class="cp" tag="span" :to="{name:'otc'}">OTC</router-link>
+            <router-link class="cp" tag="span" :to="{name:'rank'}">排行榜</router-link>
+            <router-link class="cp" tag="span" :to="{name:'me'}">个人中心</router-link>
         </footer>
 
     </div>

@@ -11,6 +11,11 @@
       /* iOS 4.1- */
   }
 
+  @font-face{
+    font-family: 'font01';
+    src: url('./../file/font01/SOURCEHANSANSCN-NORMAL.otf');
+  }
+
   /* ********************样式初始化********************** */
 
   * {
@@ -22,7 +27,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      font-family: 'webfont'
+      font-family: 'font01'
   }
 
   .fl {

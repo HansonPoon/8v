@@ -17,14 +17,41 @@
                 </div>
             </div>
         </section>
+        <section class="bc second">
+            <div class="container">
+                <nav class="clearfix tabBox">
+                    <router-link :to="{name:'history'}" tag="div" exact>
+                        <div>历史</div>
+                    </router-link>
+                    <router-link :to="{name:'product'}" tag="div">
+                        <div>产品</div>
+                    </router-link>
+                    <router-link :to="{name:'support'}" tag="div">
+                        <div>赞助</div>
+                    </router-link>
+                    <router-link :to="{name:'prize'}" tag="div">
+                        <div>奖项</div>
+                    </router-link>
+                    <router-link :to="{name:'news'}" tag="div">
+                        <div>新闻</div>
+                    </router-link>
+                    <router-link :to="{name:'responsibility'}" tag="div">
+                        <div>责任</div>
+                    </router-link>
+                </nav>
+                <div class="showBox">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "../../myconfig/public.scss";
 @font-face {
-    font-family: 'font02';
-    src: url('../../file/font02/锐字锐线怒放黑简1.0.ttf');
+  font-family: "font02";
+  src: url("../../file/font02/锐字锐线怒放黑简1.0.ttf");
 }
 #background {
   color: $fontcolor;
@@ -49,8 +76,8 @@
       height: 262px;
     }
 
-    img:first-child{
-        margin-right: 40px;
+    img:first-child {
+      margin-right: 40px;
     }
   }
 
@@ -58,16 +85,36 @@
     line-height: 30px;
   }
 }
-.redBox{
-    margin: 40px 0;
-    font-family: "font02";
-    border-radius: 6px;
-    border: 1px solid rgb(204,204,204);
-    color: rgb(227,0,11);
-    font-size: 24px;
-    line-height: 40px;
-    width: 100%;
-    padding: 50px 20px;
+.redBox {
+  margin: 40px 0;
+  font-family: "font02";
+  border-radius: 6px;
+  border: 1px solid rgb(204, 204, 204);
+  color: rgb(227, 0, 11);
+  font-size: 24px;
+  line-height: 40px;
+  width: 100%;
+  padding: 50px 20px;
+}
+// 第二个部分
+.second > .container{
+padding: 0;
+}
+nav.tabBox {
+  .router-link-active {
+    border-bottom: 1px solid rgb(24,117,240);
+    color: rgb(24,117,240);
+  }
+  line-height: 80px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  & > div {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 20px;
+  }
+}
+.showBox{
+  padding: 40px;
 }
 </style>
 

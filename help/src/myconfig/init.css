@@ -17,6 +17,9 @@ clear: both;
 ul,ol{
     list-style: none;
 }
+.cp{
+    cursor: pointer;
+}
 /* 弹出框 */
 #alert{
     width: 100%;

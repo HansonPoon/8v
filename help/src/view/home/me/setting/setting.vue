@@ -3,21 +3,21 @@
         <v-header headname='设置'></v-header>
         <main>
             <ul>
-                <li class="clearfix">
-                    收款地址
-                    <router-link :to="{name:'receiveaddress'}" tag="span">
+                <li class="cp clearfix">
+                    <router-link :to="{name:'receiveaddress'}" tag="div">
+                        收款地址
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
                     </router-link>
                 </li>
-                <li class="clearfix">
-                    交易密码
-                    <router-link :to="{name:'tradepasswd'}" tag="span">
+                <li class="cp clearfix">
+                    <router-link :to="{name:'tradepasswd'}" tag="div">
+                        交易密码
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
                     </router-link>
                 </li>
-                <li class="clearfix">
-                    登录密码
-                    <router-link :to="{name:'loginpasswd'}" tag="span">
+                <li class="cp clearfix">
+                    <router-link :to="{name:'loginpasswd'}" tag="div">
+                        登录密码
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
                     </router-link>
                 </li>
@@ -27,10 +27,10 @@
 </template>
 
 <style lang="scss" scoped>
-@import '../../../../myconfig/public.scss';
-#setting{
-    font-size: 14px;
-    color: $darkfont;
+@import "../../../../myconfig/public.scss";
+#setting {
+  font-size: 14px;
+  color: $darkfont;
 }
 main {
   li {
@@ -39,8 +39,9 @@ main {
     margin-bottom: 1px;
     padding: 0 15px;
 
-    &>span{
-        float: right;
+    i {
+      float: right;
+      margin-top: 16px;
     }
   }
 }

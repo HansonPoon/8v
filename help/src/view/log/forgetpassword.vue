@@ -91,7 +91,6 @@ export default {
               type: 1
             })
             .then(res => {
-              console.log(res);
               this.$Message.success(res.data.message);
             });
         } else {
@@ -119,7 +118,6 @@ export default {
               this.msg = `获取(${count--})`;
             } else {
               clearInterval(this.timer);
-              console.log(this.timer);
               //   再次获取
               this.msg = "重新获取";
               this.timer = null;

@@ -1,7 +1,16 @@
 <template>
     <div id="main">
         <header>
-            <div class="container clearfix">
+            <div class="top">
+                <div class="container clearfix">
+                    <div class="fr">
+                        <span>
+                            <img src="../assets/01/lang.png" alt=""> 语言
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom container clearfix">
                 <div class="logo fl">
                     <img src="../assets/logo/logo.png" alt="">
                 </div>
@@ -33,7 +42,7 @@
                                 Knight is a multipurpose PSD Template
                             </p>
                             <p>
-                                which is the most perfect solution for 
+                                which is the most perfect solution for
                             </p>
                             <p>
                                 business, online shop websites
@@ -49,7 +58,7 @@
                                 Knight is a multipurpose PSD Template
                             </p>
                             <p>
-                                which is the most perfect solution for 
+                                which is the most perfect solution for
                             </p>
                             <p>
                                 business, online shop websites
@@ -65,7 +74,7 @@
                                 Knight is a multipurpose PSD Template
                             </p>
                             <p>
-                                which is the most perfect solution for 
+                                which is the most perfect solution for
                             </p>
                             <p>
                                 business, online shop websites
@@ -88,7 +97,22 @@
 #main {
 }
 header {
-  height: 64px;
+  .top {
+    line-height: 36px;
+    background-color: #000;
+    color: #fff;
+
+    span {
+      cursor: pointer;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+  }
+  .bottom {
+    height: 64px;
+  }
   .logo {
     height: 52px;
     position: relative;
@@ -105,7 +129,7 @@ header {
     & > span {
       display: inline-block;
       height: 100%;
-      margin-right: 30px;
+      margin-left: 30px;
       text-align: center;
       cursor: pointer;
     }
@@ -128,9 +152,9 @@ footer {
       height: 224px;
       display: inline-block;
     }
-    .item:nth-child(2){
-        border-left: 1px solid rgba(102,102,102,0.5);
-        border-right: 1px solid rgba(102,102,102,0.5);
+    .item:nth-child(2) {
+      border-left: 1px solid rgba(102, 102, 102, 0.5);
+      border-right: 1px solid rgba(102, 102, 102, 0.5);
     }
     .title {
       color: #fff;

@@ -1,7 +1,7 @@
 <template>
     <div id="header">
         <div class="backBox">
-            <Icon @click="goBack" type="ios-arrow-back" size='28' />
+            <Icon class="cp" @click="goBack" type="ios-arrow-back" size='28' />
         </div>
         {{headname}}
     </div>

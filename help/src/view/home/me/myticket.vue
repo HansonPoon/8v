@@ -39,7 +39,6 @@ export default {
     this.data.fromNum = 1;
     this.data.pageSize = 5;
     this.$axios.post("hzp/personal/myTicketList", this.data).then(res => {
-      console.log(res);
       this.buyList = res.data.data;
     });
     this.getList(1, this.pageSize);

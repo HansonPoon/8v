@@ -34,10 +34,13 @@ export default {
   },
   methods: {
     getCode() {
+      const reg = /^[0-9a-zA-Z]{42}$/;
       // ajax..........
       if (this.timer == null) {
         if (this.usdtAddress == "") {
           this.$Message.error("请先输入钱包收款地址!");
+        } else if (!reg.test(this.usdtAddress)) {
+          this.$Message.error("请检查收款地址!");
         } else {
           // 添加参数
           this.data.type = 3;
@@ -62,18 +65,20 @@ export default {
     },
     save() {
       const reg = /^[0-9a-zA-Z]{42}$/;
-      if (!reg.test(this.usdtAddress)) {
-        this.$Message.error("请检查收款地址!");
-      } else if (this.code == "") {
+      if (this.code == "") {
         this.$Message.error("请先输入验证码!");
+      } else if (!reg.test(this.usdtAddress)) {
+        this.$Message.error("请检查收款地址!");
       } else {
         // 添加参数
         this.data.address = this.usdtAddress;
         this.data.validateCode = this.code;
         this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
-          this.$Message.success(res.data.message);
           if (res.data.code == 1005) {
+            this.$Message.success(res.data.message);
             this.$router.go(-1);
+          } else {
+            this.$Message.error(res.data.message);
           }
         });
       }

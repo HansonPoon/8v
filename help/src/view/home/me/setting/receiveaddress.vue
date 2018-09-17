@@ -2,7 +2,7 @@
     <div id="receiveaddress">
         <v-header headname='收款地址'></v-header>
         <main>
-            <p>收款地址</p>
+            <p>收款地址：</p>
             <p class="address">{{address}}</p>
             <div class="btnBox">
                 <Button type="primary" size="large" style="width:100%;" @click="$goto('changereceiveaddress')">修改</Button>

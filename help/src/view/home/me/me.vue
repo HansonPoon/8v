@@ -2,7 +2,7 @@
     <div id="me">
         <header>
             个人中心
-            <router-link :to="{name:'setting'}" tag="div">
+            <router-link class='cp' :to="{name:'setting'}" tag="div">
                 <Icon type="ios-settings" size='24' color='#2d8cf0' />
             </router-link>
         </header>
@@ -19,31 +19,31 @@
                         邀请人：&nbsp;&nbsp;{{inviter?inviter:'无'}}
                     </div>
                 </div>
-                <span @click="$goto('starrule')" class="star fr">
+                <span @click="$goto('starrule')" class="star cp fr">
                     星级：{{star}}
                 </span>
             </div>
             <div class="f4">
                 <div class="line">
-                    <div @click="$goto('balance',{num:balance})" class="item">
+                    <div @click="$goto('balance',{num:balance})" class="item cp">
                         <p class="title">账户余额</p>
                         <p class="money">
                             {{balance}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('principal',{num:principal,principalId,endTime})" class="item">
+                    <div @click="$goto('principal',{num:principal,principalId,endTime})" class="item cp">
                         <p class="title">本金</p>
                         <p class="money">
                             {{principal}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('interest',{num:interest})" class="item">
+                    <div @click="$goto('interest',{num:interest})" class="item cp">
                         <p class="title">利息</p>
                         <p class="money">
                             {{interest}} USDT
                         </p>
                     </div>
-                    <div @click="$goto('invitemoney',{num:invite})" class="item">
+                    <div @click="$goto('invitemoney',{num:invite})" class="item cp">
                         <p class="title">邀请金</p>
                         <p class="money">
                             {{invite}} USDT
@@ -51,42 +51,42 @@
                     </div>
                 </div>
             </div>
-            <section class="secItem">
-                我的邀请
-                <span class="fr">
-                    <router-link :to="{name:'myinvite'}" tag="div">
+            <router-link :to="{name:'myinvite'}" tag="div">
+                <section class="secItem cp">
+                    我的邀请
+                    <span class="fr">
                         {{people}} 人
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
-                    </router-link>
-                </span>
-            </section>
-            <section class="secItem">
-                我的买单
-                <span class="red fr">
-                    <router-link :to="{name:'mybuyorder'}" tag="div">
+                    </span>
+                </section>
+            </router-link>
+            <router-link :to="{name:'mybuyorder'}" tag="div">
+                <section class="secItem cp">
+                    我的买单
+                    <span class="red fr">
                         {{myBuyOrder}} 单
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
-                    </router-link>
-                </span>
-            </section>
-            <section class="secItem">
-                我的卖单
-                <span class="red fr">
-                    <router-link :to="{name:'mysellorder'}" tag="div">
+                    </span>
+                </section>
+            </router-link>
+            <router-link :to="{name:'mysellorder'}" tag="div">
+                <section class="secItem cp">
+                    我的卖单
+                    <span class="red fr">
                         {{mySellOrder}} 单
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
-                    </router-link>
-                </span>
-            </section>
-            <section class="secItem">
-                我的门票
-                <span class="red fr">
-                    <router-link :to="{name:'myticket'}" tag="div">
+                    </span>
+                </section>
+            </router-link>
+            <router-link :to="{name:'myticket'}" tag="div">
+                <section class="secItem cp">
+                    我的门票
+                    <span class="red fr">
                         {{myTicket}} 张
                         <Icon type="ios-arrow-forward" size='30' color='#999' />
-                    </router-link>
-                </span>
-            </section>
+                    </span>
+                </section>
+            </router-link>
         </main>
         <footer>
             <Button type="primary" size="large" style="width:80%;" @click="showPop=true">退出登录</Button>
@@ -165,17 +165,27 @@ export default {
   },
   methods: {
     exit() {
-      this.$axios.post("hzp/personal/loginOut", this.data).then(res => {
-        this.showPop = false;
-        if (res.data.code === 1006) {
-          this.$Message.success(res.data.message);
-          //   清除所有本地存储
-          sessionStorage.clear();
-          this.$router.replace({ name: "login" });
-        } else {
-          this.$Message.error(res.data.message);
-        }
-      });
+      this.$axios
+        .post("hzp/personal/loginOut", this.data)
+        .then(res => {
+          this.showPop = false;
+          if (res.data.code === 1006) {
+            this.$Message.success(res.data.message);
+            //   清除所有本地存储
+            sessionStorage.clear();
+            this.$router.replace({ name: "login" });
+          } else {
+            this.$Message.error(res.data.message);
+            this.$router.replace({ name: "login" });
+          }
+        })
+        .catch(error => {
+          if (error) {
+            this.$Message.error(error.toString());
+            this.$showPop = false;
+            this.$router.replace({ name: "login" });
+          }
+        });
     }
   }
 };
