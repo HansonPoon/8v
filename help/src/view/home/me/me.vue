@@ -16,7 +16,7 @@
                         <span>{{userPhone}}</span>&nbsp;&nbsp;&nbsp;{{accountType}}
                     </div>
                     <div class="inviter">
-                        邀请人：&nbsp;&nbsp;{{inviter}}
+                        邀请人：&nbsp;&nbsp;{{inviter?inviter:'无'}}
                     </div>
                 </div>
                 <span @click="$goto('starrule')" class="star fr">
@@ -169,6 +169,8 @@ export default {
         this.showPop = false;
         if (res.data.code === 1006) {
           this.$Message.success(res.data.message);
+          //   清除所有本地存储
+          sessionStorage.clear();
           this.$router.replace({ name: "login" });
         } else {
           this.$Message.error(res.data.message);

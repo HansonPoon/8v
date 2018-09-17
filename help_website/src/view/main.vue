@@ -90,9 +90,9 @@
 header {
   height: 64px;
   .logo {
-    height: 24px;
+    height: 52px;
     position: relative;
-    top: 20px;
+    top: 5px;
     img {
       width: 100%;
       height: 100%;

@@ -117,6 +117,10 @@ export default {
           this.$Message.success(res.data.message);
           // 返回上一页
           setTimeout(() => this.$goBack(), 1000);
+        } else if (status == 4007) {
+          this.$Message.error(res.data.message);
+          // 去设置交易密码
+          setTimeout(() => this.$router.push({ name: "tradepasswd" }), 1000);
         } else {
           this.$Message.error(res.data.message);
         }

@@ -55,9 +55,9 @@
         </div>
         <div class="right fr">
           <div class="btnBox">
-            <pdf src='../../file/GHCC白皮书.pdf'>
-              <!-- <img src="../../assets/02/button.png" alt=""> -->
-            </pdf>
+            <a href='../../file/GHCC白皮书.pdf' target='_blank'>
+              <img src="../../assets/02/button.png" alt="">
+            </a>
           </div>
         </div>
       </div>

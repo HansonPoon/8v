@@ -81,7 +81,7 @@ export default {
               .then(res => {
                 this.$Message.success(res.data.message);
                 if (res.data.code == 1005) {
-                  this.$router.go(-1);
+                  this.$router.replace({name:'login'});
                 }
               });
           }
