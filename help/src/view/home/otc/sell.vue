@@ -18,7 +18,7 @@
                     </li>
                     <li>
                         <span>当前余额</span>
-                        <span>{{balance}}</span>
+                        <span>{{balance}} USDT</span>
                     </li>
                     <li>
                         <span>挂单数量</span>
@@ -72,6 +72,7 @@ export default {
       this.myTicket = res.data.data.ticketCount;
       this.balance = res.data.data.restMoney;
       this.receiveAddress = res.data.data.receivableAddress;
+      this.systemReceipt = res.data.data.systemReceipt;
     });
   },
   mounted() {
@@ -87,7 +88,8 @@ export default {
       myTicket: 0,
       buyNum: "",
       showPop: false,
-      secPasswd: ""
+      secPasswd: "",
+      systemReceipt:'' //系统地址
     };
   },
   computed: {

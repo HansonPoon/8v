@@ -54,10 +54,11 @@
                   </span>
                 </p>
                 <div class="btnBox">
-                  <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.address)">复制地址</Button>
+                  <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.sellAddress)">复制地址</Button>
                   <Button v-if="item.yesOrNo==0" type="primary" size="default" style="width:35%;" @click="firstConfirm(idx);">确认付款</Button>
                   <Button v-if="item.yesOrNo==1" type="primary" size="default" style="width:35%;">等待卖家确认</Button>
                   <Button v-else-if="item.yesOrNo==2" type="default" size="default" style="width:35%;">已完成</Button>
+                  <Button v-else-if="item.yesOrNo==3" type="default" size="default" style="width:35%;">已取消</Button>
                 </div>
               </div>
             </div>
@@ -117,7 +118,7 @@ export default {
   },
   methods: {
     copyAddress(val) {
-      // this.confirmIpt = val;
+      this.$copy(val);
     },
     firstConfirm(idx) {
       this.showPop = true;

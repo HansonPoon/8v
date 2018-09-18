@@ -12,13 +12,12 @@
 </template>
 
 <style lang="scss" scoped>
-
-main{
-    background-color: #fff;
-    font-size: 14px;
-    padding: 10px 15px;
-    p{
-        line-height: 25px;
-    }
+main {
+  background-color: #fff;
+  font-size: 14px;
+  padding: 10px 15px;
+  p {
+    line-height: 25px;
+  }
 }
 </style>

@@ -13,7 +13,7 @@
       </div>
       <div class="bottom">
         <ul>
-          <li class="clearfix" v-for='(item,idx) in list' :key='idx'>
+          <li class="clearfix" v-for='(item,idx) in newList' :key='idx'>
             {{item.remark}}
             <span class="time fr">{{item.createTime}}</span>
           </li>

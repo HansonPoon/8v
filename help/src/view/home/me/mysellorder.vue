@@ -16,7 +16,7 @@
             </p>
             <p>
               <span>交易数量</span>
-              <span>{{item.transactionAmount}} USDT</span>
+              <span>{{item.actualAmount}} USDT</span>
             </p>
             <p>
               <span>下单时间</span>
@@ -54,7 +54,7 @@
                   </span>
                 </p>
                 <div class="btnBox">
-                  <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.address)">复制单号</Button>
+                  <Button type="default" size="default" style="width:35%;margin-right:20px;" @click="copyAddress(item.transactionOrderNo)">复制单号</Button>
                   <Button v-if="item.yesOrNo==0" type="primary" size="default" style="width:35%;">等待买家付款</Button>
                   <Button v-if="item.yesOrNo==1" type="primary" size="default" style="width:35%;" @click="firstConfirm(idx)">确认收款</Button>
                   <Button v-else-if="item.yesOrNo==2" type="default" size="default" style="width:35%;">已完成</Button>
@@ -103,7 +103,7 @@ export default {
   },
   methods: {
     copyAddress(val) {
-      // this.confirmIpt = val;
+      this.$copy(val);
     },
     firstConfirm(idx) {
       this.showPop = true;

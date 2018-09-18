@@ -13,17 +13,19 @@
       </div>
       <div class="bottom">
         <ul>
-          <li class="clearfix">
-            利息
-            <span class="time fr">2018-09-05 14:00:00</span>
-          </li>
-          <li class="clearfix">
-            利息
-            <span class="time fr">2018-09-05 14:00:00</span>
+          <li class="clearfix" v-for="(item,idx) in newList" :key="idx">
+            <div class="clearfix">
+              <span>{{item.type}}</span>
+              <span class="fr">{{item.status}}</span>
+            </div>
+            <div class="clearfix">
+              <span>{{item.amount}}</span>
+              <span class="time fr">{{item.createTime}}</span>
+            </div>
           </li>
         </ul>
         <div class="fenye">
-          <Page :total="totalCount" @on-change='changePageIdx' size="small" />
+          <Page :total="totalCount" :pageSize="pageSize" @on-change='changePageIdx' size="small" />
         </div>
       </div>
     </main>
@@ -38,9 +40,6 @@ export default {
     // 添加参数
     this.data.fromNum = 1;
     this.data.pageSize = 5;
-    this.$axios.post("hzp/personal/myTicketList", this.data).then(res => {
-      this.buyList = res.data.data;
-    });
     this.getList(1, this.pageSize);
   },
   data() {
@@ -48,7 +47,7 @@ export default {
       data: null,
       balance: 0,
       totalCount: 0,
-      pageSize: 8, //每页条数
+      pageSize: 5, //每页条数
       list: []
     };
   },
@@ -61,7 +60,7 @@ export default {
       // 添加参数
       this.data.fromNum = pageIdx;
       this.data.pageSize = pageSize;
-      this.$axios.post("hzp/personal/balanceLsit", this.data).then(res => {
+      this.$axios.post("hzp/personal/myTicketList", this.data).then(res => {
         this.list = res.data.data.list;
         this.totalCount = res.data.data.totalCount;
       });
@@ -80,6 +79,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../../myconfig/public.scss";
 @import "../../../myconfig/mef4.public.scss";
+
+ul{
+  // color: $lightfont;
+}
 </style>
 
 
