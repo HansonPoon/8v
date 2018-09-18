@@ -78,7 +78,7 @@
                     </span>
                 </section>
             </router-link>
-            <router-link :to="{name:'myticket'}" tag="div">
+            <router-link :to="{name:'myticket',params:{num:myTicket}}" tag="div">
                 <section class="secItem cp">
                     我的门票
                     <span class="red fr">

@@ -37,6 +37,8 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
+    // 读取路由参数
+    this.balance = this.$route.params.num;
     // 添加参数
     this.data.fromNum = 1;
     this.data.pageSize = 5;
