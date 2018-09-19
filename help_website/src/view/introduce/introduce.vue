@@ -55,7 +55,7 @@
         </div>
         <div class="right fr">
           <div class="btnBox">
-            <a href='../../file/GHCC白皮书.pdf' target='_blank'>
+            <a href='static/pdf/web/viewer.html?file=GHCC白皮书.pdf' target='_blank'>
               <img src="../../assets/02/button.png" alt="">
             </a>
           </div>
@@ -66,14 +66,8 @@
 </template>
 
 <script>
-import pdf from "vue-pdf";
-export default {
-  components: {
-    pdf
-  }
-};
+export default {};
 </script>
-
 
 <style lang="scss" scoped>
 @import "../../myconfig/public.scss";

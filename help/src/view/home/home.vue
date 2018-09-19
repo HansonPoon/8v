@@ -43,7 +43,8 @@ export default {
         }
     }
     .router-link-active{
-        background-color: $bc;
+        // background-color: $bc;
+        color: $lightblue;
     }
 }
 </style>

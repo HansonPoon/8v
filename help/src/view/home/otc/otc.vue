@@ -33,7 +33,7 @@
               </div>
             </li>
           </ul>
-          <div class="fenye">
+          <div v-if="buyOrder.length !== 0" class="fenye">
             <Page :total="buy_totalCount" @on-change='getBuyTicket' size="small" />
           </div>
           <div class="buysell">
@@ -67,7 +67,7 @@
               </div>
             </li>
           </ul>
-          <div class="fenye">
+          <div v-if="sellOrder.length !== 0" class="fenye">
             <Page :total="sell_totalCount" @on-change='getSellTicket' size="small" />
           </div>
           <div class="buysell">
@@ -85,10 +85,6 @@
                   </span>
                   <span class='fr' style='word-break:break-word;'>
                     {{systemReceipt}}
-                    <!-- <div id="address">{{payAddress}}</div>
-                    <div @click="$goto('changereceiveaddress')" class="changeAddressIcon">
-                      <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
-                    </div> -->
                   </span>
                 </li>
                 <li>
@@ -104,16 +100,18 @@
                     </Input>
                   </span>
                 </li>
-                <li>
-                  <span>交易单号</span>
+                <li class='clearix'>
                   <span>
-                    <Input v-model="orderNum"></Input>
+                    付款地址
+                  </span>
+                  <span class='fr' style='word-break:break-word;'>
+                    {{payAddress}}
                   </span>
                 </li>
               </ul>
             </div>
             <div class="btnBox">
-              <Button type="primary" size="large" style="width:80%;" @click="confirm">确认购买</Button>
+              <Button type="primary" size="large" style="width:80%;" @click="showPop=true">确认购买</Button>
             </div>
           </div>
           <div class="notice">
@@ -127,6 +125,19 @@
         </div>
       </div>
     </div>
+    <!-- 弹出框 -->
+        <div id="alert" v-if="showPop">
+            <div id="pop">
+                <div class="top">
+                    <p>确认付款地址无误？</p>
+                    <p style='word-break:break-word;margin:20px 0;'>{{payAddress}}</p>
+                    <div class="btns">
+                        <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+                        <Button type="primary" size="default" style="width:45%;" @click="confirm">确认</Button>
+                    </div>
+                </div>
+            </div>
+        </div>
   </div>
 </template>
 
@@ -171,7 +182,8 @@ export default {
       orderNum: "", //交易单号
       buy_totalCount: 0, //分页的总数据条数
       sell_totalCount: 0, //分页的总数据条数
-      pageSize: 6 //每页条数
+      pageSize: 6, //每页条数
+      showPop:false
     };
   },
   methods: {
@@ -230,9 +242,10 @@ export default {
     },
     // 购买门票
     confirm() {
-      if (this.orderNum === "") {
-        this.$Message.error("请输入交易单号!");
-      } else if (!this.payAddress) {
+      // if (this.orderNum === "") {
+      //   this.$Message.error("请输入交易单号!");
+      // } else 
+      if (!this.payAddress) {
         this.$Message.error("请完善交易地址!");
         setTimeout(() => {
           this.$router.push({ name: "changereceiveaddress" });
@@ -243,7 +256,7 @@ export default {
             userId: this.data.userId,
             userToken: this.data.userToken,
             amount: this.buyNum,
-            transactionOrder: this.orderNum
+            // transactionOrder: this.orderNum
           })
           .then(res => {
             if (res.data.code == 4006) {

@@ -1,7 +1,10 @@
 <template>
   <div id="login">
     <div id="header">
-      GHCC互助系统
+      LONGWIN
+    </div>
+    <div class="logo">
+      <img src="../../assets/images/logo.png" alt="">
     </div>
     <Form ref="form" :model="form" :rules="ruleCustom">
       <FormItem prop="user" style="width:100%;margin-bottom:15%;">
@@ -19,7 +22,7 @@
       </FormItem>
       <div class="foot">
         <router-link :to="{name:'register'}" tag="span">注册</router-link>
-        <router-link :to="{name:'forgetpassword'}" tag="span" class="fr">忘记密码</router-link>
+        <router-link style="color:rgb(157,157,157)" :to="{name:'forgetpassword'}" tag="span" class="fr">忘记密码</router-link>
       </div>
     </Form>
   </div>
@@ -100,6 +103,14 @@ export default {
   text-align: center;
   font-size: $headerfont;
   background-color: $hbc;
+}
+.logo{
+  text-align: center;
+
+  img{
+    width: 80px;
+    margin-top: 40px;
+  }
 }
 form {
   padding: 10%;

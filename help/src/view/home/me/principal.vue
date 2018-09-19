@@ -15,7 +15,7 @@
                     <Button type="default" style="color:#2d8cf0;border-color:#2d8cf0;">我要卖</Button>
                 </div> -->
             </div>
-            <div class="bottom">
+            <div v-if="list.length!==0" class="bottom">
                 <ul>
                     <li class="clearfix" v-for='(item,idx) in newList' :key='idx'>
                         {{item.remark}}

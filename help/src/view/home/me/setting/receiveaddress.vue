@@ -5,7 +5,7 @@
             <p>收款地址：</p>
             <p class="address">{{address}}</p>
             <div class="btnBox">
-                <Button type="primary" size="large" style="width:100%;" @click="$goto('changereceiveaddress')">修改</Button>
+                <Button type="primary" size="large" style="width:100%;" @click="confirm">修改</Button>
             </div>
         </main>
     </div>
@@ -24,6 +24,15 @@ export default {
       data: null,
       address: ""
     };
+  },
+  methods: {
+    confirm(){
+      if (this.address!=='') {
+        this.$Message.info("收款地址已存在，若需修改请联系客服！")
+      }else{
+        $goto('changereceiveaddress');
+      }
+    }
   }
 };
 </script>

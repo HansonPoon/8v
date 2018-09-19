@@ -12,20 +12,22 @@
         </div>
       </div>
       <div class="bottom">
-        <ul>
-          <li class="clearfix" v-for="(item,idx) in newList" :key="idx">
-            <div class="clearfix">
-              <span>{{item.type}}</span>
-              <span class="fr">{{item.status}}</span>
-            </div>
-            <div class="clearfix">
-              <span>{{item.amount}}</span>
-              <span class="time fr">{{item.createTime}}</span>
-            </div>
-          </li>
-        </ul>
-        <div class="fenye">
-          <Page :total="totalCount" :pageSize="pageSize" @on-change='changePageIdx' size="small" />
+        <div v-if="list.length!==0">
+          <ul>
+            <li class="clearfix" v-for="(item,idx) in newList" :key="idx">
+              <div class="clearfix">
+                <span>{{item.type}}</span>
+                <span class="fr">{{item.status}}</span>
+              </div>
+              <div class="clearfix">
+                <span>{{item.amount}}</span>
+                <span class="time fr">{{item.createTime}}</span>
+              </div>
+            </li>
+          </ul>
+          <div class="fenye">
+            <Page :total="totalCount" :pageSize="pageSize" @on-change='changePageIdx' size="small" />
+          </div>
         </div>
       </div>
     </main>
@@ -82,7 +84,7 @@ export default {
 @import "../../../myconfig/public.scss";
 @import "../../../myconfig/mef4.public.scss";
 
-ul{
+ul {
   // color: $lightfont;
 }
 </style>

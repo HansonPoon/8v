@@ -251,6 +251,7 @@
 }
 // 游戏攻略
 .methods {
+  display: none;
   background-color: $gray;
   text-align: center;
   padding: 20px 0 120px 0;
@@ -284,8 +285,8 @@
     margin-bottom: 40px;
   }
   .txt {
-      color: rgb(75,75,75);
-      font-size: 20px;
+    color: rgb(75, 75, 75);
+    font-size: 20px;
   }
 }
 </style>

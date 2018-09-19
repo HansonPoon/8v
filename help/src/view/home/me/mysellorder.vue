@@ -48,9 +48,21 @@
                   <span>{{item.actualAmount}}</span>
                 </p>
                 <p class="clearfix">
-                  <span>交易单号</span>
+                  <span>收款地址</span>
                   <span class="fr" style="word-wrap: break-word;display:inline-block;width:calc(90% - 60px)">
-                    {{item.transactionOrderNo}}
+                    {{item.sellAddress}}
+                  </span>
+                </p>
+                <p class="clearfix">
+                  <span>付款地址</span>
+                  <span class="fr" style="word-wrap: break-word;display:inline-block;width:calc(90% - 60px)">
+                    {{item.buyAddress}}
+                  </span>
+                </p>
+                <p>
+                  <span>USDT官网</span>
+                  <span>
+                    <a target="_blank" href="https://tether.to/">https://tether.to/</a>
                   </span>
                 </p>
                 <div class="btnBox">

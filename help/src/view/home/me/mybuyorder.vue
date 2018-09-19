@@ -48,9 +48,21 @@
                   <span>{{item.matchingTime}}</span>
                 </p>
                 <p class="clearfix">
-                  <span>付款地址</span>
-                  <span class="fr" style="word-wrap: break-word;display:inline-block;width:calc(90% - 60px)">
+                  <span>收款地址</span>
+                  <span class="fr" style="word-wrap: break-word;display:inline-block;width:70%">
                     {{item.sellAddress}}
+                  </span>
+                </p>
+                <p class="clearfix">
+                  <span>付款地址</span>
+                  <span class="fr" style="word-wrap: break-word;display:inline-block;width:70%">
+                    {{item.buyAddress}}
+                  </span>
+                </p>
+                <p>
+                  <span>USDT官网</span>
+                  <span>
+                    <a target="_blank" href="https://tether.to/">https://tether.to/</a>
                   </span>
                 </p>
                 <div class="btnBox">
@@ -211,7 +223,8 @@ export default {
 
       & > p > span:first-child {
         color: $darkfont;
-        margin-right: 10%;
+        display: inline-block;
+        width: 30%;
       }
       & > p > span:nth-child(2) {
         color: $lightfont;
@@ -239,13 +252,16 @@ export default {
       .hasOrder {
         line-height: 30px;
         & > p > span:first-child {
+          display: inline-block;
           color: $darkfont;
-          margin-right: 10%;
+          width: 30%;
         }
         .btnBox {
           padding: 10px 0 5px;
           border-top: 1px dashed $bc;
           text-align: right;
+        }
+        .addr {
         }
       }
     }

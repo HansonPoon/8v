@@ -51,7 +51,7 @@
 @import "../../myconfig/public.scss";
 @font-face {
   font-family: "font02";
-  src: url("../../file/font02/锐字锐线怒放黑简1.0.ttf");
+  src: url("../../../static/file/font02/锐字锐线怒放黑简1.0.ttf");
 }
 #background {
   color: $fontcolor;

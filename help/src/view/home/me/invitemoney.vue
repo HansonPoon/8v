@@ -12,7 +12,7 @@
                     <Button @click='showPop=true' type="default" style="color:#2d8cf0;border-color:#2d8cf0;">转入余额</Button>
                 </div>
             </div>
-            <div class="bottom">
+            <div v-if="list.length!==0" class="bottom">
                 <ul>
                     <li v-for="(item,idx) in newList" :key="idx" class="clearfix">
                         <div>

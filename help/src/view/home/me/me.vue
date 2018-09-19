@@ -56,7 +56,7 @@
                     我的邀请
                     <span class="fr">
                         {{people}} 人
-                        <Icon type="ios-arrow-forward" size='30' color='#999' />
+                        <Icon type="ios-arrow-forward" size='24' color='#999' />
                     </span>
                 </section>
             </router-link>
@@ -65,7 +65,7 @@
                     我的买单
                     <span class="red fr">
                         {{myBuyOrder}} 单
-                        <Icon type="ios-arrow-forward" size='30' color='#999' />
+                        <Icon type="ios-arrow-forward" size='24' color='#999' />
                     </span>
                 </section>
             </router-link>
@@ -74,7 +74,7 @@
                     我的卖单
                     <span class="red fr">
                         {{mySellOrder}} 单
-                        <Icon type="ios-arrow-forward" size='30' color='#999' />
+                        <Icon type="ios-arrow-forward" size='24' color='#999' />
                     </span>
                 </section>
             </router-link>
@@ -83,7 +83,7 @@
                     我的门票
                     <span class="red fr">
                         {{myTicket}} 张
-                        <Icon type="ios-arrow-forward" size='30' color='#999' />
+                        <Icon type="ios-arrow-forward" size='24' color='#999' />
                     </span>
                 </section>
             </router-link>
