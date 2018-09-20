@@ -126,18 +126,18 @@
       </div>
     </div>
     <!-- 弹出框 -->
-        <div id="alert" v-if="showPop">
-            <div id="pop">
-                <div class="top">
-                    <p>确认付款地址无误？</p>
-                    <p style='word-break:break-word;margin:20px 0;'>{{payAddress}}</p>
-                    <div class="btns">
-                        <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
-                        <Button type="primary" size="default" style="width:45%;" @click="confirm">确认</Button>
-                    </div>
-                </div>
-            </div>
+    <div id="alert" v-if="showPop">
+      <div id="pop">
+        <div class="top">
+          <p>确认付款地址无误？</p>
+          <p style='word-break:break-word;margin:20px 0;height:42px;'>{{payAddress}}</p>
+          <div class="btns">
+            <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+            <Button type="primary" size="default" style="width:45%;" @click="confirm">确认</Button>
+          </div>
         </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -183,7 +183,7 @@ export default {
       buy_totalCount: 0, //分页的总数据条数
       sell_totalCount: 0, //分页的总数据条数
       pageSize: 6, //每页条数
-      showPop:false
+      showPop: false
     };
   },
   methods: {
@@ -244,7 +244,7 @@ export default {
     confirm() {
       // if (this.orderNum === "") {
       //   this.$Message.error("请输入交易单号!");
-      // } else 
+      // } else
       if (!this.payAddress) {
         this.$Message.error("请完善交易地址!");
         setTimeout(() => {
@@ -255,7 +255,7 @@ export default {
           .post("/hzp/otc/buyTickets", {
             userId: this.data.userId,
             userToken: this.data.userToken,
-            amount: this.buyNum,
+            amount: this.buyNum
             // transactionOrder: this.orderNum
           })
           .then(res => {

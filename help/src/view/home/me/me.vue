@@ -3,7 +3,7 @@
         <header>
             个人中心
             <router-link class='cp' :to="{name:'setting'}" tag="div">
-                <Icon type="ios-settings" size='24' color='#2d8cf0' />
+                <Icon type="ios-settings-outline" size='24' color='rgb(81,90,110)' />
             </router-link>
         </header>
         <main>
@@ -52,39 +52,51 @@
                 </div>
             </div>
             <router-link :to="{name:'myinvite'}" tag="div">
-                <section class="secItem cp">
-                    我的邀请
-                    <span class="fr">
-                        {{people}} 人
-                        <Icon type="ios-arrow-forward" size='24' color='#999' />
-                    </span>
+                <section class="secItem cp" style="margin-top: 20px;">
+                    <div class="botLine">
+                        <img src="../../../assets/images/我的邀请@2x.png">
+                        我的邀请
+                        <span class="fr">
+                            {{people}} 人
+                            <Icon type="ios-arrow-forward" size='24' color='#999' />
+                        </span>
+                    </div>
                 </section>
             </router-link>
             <router-link :to="{name:'mybuyorder'}" tag="div">
                 <section class="secItem cp">
-                    我的买单
-                    <span class="red fr">
-                        {{myBuyOrder}} 单
-                        <Icon type="ios-arrow-forward" size='24' color='#999' />
-                    </span>
+                    <div class="botLine">
+                        <img src="../../../assets/images/我的买单@2x.png">
+                        我的买单
+                        <span class="red fr">
+                            {{myBuyOrder}} 单
+                            <Icon type="ios-arrow-forward" size='24' color='#999' />
+                        </span>
+                    </div>
                 </section>
             </router-link>
             <router-link :to="{name:'mysellorder'}" tag="div">
                 <section class="secItem cp">
-                    我的卖单
-                    <span class="red fr">
-                        {{mySellOrder}} 单
-                        <Icon type="ios-arrow-forward" size='24' color='#999' />
-                    </span>
+                    <div class="botLine">
+                        <img src="../../../assets/images/我的卖单@2x.png">
+                        我的卖单
+                        <span class="red fr">
+                            {{mySellOrder}} 单
+                            <Icon type="ios-arrow-forward" size='24' color='#999' />
+                        </span>
+                    </div>
                 </section>
             </router-link>
             <router-link :to="{name:'myticket',params:{num:myTicket}}" tag="div">
                 <section class="secItem cp">
-                    我的门票
-                    <span class="red fr">
-                        {{myTicket}} 张
-                        <Icon type="ios-arrow-forward" size='24' color='#999' />
-                    </span>
+                    <div class="botLine" style="border: none;">
+                        <img src="../../../assets/images/门票@2x.png">
+                        我的门票
+                        <span class="red fr">
+                            {{myTicket}} 张
+                            <Icon type="ios-arrow-forward" size='24' color='#999' />
+                        </span>
+                    </div>
                 </section>
             </router-link>
         </main>
@@ -253,11 +265,11 @@ export default {
 
           &:nth-child(1),
           &:nth-child(3) {
-            border-right: 2px solid $bc;
+            border-right: 1px solid $bc;
           }
           &:nth-child(1),
           &:nth-child(2) {
-            border-bottom: 2px solid $bc;
+            border-bottom: 1px solid $bc;
           }
           .title {
             color: $darkfont;
@@ -271,10 +283,23 @@ export default {
     .secItem {
       line-height: 50px;
       background-color: #fff;
-      margin: 10px 0;
       padding: 0 15px;
+
+      img{
+          width: 15px;
+          height: 15px;
+          margin-right: 10px;
+          position: relative;
+          top: 1px;
+      }
     }
+
+    .botLine {
+      border-bottom: 1px solid rgb(212, 212, 212);
+    }
+ 
   }
+
   footer {
     text-align: center;
     margin: 10% 0;

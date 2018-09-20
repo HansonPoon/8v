@@ -7,8 +7,22 @@
         <Input v-model="code" placeholder="验证码" />
         <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
       </div>
-      <Button type="primary" size="large" style="width:100%;margin:15px 0;" @click="save">保存</Button>
+      <Button type="primary" size="large" style="width:100%;margin:15px 0;" @click="confirm">保存</Button>
     </main>
+    <!-- 弹出框 -->
+    <div id="alert" v-if="showPop">
+      <div id="pop">
+        <div class="top">
+          <p align='center'>温馨提示：</p>
+          <p style="margin:20px 0 30px;">收款地址只能修改一次，请仔细确认</p>
+          <!-- <Input v-model="confirmIpt" style="width:100%;margin:20px 0 30px;" /> -->
+          <div class="btns">
+            <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+            <Button type="primary" size="default" style="width:45%;" @click="secendConfirm">确认</Button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,6 +31,14 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.$axios
+      .post("hzp/personal/loadPersonal", {
+        userId: this.data.userId,
+        userToken: this.data.userToken
+      })
+      .then(res => {
+        this.address = res.data.data.receivableAddress;
+      });
   },
   mounted() {
     this.$Message.config({
@@ -26,10 +48,12 @@ export default {
   data() {
     return {
       data: null,
+      address: "",
       usdtAddress: "",
       code: "",
       msg: "获取",
-      ifSend: false
+      ifSend: false,
+      showPop: false
     };
   },
   methods: {
@@ -63,24 +87,37 @@ export default {
         }
       }
     },
-    save() {
+    secendConfirm() {
       const reg = /^[0-9a-zA-Z]{42}$/;
       if (this.code == "") {
         this.$Message.error("请先输入验证码!");
       } else if (!reg.test(this.usdtAddress)) {
         this.$Message.error("请检查收款地址!");
       } else {
-        // 添加参数
-        this.data.address = this.usdtAddress;
-        this.data.validateCode = this.code;
-        this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
-          if (res.data.code == 1005) {
-            this.$Message.success(res.data.message);
-            this.$router.go(-1);
-          } else {
-            this.$Message.error(res.data.message);
-          }
-        });
+        if (!!this.address) {
+          // 添加参数
+          this.data.address = this.usdtAddress;
+          this.data.validateCode = this.code;
+          this.$axios
+            .post("hzp/personal/updateAddress", this.data)
+            .then(res => {
+              if (res.data.code == 1005) {
+                this.$Message.success(res.data.message);
+                this.$router.go(-1);
+              } else {
+                this.$Message.error(res.data.message);
+              }
+            });
+        } else {
+          this.$Message.info("收款地址已存在，若需修改请联系客服！");
+        }
+      }
+    },
+    confirm() {
+      if (!!this.address) {
+        this.$Message.info("收款地址已存在，若需修改请联系客服！");
+      } else {
+        this.showPop = true;
       }
     }
   }

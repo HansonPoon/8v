@@ -4,7 +4,7 @@
     <main>
       <v-nodata v-if='list.length==0'></v-nodata>
       <div v-else>
-        <ul class="clearfix">
+        <ul class="showBox clearfix">
           <li class="fl" v-for="(item,idx) in list" :key="idx">
             <div class="logo">
               <Icon type="md-person" size='40' color='#999' />
@@ -16,7 +16,7 @@
           <Page :total="totalCount" :page-size='pageSize' size="small" @on-change='changePageIdx' />
         </div>
       </div>
-    </main>   
+    </main>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
       data: null,
       totalCount: 10,
       pageSize: 12, //每页条数
-      list: [],
+      list: []
     };
   },
   methods: {
@@ -59,6 +59,9 @@ main {
   height: calc(100% - 44px);
   overflow-x: hidden;
   overflow-y: scroll;
+  .showBox {
+    background-color: #fff;
+  }
   li {
     text-align: center;
     width: calc(100% / 3);

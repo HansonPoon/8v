@@ -60,7 +60,7 @@
                   </span>
                 </p>
                 <p>
-                  <span>USDT官网</span>
+                  <span>区块链浏览器</span>
                   <span>
                     <a target="_blank" href="https://tether.to/">https://tether.to/</a>
                   </span>
@@ -85,8 +85,8 @@
     <div id="alert" v-if="showPop">
       <div id="pop">
         <div class="top">
-          <p>支付交易单号：</p>
-          <Input v-model="confirmIpt" style="width:100%;margin:20px 0 30px;" />
+          <p>温馨提示：</p>
+          <p style="margin:20px 0 30px;">确认收款后交易完成，您的买单将无法退回，请仔细确认地址</p>
           <div class="btns">
             <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
             <Button type="primary" size="default" style="width:45%;" @click="secendConfirm">确认</Button>
@@ -114,7 +114,6 @@ export default {
     return {
       data: null,
       showPop: false,
-      confirmIpt: "", //二次确认单号
       totalCount: 0,
       pageSize: 3, //每页条数
       list: [],
@@ -145,24 +144,21 @@ export default {
       this.confirmIdx = idx;
     },
     secendConfirm() {
-      if (this.confirmIpt) {
-        this.showPop = false;
-        this.$axios
-          .post("/hzp/otc/confirmBuyOrder", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            transactionOrderNo: this.confirmIpt,
-            platoonId: this.list[this.confirmIdx].platoonId
-          })
-          .then(res => {
-            if (res.data.code == 4013) {
-              this.$Message.success(res.data.message);
-              this.getList(1, this.pageSize);
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
-      }
+      this.showPop = false;
+      this.$axios
+        .post("/hzp/otc/confirmBuyOrder", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          platoonId: this.list[this.confirmIdx].platoonId
+        })
+        .then(res => {
+          if (res.data.code == 4013) {
+            this.$Message.success(res.data.message);
+            this.getList(1, this.pageSize);
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
     },
     changePageIdx(pageIdx) {
       this.getList(pageIdx, this.pageSize);

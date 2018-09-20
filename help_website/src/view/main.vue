@@ -12,7 +12,7 @@
                 <a href="#">中文</a>
               </li>
               <li>
-                <a href="http://english.longwin.io">ENGLISH</a>
+                <a href="http://www.longwin.io">ENGLISH</a>
               </li>
             </ul>
           </div>
@@ -30,7 +30,7 @@
             <router-link :to="{name:'introduce'}" tag="span">项目介绍</router-link>
           </span>
           <span>
-            <router-link :to="{name:'background'}" tag="span">项目背景</router-link>
+            <router-link :to="{name:'background'}" tag="span">项目立项</router-link>
           </span>
         </nav>
       </div>

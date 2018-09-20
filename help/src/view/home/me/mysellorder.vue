@@ -60,13 +60,13 @@
                   </span>
                 </p>
                 <p>
-                  <span>USDT官网</span>
+                  <span>区块链浏览器</span>
                   <span>
                     <a target="_blank" href="https://tether.to/">https://tether.to/</a>
                   </span>
                 </p>
                 <div class="btnBox">
-                  <Button class='copybtn' type="default" size="default" style="width:35%;margin-right:20px;" :data-clipboard-text="item.transactionOrderNo" @click="copyAddress">复制地址</Button>
+                  <Button class='copybtn' type="default" size="default" style="width:35%;margin-right:20px;" :data-clipboard-text="item.buyAddress" @click="copyAddress">复制地址</Button>
                   <Button v-if="item.yesOrNo==0" type="primary" size="default" style="width:35%;">等待买家付款</Button>
                   <Button v-else-if="item.yesOrNo==1" type="primary" size="default" style="width:35%;" @click="firstConfirm(idx)">确认收款</Button>
                   <Button v-else-if="item.yesOrNo==2" type="default" size="default" style="width:35%;">已完成</Button>

@@ -9,7 +9,7 @@
             </span>
             <ul>
               <li>
-                <a href="http://china.longein.io">中文</a>
+                <a href="http://cn.longwin.io">中文</a>
               </li>
               <li>
                 <a href="#">ENGLISH</a>
@@ -30,7 +30,7 @@
             <router-link :to="{name:'introduce'}" tag="span">Introduction</router-link>
           </span>
           <span>
-            <router-link :to="{name:'background'}" tag="span">Background</router-link>
+            <router-link :to="{name:'background'}" tag="span">Establishment</router-link>
           </span>
         </nav>
       </div>
