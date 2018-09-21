@@ -55,7 +55,7 @@
         </div>
         <div class="right fr">
           <div class="btnBox">
-            <a href='static/pdf/web/viewer.html?file=GHCC白皮书.pdf' target='_blank'>
+            <a href='static/pdf/web/viewer.html?file=whitePaper.pdf' target='_blank'>
               <img src="../../assets/02/button.png" alt="">
             </a>
           </div>

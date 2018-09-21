@@ -1,7 +1,8 @@
   /*声明 思源字体-normal*/
-  @font-face{
-    font-family: 'font01';
-    src: url('../../static/file/font01/SOURCEHANSANSCN-NORMAL.otf');
+
+  @font-face {
+      font-family: 'font01';
+      src: url('../../static/file/font01/SOURCEHANSANSCN-NORMAL.otf');
   }
 
   /* ********************样式初始化********************** */
@@ -11,7 +12,7 @@
   }
 
   html, body {
-      width: 100%;
+      min-width: 1200px;
       height: 100%;
       margin: 0;
       padding: 0;

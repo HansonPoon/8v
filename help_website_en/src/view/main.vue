@@ -9,7 +9,7 @@
             </span>
             <ul>
               <li>
-                <a href="http://cn.longwin.io">中文</a>
+                <a href="http://www.longwin.io">中文</a>
               </li>
               <li>
                 <a href="#">ENGLISH</a>

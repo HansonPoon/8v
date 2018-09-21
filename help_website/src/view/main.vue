@@ -12,7 +12,7 @@
                 <a href="#">中文</a>
               </li>
               <li>
-                <a href="http://www.longwin.io">ENGLISH</a>
+                <a href="http://en.longwin.io">ENGLISH</a>
               </li>
             </ul>
           </div>
