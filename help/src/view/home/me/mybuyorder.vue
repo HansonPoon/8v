@@ -118,7 +118,8 @@ export default {
       pageSize: 3, //每页条数
       list: [],
       confirmIdx: null, //确认付款的下标
-      showMatchList: []
+      showMatchList: [],
+      currentPageIdx:1  //当前分页下标
     };
   },
   computed: {
@@ -154,13 +155,14 @@ export default {
         .then(res => {
           if (res.data.code == 4013) {
             this.$Message.success(res.data.message);
-            this.getList(1, this.pageSize);
+            this.getList(this.currentPageIdx, this.pageSize);
           } else {
             this.$Message.error(res.data.message);
           }
         });
     },
     changePageIdx(pageIdx) {
+      this.currentPageIdx = pageIdx;  //保存分页下标
       this.getList(pageIdx, this.pageSize);
     },
     getList(pageIdx, pageSize) {

@@ -77,6 +77,9 @@
           </div>
         </li>
       </ul>
+      <div class="fenye">
+        <Page :total="totalCount" :pageSize='pageSize' @on-change='changePageIdx' size="small" />
+      </div>
     </div>
     <!-- 弹出框 -->
     <div id="alert" v-if="showPop">
@@ -113,7 +116,8 @@ export default {
       pageSize: 3, //每页条数
       list: [],
       confirmIdx: null, //确认付款的下标
-      showMatchList: []
+      showMatchList: [],
+      currentPageIdx:1  //当前分页下标      
     };
   },
   methods: {
@@ -142,13 +146,14 @@ export default {
         .then(res => {
           if (res.data.code == 4013) {
             this.$Message.success(res.data.message);
-            this.getList(1, this.pageSize);
+            this.getList(this.currentPageIdx, this.pageSize);
           } else {
             this.$Message.error(res.data.message);
           }
         });
     },
     changePageIdx(pageIdx) {
+      this.currentPageIdx = pageIdx;  //保存分页下标
       this.getList(pageIdx, this.pageSize);
     },
     getList(pageIdx, pageSize) {
@@ -173,6 +178,10 @@ export default {
 @import "../../../myconfig/public.scss";
 
 #mysellorder {
+  .fenye {
+    text-align: center;
+    margin: 10px 0;
+  }
   .noOrder {
     padding: 20%;
     text-align: center;

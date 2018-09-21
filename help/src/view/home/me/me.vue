@@ -13,15 +13,19 @@
                 </div>
                 <div class="user_m">
                     <div class="top">
-                        <span>{{userPhone}}</span>&nbsp;&nbsp;&nbsp;{{accountType}}
+                        <span>{{userPhone}}</span>&nbsp;&nbsp;&nbsp;
+                        <div class="userType">
+                            {{accountType}}
+                        </div>
+                        <div @click="$goto('starrule')" class="star cp">
+                            星级：{{star}}
+                        </div>
                     </div>
                     <div class="inviter">
                         邀请人：&nbsp;&nbsp;{{inviter?inviter:'无'}}
                     </div>
                 </div>
-                <span @click="$goto('starrule')" class="star cp fr">
-                    星级：{{star}}
-                </span>
+
             </div>
             <div class="f4">
                 <div class="line">
@@ -54,8 +58,7 @@
             <router-link :to="{name:'myinvite'}" tag="div">
                 <section class="secItem cp" style="margin-top: 20px;">
                     <div class="botLine">
-                        <img src="../../../assets/images/我的邀请@2x.png">
-                        我的邀请
+                        <img src="../../../assets/images/我的邀请@2x.png"> 我的邀请
                         <span class="fr">
                             {{people}} 人
                             <Icon type="ios-arrow-forward" size='24' color='#999' />
@@ -66,8 +69,7 @@
             <router-link :to="{name:'mybuyorder'}" tag="div">
                 <section class="secItem cp">
                     <div class="botLine">
-                        <img src="../../../assets/images/我的买单@2x.png">
-                        我的买单
+                        <img src="../../../assets/images/我的买单@2x.png"> 我的买单
                         <span class="red fr">
                             {{myBuyOrder}} 单
                             <Icon type="ios-arrow-forward" size='24' color='#999' />
@@ -78,8 +80,7 @@
             <router-link :to="{name:'mysellorder'}" tag="div">
                 <section class="secItem cp">
                     <div class="botLine">
-                        <img src="../../../assets/images/我的卖单@2x.png">
-                        我的卖单
+                        <img src="../../../assets/images/我的卖单@2x.png"> 我的卖单
                         <span class="red fr">
                             {{mySellOrder}} 单
                             <Icon type="ios-arrow-forward" size='24' color='#999' />
@@ -90,8 +91,7 @@
             <router-link :to="{name:'myticket',params:{num:myTicket}}" tag="div">
                 <section class="secItem cp">
                     <div class="botLine" style="border: none;">
-                        <img src="../../../assets/images/门票@2x.png">
-                        我的门票
+                        <img src="../../../assets/images/门票@2x.png"> 我的门票
                         <span class="red fr">
                             {{myTicket}} 张
                             <Icon type="ios-arrow-forward" size='24' color='#999' />
@@ -228,6 +228,16 @@ export default {
       height: 80px;
       padding: 10px 15px;
       background-color: #fff;
+
+      .userType {
+        display: inline-block;
+        color: $lightblue;
+        border: 1px solid $lightblue;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 2px 4px;
+      }
+
       .logo {
         display: inline-block;
         line-height: 60px;
@@ -245,9 +255,12 @@ export default {
       }
       .star {
         display: inline-block;
-        line-height: 60px;
-        text-decoration: underline;
-        color: #009966;
+        margin-left: 5px;
+        color: rgb(255,135,151);
+        border: 1px solid rgb(255, 98, 119);
+        font-size: 12px;
+        line-height: 12px;
+        padding: 2px 4px;
       }
     }
     .f4 {
@@ -285,19 +298,18 @@ export default {
       background-color: #fff;
       padding: 0 15px;
 
-      img{
-          width: 15px;
-          height: 15px;
-          margin-right: 10px;
-          position: relative;
-          top: 1px;
+      img {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+        position: relative;
+        top: 1px;
       }
     }
 
     .botLine {
       border-bottom: 1px solid rgb(212, 212, 212);
     }
- 
   }
 
   footer {

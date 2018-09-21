@@ -28,7 +28,7 @@
                 <span class="money">
                   {{item.transactionAmount}} USDT
                 </span>
-                <span class="circle" v-if=true>买</span>
+                <span style="color:#ff6277;border-color:#ff6277;" class="circle" v-if=true>买</span>
                 <span class="circle" v-else>卖</span>
               </div>
             </li>
@@ -338,8 +338,17 @@ export default {
       .phone {
         margin-right: 5px;
       }
+      // .star {
+      //   color: #4f9995;
+      // }
+
       .star {
-        color: #4f9995;
+        display: inline-block;
+        color: rgb(255, 135, 151);
+        border: 1px solid rgb(255, 98, 119);
+        font-size: 12px;
+        line-height: 12px;
+        padding: 2px 4px 1px 4px;
       }
     }
     // .bottom{
@@ -362,7 +371,10 @@ export default {
       line-height: 20px;
       text-align: center;
       border-radius: 50%;
-      border: 1px solid $darkfont;
+      border: 1px solid #19be6b; 
+      // border: 1px solid $lightfont; 
+      color: #19be6b;
+      // color: $darkfont;
     }
   }
 }

@@ -93,24 +93,20 @@ export default {
         this.$Message.error("请先输入验证码!");
       } else if (!reg.test(this.usdtAddress)) {
         this.$Message.error("请检查收款地址!");
+      } else if (!this.address) {
+        // 添加参数
+        this.data.address = this.usdtAddress;
+        this.data.validateCode = this.code;
+        this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
+          if (res.data.code == 1005) {
+            this.$Message.success(res.data.message);
+            this.$router.go(-1);
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
       } else {
-        if (!!this.address) {
-          // 添加参数
-          this.data.address = this.usdtAddress;
-          this.data.validateCode = this.code;
-          this.$axios
-            .post("hzp/personal/updateAddress", this.data)
-            .then(res => {
-              if (res.data.code == 1005) {
-                this.$Message.success(res.data.message);
-                this.$router.go(-1);
-              } else {
-                this.$Message.error(res.data.message);
-              }
-            });
-        } else {
-          this.$Message.info("收款地址已存在，若需修改请联系客服！");
-        }
+        this.$Message.info("收款地址已存在，若需修改请联系客服！");
       }
     },
     confirm() {

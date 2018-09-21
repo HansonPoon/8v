@@ -85,7 +85,7 @@ export default {
 @import "../../../myconfig/mef4.public.scss";
 
 ul {
-  // color: $lightfont;
+  color: $lightfont;
 }
 </style>
 
