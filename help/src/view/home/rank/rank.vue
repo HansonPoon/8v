@@ -7,36 +7,42 @@
         <div id="bottomLine"></div>
       </div>
       <div id="tabContent" class="tabContent clearfix" style="left:0;">
-        <div class="contentPage fl">
-          <v-nodata v-if="interestList.length==0"></v-nodata>
-          <div v-else>
-            <ul class="list">
-              <li v-for="(item,idx) in interestList" :key="idx">
-                <div class="number">{{item.rank}}</div>
-                <span>{{item.iphone}}</span>
-                <span class="money fr">{{item.money}} USDT</span>
-              </li>
-            </ul>
-            <div class="fenye">
-              <Page :total="totalCount_interest" :pageSize='pageSize' @on-change='changeInterestPageIdx' size="small" />
+
+        <v-touch style="height:100%;" class="clearfix" v-on:swipeleft="onSwipeLeft"  v-on:swiperight="onSwipeRight"   tag="div">
+
+          <div class="contentPage fl">
+            <v-nodata v-if="interestList.length==0"></v-nodata>
+            <div v-else>
+              <ul class="list">
+                <li v-for="(item,idx) in interestList" :key="idx">
+                  <div class="number">{{item.rank}}</div>
+                  <span>{{item.iphone}}</span>
+                  <span class="money fr">{{item.money}} USDT</span>
+                </li>
+              </ul>
+              <div class="fenye">
+                <Page :total="totalCount_interest" :pageSize='pageSize' @on-change='changeInterestPageIdx' size="small" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="contentPage fl">
-          <v-nodata v-if="inviteList.length==0"></v-nodata>
-          <div v-else>
-            <ul class="list">
-              <li v-for="(item,idx) in inviteList" :key="idx">
-                <div class="number">{{item.rank}}</div>
-                <span>{{item.iphone}}</span>
-                <span class="money fr">{{item.money}} USDT</span>
-              </li>
-            </ul>
-            <div class="fenye">
-              <Page :total="totalCount_invite" :pageSize='pageSize' @on-change='changeInvitePageIdx' size="small" />
+          <div class="contentPage fl">
+            <v-nodata v-if="inviteList.length==0"></v-nodata>
+            <div v-else>
+              <ul class="list">
+                <li v-for="(item,idx) in inviteList" :key="idx">
+                  <div class="number">{{item.rank}}</div>
+                  <span>{{item.iphone}}</span>
+                  <span class="money fr">{{item.money}} USDT</span>
+                </li>
+              </ul>
+              <div class="fenye">
+                <Page :total="totalCount_invite" :pageSize='pageSize' @on-change='changeInvitePageIdx' size="small" />
+              </div>
             </div>
           </div>
-        </div>
+
+        </v-touch>
+
       </div>
     </div>
   </div>
@@ -75,7 +81,7 @@ export default {
       this.isActive = idx;
       //   改变横线位置
       document.getElementById("bottomLine").style.left =
-        idx * pageWidth / 2 + "px";
+        (idx * pageWidth) / 2 + "px";
     },
     changeInterestPageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
@@ -106,6 +112,20 @@ export default {
           this.inviteList = res.data.data.list;
           this.totalCount_invite = res.data.data.totalCount;
         });
+    },
+    // 左滑动
+    onSwipeLeft() {
+      if (this.isActive < 1) {
+        this.isActive++;
+        this.tabPage(this.isActive);
+      }
+    },
+    // 右滑动
+    onSwipeRight() {
+      if (this.isActive > 0) {
+        this.isActive--;
+        this.tabPage(this.isActive);
+      }
     }
   }
 };
@@ -113,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../myconfig/public.scss";
-#otc {
+#rank {
   height: calc(100% - 50px);
 }
 #tab {
@@ -148,7 +168,7 @@ export default {
   .tabContent {
     position: relative;
     width: calc(100% * 2);
-    height: calc(100% - 38px);
+    height: calc(100% - 45px);
     transition: 0.3s ease-in-out;
     overflow-y: scroll;
   }
@@ -174,25 +194,25 @@ export default {
       //   border: 1px solid #333333;
       margin-right: 15px;
       color: #fff;
-      background-color: #C1C1C1;
+      background-color: #c1c1c1;
     }
     // 前三个
     &:nth-child(1) .number {
       // background-color: #e70034;
       color: transparent;
-      background: url('../../../assets/images/num1.png') no-repeat center center;
+      background: url("../../../assets/images/num1.png") no-repeat center center;
       background-size: contain;
     }
     &:nth-child(2) .number {
       // background-color: #f29700;
       color: transparent;
-      background: url('../../../assets/images/num2.png') no-repeat center center;
+      background: url("../../../assets/images/num2.png") no-repeat center center;
       background-size: contain;
     }
     &:nth-child(3) .number {
       // background-color: #8fc41e;
       color: transparent;
-      background: url('../../../assets/images/num3.png') no-repeat center center;
+      background: url("../../../assets/images/num3.png") no-repeat center center;
       background-size: contain;
     }
     .money {

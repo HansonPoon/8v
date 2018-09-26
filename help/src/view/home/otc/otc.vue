@@ -6,123 +6,130 @@
         <!-- 横线 -->
         <div id="bottomLine"></div>
       </div>
+
       <div id="tabContent" class="tabContent clearfix" style="left:0;">
-        <div class="contentPage fl">
-          <v-nodata v-if="buyOrder.length == 0"></v-nodata>
-          <ul v-else class="orderList">
-            <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
-              <div class="left">
-                <div class="top">
-                  <span class="phone">
-                    {{item.userPhone}}
-                  </span>
-                  <span class="star">
-                    星级：{{item.userLevel}}
-                  </span>
+
+        <v-touch style="height:100%;" class="clearfix" v-on:swipeleft="onSwipeLeft"  v-on:swiperight="onSwipeRight"   tag="div">
+
+          <div class="contentPage fl">
+            <v-nodata v-if="buyOrder.length == 0"></v-nodata>
+            <ul v-else class="orderList">
+              <li class="clearfix" v-for="(item,idx) in buyOrder" :key="idx">
+                <div class="left">
+                  <div class="top">
+                    <span class="phone">
+                      {{item.userPhone}}
+                    </span>
+                    <span class="star">
+                      星级：{{item.userLevel}}
+                    </span>
+                  </div>
+                  <div class="bottom">
+                    {{item.dateSdf}}
+                  </div>
                 </div>
-                <div class="bottom">
-                  {{item.dateSdf}}
-                </div>
-              </div>
-              <div class="right fr">
-                <span class="money">
-                  {{item.transactionAmount}} USDT
-                </span>
-                <span style="color:#ff6277;border-color:#ff6277;" class="circle" v-if=true>买</span>
-                <span class="circle" v-else>卖</span>
-              </div>
-            </li>
-          </ul>
-          <div v-if="buyOrder.length !== 0" class="fenye">
-            <Page :total="buy_totalCount" @on-change='getBuyTicket' size="small" />
-          </div>
-          <div class="buysell">
-            <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
-            <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
-          </div>
-        </div>
-        <div class="contentPage fl">
-          <v-nodata v-if="sellOrder.length == 0"></v-nodata>
-          <ul v-else class="orderList">
-            <li class="clearfix" v-for="(item,idx) in sellOrder" :key="idx">
-              <div class="left">
-                <div class="top">
-                  <span class="phone">
-                    {{item.userPhone}}
+                <div class="right fr">
+                  <span class="money">
+                    {{item.transactionAmount}} USDT
                   </span>
-                  <span class="star">
-                    星级：{{item.userLevel}}
+                  <span style="color:#ff6277;border-color:#ff6277;" class="circle" v-if=true>买</span>
+                  <span class="circle" v-else>卖</span>
+                </div>
+              </li>
+            </ul>
+            <div v-if="buyOrder.length !== 0" class="fenye">
+              <Page :total="buy_totalCount" @on-change='getBuyTicket' size="small" />
+            </div>
+            <div class="buysell">
+              <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
+              <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
+            </div>
+          </div>
+          <div class="contentPage fl">
+            <v-nodata v-if="sellOrder.length == 0"></v-nodata>
+            <ul v-else class="orderList">
+              <li class="clearfix" v-for="(item,idx) in sellOrder" :key="idx">
+                <div class="left">
+                  <div class="top">
+                    <span class="phone">
+                      {{item.userPhone}}
+                    </span>
+                    <span class="star">
+                      星级：{{item.userLevel}}
+                    </span>
+                  </div>
+                  <div class="bottom">
+                    {{item.dateSdf}}
+                  </div>
+                </div>
+                <div class="right fr">
+                  <span class="money">
+                    {{item.transactionAmount}} USDT
                   </span>
+                  <span class="circle" v-if=false>买</span>
+                  <span class="circle" v-else>卖</span>
                 </div>
-                <div class="bottom">
-                  {{item.dateSdf}}
-                </div>
-              </div>
-              <div class="right fr">
-                <span class="money">
-                  {{item.transactionAmount}} USDT
-                </span>
-                <span class="circle" v-if=false>买</span>
-                <span class="circle" v-else>卖</span>
-              </div>
-            </li>
-          </ul>
-          <div v-if="sellOrder.length !== 0" class="fenye">
-            <Page :total="sell_totalCount" @on-change='getSellTicket' size="small" />
+              </li>
+            </ul>
+            <div v-if="sellOrder.length !== 0" class="fenye">
+              <Page :total="sell_totalCount" @on-change='getSellTicket' size="small" />
+            </div>
+            <div class="buysell">
+              <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
+              <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
+            </div>
           </div>
-          <div class="buysell">
-            <Button type="primary" size="large" style="width:35%;margin-right:20px;" @click="$goto('buy')">我要买</Button>
-            <Button type="success" size="large" style="width:35%;" @click="$goto('sell')">我要卖</Button>
-          </div>
-        </div>
-        <div class="contentPage fl">
-          <div class="main">
+          <div class="contentPage fl">
             <div class="main">
-              <ul>
-                <li class='clearix'>
-                  <span>
-                    收款地址
-                  </span>
-                  <span class='fr' style='word-break:break-word;'>
-                    {{systemReceipt}}
-                  </span>
-                </li>
-                <li>
-                  <span>单价</span>
-                  <span>{{singlePrice}} USDT</span>
-                </li>
-                <li>
-                  <span>购买数量</span>
-                  <span id="priceIptBox">
-                    <Input type="number" v-model.number="buyNum">
-                    <span @click="dec" slot="prepend">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-                    <span @click="add" slot="append">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
-                    </Input>
-                  </span>
-                </li>
-                <li class='clearix'>
-                  <span>
-                    付款地址
-                  </span>
-                  <span class='fr' style='word-break:break-word;'>
-                    {{payAddress}}
-                  </span>
-                </li>
-              </ul>
+              <div class="main">
+                <ul>
+                  <li class='clearix'>
+                    <span>
+                      收款地址
+                    </span>
+                    <span class='fr' style='word-break:break-word;'>
+                      {{systemReceipt}}
+                    </span>
+                  </li>
+                  <li>
+                    <span>单价</span>
+                    <span>{{singlePrice}} USDT</span>
+                  </li>
+                  <li>
+                    <span>购买数量</span>
+                    <span id="priceIptBox">
+                      <Input type="number" v-model.number="buyNum">
+                      <span @click="dec" slot="prepend">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+                      <span @click="add" slot="append">&nbsp;&nbsp;+&nbsp;&nbsp;</span>
+                      </Input>
+                    </span>
+                  </li>
+                  <li class='clearix'>
+                    <span>
+                      付款地址
+                    </span>
+                    <span class='fr' style='word-break:break-word;'>
+                      {{payAddress}}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div class="btnBox">
+                <Button type="primary" size="large" style="width:80%;" @click="showPop=true">确认购买</Button>
+              </div>
             </div>
-            <div class="btnBox">
-              <Button type="primary" size="large" style="width:80%;" @click="showPop=true">确认购买</Button>
+            <div class="notice">
+              <p>温馨提示：</p>
+              <p>• 请根据投注需要购买相应数量的门票，购买时，请用钱包向付款地址转账，转账后提交交易单号作为凭证，系统会在确认收到转账后，直接将门票发放到您的账户上</p>
+              <p>• 投注金额200~500 USDT，消耗门票2张</p>
+              <p>• 投注金额500~1000 USDT，消耗门票5张</p>
+              <p>• 投注金额1000~3000.00 USDT，消耗门票10张</p>
+              <p>• 投注金额3000.00 USDT以上，消耗门票30张</p>
             </div>
           </div>
-          <div class="notice">
-            <p>温馨提示：</p>
-            <p>• 请根据投注需要购买相应数量的门票，购买时，请用钱包向付款地址转账，转账后提交交易单号作为凭证，系统会在确认收到转账后，直接将门票发放到您的账户上</p>
-            <p>• 投注金额200~500 USDT，消耗门票2张</p>
-            <p>• 投注金额500~1000 USDT，消耗门票5张</p>
-            <p>• 投注金额1000~3000.00 USDT，消耗门票10张</p>
-            <p>• 投注金额3000.00 USDT以上，消耗门票30张</p>
-          </div>
-        </div>
+
+        </v-touch>
+
       </div>
     </div>
     <!-- 弹出框 -->
@@ -138,6 +145,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -172,7 +180,7 @@ export default {
     return {
       data: null, //id和token
       tabItem: ["买单", "卖单", "门票"],
-      isActive: 0,
+      isActive: 0, //当前显示的页面下标
       buyOrder: [],
       sellOrder: [],
       payAddress: "",
@@ -199,7 +207,7 @@ export default {
       this.isActive = idx;
       //   改变横线位置
       document.getElementById("bottomLine").style.left =
-        idx * pageWidth / 3 + "px";
+        (idx * pageWidth) / 3 + "px";
     },
     // 加减数量
     dec() {
@@ -267,6 +275,20 @@ export default {
             }
           });
       }
+    },
+    // 左滑动
+    onSwipeLeft() {
+      if (this.isActive < 2) {
+        this.isActive++;
+        this.tabPage(this.isActive);
+      }
+    },
+    // 右滑动
+    onSwipeRight() {
+      if (this.isActive > 0) {
+        this.isActive--;
+        this.tabPage(this.isActive);
+      }
     }
   }
 };
@@ -309,7 +331,7 @@ export default {
   .tabContent {
     position: relative;
     width: calc(100% * 3);
-    height: calc(100% - 38px);
+    height: calc(100% - 45px);
     transition: 0.3s ease-in-out;
     overflow-y: scroll;
   }
@@ -371,8 +393,8 @@ export default {
       line-height: 20px;
       text-align: center;
       border-radius: 50%;
-      border: 1px solid #19be6b; 
-      // border: 1px solid $lightfont; 
+      border: 1px solid #19be6b;
+      // border: 1px solid $lightfont;
       color: #19be6b;
       // color: $darkfont;
     }

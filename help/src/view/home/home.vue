@@ -1,6 +1,7 @@
 <template>
     <div id="home">
         <router-view></router-view>
+
         <footer>
             <router-link class="cp" tag="span" :to="{name:'otc'}">
                 <div class="iconBox">
@@ -48,7 +49,7 @@ export default {};
       text-align: center;
       font-size: 14px;
       height: 50px;
-      padding-top:3px; 
+      padding-top: 3px;
       // line-height: 50px;
       // border-right:1px solid $lightfont;
 

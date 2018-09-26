@@ -56,7 +56,7 @@
                 </div>
             </div>
             <router-link :to="{name:'myinvite'}" tag="div">
-                <section class="secItem cp" style="margin-top: 20px;">
+                <section class="secItem cp" style="margin-top: 10px;">
                     <div class="botLine">
                         <img src="../../../assets/images/我的邀请@2x.png"> 我的邀请
                         <span class="fr">
@@ -90,7 +90,7 @@
             </router-link>
             <router-link :to="{name:'myticket',params:{num:myTicket}}" tag="div">
                 <section class="secItem cp">
-                    <div class="botLine" style="border: none;">
+                    <div class="botLine">
                         <img src="../../../assets/images/门票@2x.png"> 我的门票
                         <span class="red fr">
                             {{myTicket}} 张
@@ -99,6 +99,16 @@
                     </div>
                 </section>
             </router-link>
+            <div @click="inviteMore">
+                <section class="secItem cp">
+                    <div class="botLine" style="border: none;">
+                        <img src="../../../assets/images/门票@2x.png"> 邀请好友
+                        <span class="red fr">
+                            <Icon type="ios-arrow-forward" size='24' color='#999' />
+                        </span>
+                    </div>
+                </section>
+            </div>
         </main>
         <footer>
             <Button type="primary" size="large" style="width:80%;" @click="showPop=true">退出登录</Button>
@@ -198,6 +208,14 @@ export default {
             this.$router.replace({ name: "login" });
           }
         });
+    },
+    inviteMore(){
+      this.$router.push({
+        name:'share',
+        // query:{
+        //   id:1
+        // }
+      })
     }
   }
 };
@@ -256,7 +274,7 @@ export default {
       .star {
         display: inline-block;
         margin-left: 5px;
-        color: rgb(255,135,151);
+        color: rgb(255, 135, 151);
         border: 1px solid rgb(255, 98, 119);
         font-size: 12px;
         line-height: 12px;
@@ -314,7 +332,8 @@ export default {
 
   footer {
     text-align: center;
-    margin: 10% 0;
+    // margin: 30px 0;
+    margin-top: 25px;
   }
 }
 </style>

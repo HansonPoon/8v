@@ -123,6 +123,11 @@ export default new Router({
       name: 'invitemoney',
       component: () => import('@/view/home/me/invitemoney.vue')
     },
+    {
+      path: '/share',
+      name: 'share',
+      component: () => import('@/view/home/me/share/share.vue')
+    }
 
 
   ]

@@ -15,9 +15,9 @@
       <FormItem prop='rpasswd'>
         <Input v-model="form.rpasswd" type='password' placeholder="确认密码"></Input>
       </FormItem>
-      <FormItem>
+      <!-- <FormItem>
         <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
-      </FormItem>
+      </FormItem> -->
       <FormItem>
         <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
       </FormItem>
@@ -27,6 +27,15 @@
 
 <script>
 export default {
+  created() {
+    // // 获取id
+    // const id = this.$route.params.idNum;
+    // sessionStorage.setItem("r_id", JSON.stringify({ id }));
+  },
+  mounted() {
+    // // 获取推荐人id
+    // this.r_id = JSON.parse(sessionStorage.getItem("r_id")).id;
+  },
   data() {
     //   手机号正则
     const myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
@@ -83,7 +92,8 @@ export default {
         rpasswd: [{ validator: repeatpasswd, trigger: "blur" }]
       },
       timer: null,
-      ifSend: false
+      ifSend: false,
+      r_id: null
     };
   },
   methods: {
@@ -97,19 +107,19 @@ export default {
               validateCode: this.form.code,
               pwd: this.form.passwd,
               rePwd: this.form.rpasswd,
-              inviterPhone: this.form.inviter,
+              // inviterPhone: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
               type: 0
             })
             .then(res => {
               if (res.data.code == 1004) {
                 this.$Message.success(res.data.message);
-                this.$router.push({name:"login"});
+                this.$router.push({ name: "login" });
               } else {
                 this.$Message.error(res.data.message);
               }
             });
         } else {
-          this.$Message.error("请完善信息!");
+          this.$Message.error("操作失败!");
         }
       });
     },

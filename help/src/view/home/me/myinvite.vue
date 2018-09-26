@@ -55,6 +55,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../myconfig/public.scss';
 main {
   height: calc(100% - 44px);
   overflow-x: hidden;
@@ -75,5 +76,14 @@ main {
 .fenye {
   margin-top: 20px;
   text-align: center;
+}
+.inviteMore{
+  line-height: 45px;
+  font-size: 14px;
+  color: $green;
+  background-color: #fff;
+  margin-top: 10px;
+  text-align: right;
+  padding-right: 15px;
 }
 </style>
