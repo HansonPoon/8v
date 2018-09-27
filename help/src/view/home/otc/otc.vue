@@ -162,6 +162,8 @@ export default {
     this.$axios.post("/hzp/otc/getUserInfo", this.data).then(res => {
       this.payAddress = res.data.data.receivableAddress;
       this.systemReceipt = res.data.data.systemReceipt;
+      // 存本地存储,保存用户信息和交易限额
+      sessionStorage.setItem("userInfo", JSON.stringify(res.data.data));
     });
   },
   mounted() {

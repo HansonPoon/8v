@@ -102,7 +102,7 @@
             <div @click="inviteMore">
                 <section class="secItem cp">
                     <div class="botLine" style="border: none;">
-                        <img src="../../../assets/images/门票@2x.png"> 邀请好友
+                        <img src="../../../assets/images/shareicon.png"> 分享链接
                         <span class="red fr">
                             <Icon type="ios-arrow-forward" size='24' color='#999' />
                         </span>

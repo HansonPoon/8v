@@ -16,12 +16,14 @@
                 <ul>
                     <li v-for="(item,idx) in newList" :key="idx" class="clearfix">
                         <div>
-                            {{item.remark}}
-                            <span class="time fr">{{item.remark}}</span>
-                        </div>
-                        <div>
-                            {{item.invitationPhone}}
-                            <span class="time fr">投注 {{item.betMoney}}</span>
+                            <div>
+                                {{item.remark}}
+                                <span class="time fr">{{item.remark}}</span>
+                            </div>
+                            <div>
+                                {{item.invitationPhone}}
+                                <span class="time fr">投注 {{item.betMoney}}</span>
+                            </div>
                         </div>
                     </li>
                     <!-- <li class="clearfix">
@@ -71,11 +73,11 @@ export default {
     };
   },
   computed: {
-    newList(){
-        let arr = this.list;
-        this.$timeToTime(arr);
-        return arr
-    }  
+    newList() {
+      let arr = this.list;
+      this.$timeToTime(arr);
+      return arr;
+    }
   },
   methods: {
     changePageIdx(pageIdx) {

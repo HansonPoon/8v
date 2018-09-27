@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="notice">
-            <p>温馨提示：单笔挂单最少200 USDT，最多5000 USDT</p>
+            <p>温馨提示：单笔挂单最少{{limit_min}} USDT，最多{{limit_min}} USDT</p>
         </div>
         <!-- 弹出框 -->
         <div id="alert" v-if="showPop">
@@ -73,6 +73,8 @@ export default {
       this.balance = res.data.data.restMoney;
       this.receiveAddress = res.data.data.receivableAddress;
       this.systemReceipt = res.data.data.systemReceipt;
+      this.limit_min = res.data.data.transactionDownline;
+      this.limit_max = res.data.data.tradeLine;
     });
   },
   mounted() {
@@ -83,13 +85,15 @@ export default {
   data() {
     return {
       data: null,
+      limit_min: "",
+      limit_max: "",
       receiveAddress: "",
       balance: 0,
       myTicket: 0,
       buyNum: "",
       showPop: false,
       secPasswd: "",
-      systemReceipt:'' //系统地址
+      systemReceipt: "" //系统地址
     };
   },
   computed: {
@@ -102,8 +106,8 @@ export default {
     showPopBox() {
       if (this.buyNum == "" || this.buyNum % 100 !== 0) {
         this.$Message.error("只能输入100的倍数！");
-      } else if (this.buyNum < 200 || this.buyNum > 5000) {
-        this.$Message.error("数量最少200，最多5000");
+      } else if (this.buyNum < this.limit_min || this.buyNum > this.limit_max) {
+        this.$Message.error(`数量最少${this.limit_min}，最多${this.limit_max}`);
       } else {
         this.showPop = true;
       }

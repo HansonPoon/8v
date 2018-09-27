@@ -14,8 +14,10 @@
       <div v-if="list.length!==0" class="bottom">
         <ul>
           <li class="clearfix" v-for='(item,idx) in newList' :key='idx'>
-            {{item.remark}}
-            <span class="time fr">{{item.createTime}}</span>
+            <div>
+              {{item.remark}}
+              <span class="time fr">{{item.createTime}}</span>
+            </div>
           </li>
         </ul>
         <div class="fenye">

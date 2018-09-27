@@ -28,13 +28,12 @@
 <script>
 export default {
   created() {
-    // // 获取id
-    // const id = this.$route.params.idNum;
-    // sessionStorage.setItem("r_id", JSON.stringify({ id }));
+    // 获取hash
+    const hash = window.location.hash;
+    const idNum = hash.split("?")[1];
+    this.r_id = idNum;
   },
   mounted() {
-    // // 获取推荐人id
-    // this.r_id = JSON.parse(sessionStorage.getItem("r_id")).id;
   },
   data() {
     //   手机号正则
@@ -107,7 +106,7 @@ export default {
               validateCode: this.form.code,
               pwd: this.form.passwd,
               rePwd: this.form.rpasswd,
-              // inviterPhone: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
+              inviterPhone: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
               type: 0
             })
             .then(res => {
