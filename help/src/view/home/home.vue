@@ -1,6 +1,8 @@
 <template>
     <div id="home">
-        <router-view></router-view>
+        <transition name="custom-classes-transition" enter-active-class="animated fadeInLeft" leave-active-class="animated flipOutY">
+            <router-view />
+        </transition>
 
         <footer>
             <router-link class="cp" tag="span" :to="{name:'otc'}">
@@ -63,4 +65,5 @@ export default {};
     color: $lightblue;
   }
 }
+
 </style>

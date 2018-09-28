@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <transition name="custom-classes-transition" enter-active-class="animated fadeInLeft" leave-active-class="animated flipOutY">
     <router-view/>
+    </transition>
   </div>
 </template>
 

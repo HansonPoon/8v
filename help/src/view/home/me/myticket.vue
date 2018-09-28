@@ -40,7 +40,7 @@
         <div class="top">
           <p align='center'>赠送门票</p>
           <div style="margin:15px 0;">
-            <label style="display:inline-block;width:35%;" for="">赠送id：</label>
+            <label style="display:inline-block;width:35%;" for="">赠送对象：</label>
             <Input v-model="sendId" style="width:60%;" />
           </div>
             <div style="margin:15px 0;">

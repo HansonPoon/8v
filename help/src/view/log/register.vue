@@ -1,6 +1,12 @@
 <template>
   <div id="register">
-    <v-header headname='注册'></v-header>
+    <!-- <v-header headname='注册'></v-header> -->
+    <div id="header">
+      <div class="backBox">
+        <Icon class="cp" @click="back" type="ios-arrow-back" size='28' />
+      </div>
+      注册
+    </div>
     <Form ref="form" :model="form" :rules="ruleCustom">
       <FormItem prop='phone'>
         <Input v-model="form.phone" placeholder="手机号码"></Input>
@@ -33,8 +39,7 @@ export default {
     const idNum = hash.split("?")[1];
     this.r_id = idNum;
   },
-  mounted() {
-  },
+  mounted() {},
   data() {
     //   手机号正则
     const myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
@@ -59,6 +64,7 @@ export default {
     };
     return {
       msg: "获取",
+      fromName:'',  //从哪个路由过来
       form: {
         phone: "",
         code: "",
@@ -150,13 +156,44 @@ export default {
           }, 1000);
         }
       }
+    },
+    back(){
+      console.log(this.fromName);
+      if (this.fromName) {
+        // 从其他页面跳过来的
+        this.$goBack();
+      }else{
+        // 分享链接直接打开的
+        this.$router.push('/');
+      }
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm=>{
+      // 把守卫中的数据赋值给vm
+      vm.fromName = from.name;
+    });
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../../myconfig/public.scss";
+
+#header {
+  position: relative;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  font-size: $headerfont;
+  background-color: $hbc;
+  .backBox {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
 
 #register {
   background-color: $bc;
