@@ -21,6 +21,38 @@ export default new Router({
       component: () => import('@/view/log/forgetpassword.vue')
     },
     {
+      path: '/index',
+      name: 'index',
+      component: () => import('@/view/index/index.vue'),
+      children:[
+        // {
+        //   path: '/otc',
+        //   name: 'otc',
+        //   component: () => import('@/view/home/otc/otc.vue')
+        // },
+        // {
+        //   path: '/buy',
+        //   name: 'buy',
+        //   component: () => import('@/view/home/otc/buy.vue')
+        // },
+        // {
+        //   path: '/sell',
+        //   name: 'sell',
+        //   component: () => import('@/view/home/otc/sell.vue')
+        // },
+        // {
+        //   path: '/rank',
+        //   name: 'rank',
+        //   component: () => import('@/view/home/rank/rank.vue')
+        // },
+        // {
+        //   path: '/me',
+        //   name: 'me',
+        //   component: () => import('@/view/home/me/me.vue')
+        // },
+      ]
+    },
+    {
       path: '/home',
       name: 'home',
       component: () => import('@/view/home/home.vue'),

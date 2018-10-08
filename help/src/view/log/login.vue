@@ -17,6 +17,14 @@
         <Icon size='22' type="ios-lock" slot="prepend"></Icon>
         </Input>
       </FormItem>
+      <FormItem prop="code" style="width:100%;margin-bottom:15%;">
+        <Input style="width:55%;" v-model="form.code" placeholder="请输入验证码">
+        <Icon size='22' type="md-eye" slot="prepend"></Icon>
+        </Input>
+        <div id="codeBox" @click="refreshCode">
+          <s-identify :identifyCode="identifyCode"></s-identify>
+        </div>
+      </FormItem>
       <FormItem style="width:100%;">
         <Button style="width:100%" type="primary" @click="handleSubmit('form')">登录</Button>
       </FormItem>
@@ -29,6 +37,8 @@
 </template>
 
 <script>
+import identify from "@/components/identify/index";
+
 export default {
   data() {
     //   手机号正则
@@ -42,10 +52,20 @@ export default {
         callback();
       }
     };
+    const codeIdentify = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入验证码"));
+      } else if (this.form.code !== this.identifyCode) {
+        callback(new Error("验证码错误"));
+      } else {
+        callback();
+      }
+    };
     return {
       form: {
         user: "",
-        passwd: ""
+        passwd: "",
+        code: ""
       },
       ruleCustom: {
         user: [{ validator: phoneIdentify, trigger: "blur" }],
@@ -61,12 +81,39 @@ export default {
             message: "密码至少8位",
             trigger: "blur"
           }
+        ],
+        code: [
+          {
+            validator: codeIdentify,
+            trigger: "blur"
+          }
         ]
-      }
+      },
+      // 验证码
+      formConfig: {
+        form: {
+          username: "",
+          password: "",
+          identifyCode: ""
+        }
+      },
+      identifyCodes: "1234",
+      identifyCode: "",
+      identifyCodeLength: 4
     };
+  },
+  components: {
+    "s-identify": identify
+  },
+  mounted() {
+    // 图片验证码开始
+    this.identifyCode = "";
+    this.makeCode(this.identifyCodes, this.identifyCodeLength);
   },
   methods: {
     handleSubmit(name) {
+                this.$router.replace({ name: "index" });
+
       this.$refs[name].validate(valid => {
         if (valid) {
           this.$axios
@@ -78,7 +125,7 @@ export default {
               this.$Message.success(res.data.message);
               if (res.data.code == 1006) {
                 // 保存id与token
-                sessionStorage.setItem("data", JSON.stringify(res.data.data));           
+                sessionStorage.setItem("data", JSON.stringify(res.data.data));
                 this.$router.replace({ name: "home" });
               }
             });
@@ -86,6 +133,20 @@ export default {
           this.$Message.error("登录失败!");
         }
       });
+    },
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    refreshCode() {
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, this.identifyCodeLength);
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+        ];
+      }
     }
   }
 };
@@ -104,16 +165,21 @@ export default {
   font-size: $headerfont;
   background-color: $hbc;
 }
-.logo{
+.logo {
   text-align: center;
 
-  img{
+  img {
     width: 80px;
     margin-top: 40px;
   }
 }
 form {
   padding: 10%;
+}
+#codeBox {
+  position: absolute;
+  top: 2px;
+  right: 0;
 }
 .foot {
   color: $lightblue;

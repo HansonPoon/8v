@@ -9,8 +9,8 @@ import iView from 'iview'
 import publicjs from '@/myconfig/public.js'
 import axios from 'axios'
 
-// import 'iview/dist/styles/iview.css'
-// Vue.use(iView);
+import 'iview/dist/styles/iview.css'
+Vue.use(iView);
 
 Vue.use(publicjs);
 

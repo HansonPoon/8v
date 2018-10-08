@@ -21,9 +21,9 @@
       <FormItem prop='rpasswd'>
         <Input v-model="form.rpasswd" type='password' placeholder="确认密码"></Input>
       </FormItem>
-      <!-- <FormItem>
+      <FormItem>
         <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
-      </FormItem> -->
+      </FormItem>
       <FormItem>
         <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
       </FormItem>
@@ -39,7 +39,10 @@ export default {
     const idNum = hash.split("?")[1];
     this.r_id = idNum;
   },
-  mounted() {},
+  mounted() {
+    // 自动填写
+    this.form.inviter = this.form.r_id;
+  },
   data() {
     //   手机号正则
     const myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
@@ -98,7 +101,8 @@ export default {
       },
       timer: null,
       ifSend: false,
-      r_id: null
+      r_id: null,
+      inviter:null
     };
   },
   methods: {
@@ -158,7 +162,7 @@ export default {
       }
     },
     back(){
-      console.log(this.fromName);
+      // console.log(this.fromName);
       if (this.fromName) {
         // 从其他页面跳过来的
         this.$goBack();

@@ -20,6 +20,9 @@ ul,ol{
 .cp{
     cursor: pointer;
 }
+.iBox{
+    display: inline-block;
+}
 /* 弹出框 */
 #alert{
     width: 100%;

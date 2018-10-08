@@ -12,10 +12,10 @@ function resolve(dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  externals: {
-    'vue': 'Vue',
-    'iview': 'iview'
-  },
+  // externals: {
+  //   'vue': 'Vue',
+  //   'iview': 'iview'
+  // },
   entry:
   {
     app: ["babel-polyfill", './src/main.js']
