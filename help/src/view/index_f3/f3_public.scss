@@ -1,0 +1,104 @@
+#header {
+    position: relative;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    font-size: $headerfont;
+    background-color: $hbc;
+    .backBox {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #detail {
+      position: absolute;
+      right: 15px;
+      top: 0;
+      font-size: 14px;
+      color: $font;
+    }
+  }
+
+  .main {
+    background-color: #fff;
+    padding-bottom: 1px;
+
+    .btnBox {
+      text-align: center;
+      margin: 20px 0;
+    }
+    li {
+      text-align: left;
+      height: auto;
+      font-size: 0;
+      overflow: hidden;
+      padding: 10px 15px;
+  
+      & > span {
+        display: inline-block;
+        height: inherit;
+        font-size: 14px;
+      }
+      & > span:first-child {
+        width: 30%;
+        line-height: 42px;
+      }
+      & > span:last-child {
+        width: 70%;
+        position: relative;
+      }
+      #address {
+        word-wrap: break-word;
+        width: 80%;
+        position: relative;
+        top: 15px;
+      }
+      .changeAddressIcon {
+        position: absolute;
+        right: 0;
+        top: 20px;
+      }
+      #priceIptBox {
+        position: relative;
+        top: 10px;
+      }
+    }
+  }
+  .notice{
+    padding: 15px;
+    font-size: 12px;
+    line-height: 25px;
+  }
+/* 2个明细 */
+  #list {
+    font-size: 14px;
+    &>ul {
+      padding: 0 15px;
+      background-color: #fff;
+  
+      li {
+        color: $lightfontcolor;
+        margin-bottom: 8px;
+        .time {
+          border-bottom: 1px solid $line;
+          line-height: 40px;
+        }
+        .detail {
+          line-height: 44px;
+        }
+        .money {
+          color: $userf3;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .status {
+          .success {
+          }
+          .fail {
+            color: $fail;
+          }
+        }
+      }
+    }
+  }

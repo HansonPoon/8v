@@ -23,41 +23,64 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: () => import('@/view/index/index.vue'),
-      children:[
-        // {
-        //   path: '/otc',
-        //   name: 'otc',
-        //   component: () => import('@/view/home/otc/otc.vue')
-        // },
-        // {
-        //   path: '/buy',
-        //   name: 'buy',
-        //   component: () => import('@/view/home/otc/buy.vue')
-        // },
-        // {
-        //   path: '/sell',
-        //   name: 'sell',
-        //   component: () => import('@/view/home/otc/sell.vue')
-        // },
-        // {
-        //   path: '/rank',
-        //   name: 'rank',
-        //   component: () => import('@/view/home/rank/rank.vue')
-        // },
-        // {
-        //   path: '/me',
-        //   name: 'me',
-        //   component: () => import('@/view/home/me/me.vue')
-        // },
-      ]
+      component: () => import('@/view/index/index.vue')
     },
+    /* f3 */
+    {
+      path: '/touzhu',
+      name: 'touzhu',
+      component: () => import('@/view/index_f3/touzhu')
+    },
+    {
+      path: '/touzhuDetail',
+      name: 'touzhuDetail',
+      component: () => import('@/view/index_f3/touzhuDetail')
+    },
+    {
+      path: '/tixian',
+      name: 'tixian',
+      component: () => import('@/view/index_f3/tixian')
+    },
+    {
+      path: '/tixianDetail',
+      name: 'tixianDetail',
+      component: () => import('@/view/index_f3/tixianDetail')
+    },
+    {
+      path: '/zhuanzhang',
+      name: 'zhuanzhang',
+      component: () => import('@/view/index_f3/zhuanzhang')
+    },
+    /* f4 */
+    {
+      path: '/yueDetail',
+      name: 'yueDetail',
+      component: () => import('@/view/index_f4/yueDetail')
+    },
+    {
+      path: '/myinvite',
+      name: 'myinvite',
+      component: () => import('@/view/index_f4/myinvite')
+    },
+    {
+      path: '/myteam',
+      name: 'myteam',
+      component: () => import('@/view/index_f4/myteam')
+    },
+
+
+
+
+
+
+
+
     {
       path: '/home',
       name: 'home',
       component: () => import('@/view/home/home.vue'),
       redirect: 'otc',
-      children:[
+      children: [
         {
           path: '/otc',
           name: 'otc',

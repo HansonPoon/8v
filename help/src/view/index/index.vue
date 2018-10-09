@@ -59,32 +59,32 @@
                 </div>
               </section>
               <section id="f3">
-                <div class="f3Item">
+                <div @click="$goto('touzhu')" class="f3Item">
                   <img src="../../assets/images/mainpage/f3_01.png" alt="">
                   <p>投注</p>
                 </div>
-                <div class="f3Item">
+                <div @click="$goto('tixian')" class="f3Item">
                   <img src="../../assets/images/mainpage/f3_02.png" alt="">
                   <p>提现</p>
                 </div>
-                <div class="f3Item">
+                <div @click="$goto('zhuanzhang')" class="f3Item">
                   <img src="../../assets/images/mainpage/f3_03.png" alt="">
                   <p>转账</p>
                 </div>
               </section>
               <section class="list">
                 <ul>
-                  <li>
+                  <li @click="$goto('yueDetail')">
                     <img src="../../assets/images/mainpage/01.png" alt="">
                     余额明细
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li>
+                  <li @click="$goto('myinvite')">
                     <img src="../../assets/images/mainpage/02.png" alt="">
                     我的邀请
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li>
+                  <li @click="$goto('myteam')">
                     <img src="../../assets/images/mainpage/03.png" alt="">
                     我的团队
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
@@ -530,10 +530,6 @@ export default {
   li:last-child {
     border: none;
   }
-}
-.fenye {
-  margin-top: 20px;
-  text-align: center;
 }
 /* 底部切换 */
 #footer {
