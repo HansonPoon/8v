@@ -67,8 +67,32 @@ export default new Router({
       name: 'myteam',
       component: () => import('@/view/index_f4/myteam')
     },
-
-
+/* 设置 */
+{
+  path: '/setting',
+  name: 'setting',
+  component: () => import('@/view/index_f4/setting/setting.vue')
+},
+{
+  path: '/receiveaddress',
+  name: 'receiveaddress',
+  component: () => import('@/view/index_f4/setting/receiveaddress.vue')
+},
+{
+  path: '/tradepasswd',
+  name: 'tradepasswd',
+  component: () => import('@/view/index_f4/setting/tradepasswd.vue')
+},
+{
+  path: '/loginpasswd',
+  name: 'loginpasswd',
+  component: () => import('@/view/index_f4/setting/loginpasswd.vue')
+},
+{
+  path: '/changereceiveaddress',
+  name: 'changereceiveaddress',
+  component: () => import('@/view/index_f4/setting/changereceiveaddress.vue')
+},
 
 
 
@@ -108,11 +132,7 @@ export default new Router({
         },
       ]
     },
-    {
-      path: '/setting',
-      name: 'setting',
-      component: () => import('@/view/home/me/setting/setting.vue')
-    },
+    
     {
       path: '/myinvite',
       name: 'myinvite',
@@ -133,26 +153,7 @@ export default new Router({
       name: 'myticket',
       component: () => import('@/view/home/me/myticket.vue')
     },
-    {
-      path: '/receiveaddress',
-      name: 'receiveaddress',
-      component: () => import('@/view/home/me/setting/receiveaddress.vue')
-    },
-    {
-      path: '/tradepasswd',
-      name: 'tradepasswd',
-      component: () => import('@/view/home/me/setting/tradepasswd.vue')
-    },
-    {
-      path: '/loginpasswd',
-      name: 'loginpasswd',
-      component: () => import('@/view/home/me/setting/loginpasswd.vue')
-    },
-    {
-      path: '/changereceiveaddress',
-      name: 'changereceiveaddress',
-      component: () => import('@/view/home/me/setting/changereceiveaddress.vue')
-    },
+    
     {
       path: '/starrule',
       name: 'starrule',

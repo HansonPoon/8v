@@ -56,12 +56,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../myconfig/public.scss";
+@import "../../../myconfig/public.scss";
 
 main {
   font-size: 14px;
   background-color: #fff;
   padding: 10%;
+    box-shadow: 0px 2px 1px 1px $shadow;
+
 
   & > p {
     line-height: 35px;

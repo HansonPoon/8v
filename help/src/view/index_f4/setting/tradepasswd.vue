@@ -118,7 +118,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../../myconfig/public.scss";
+@import "../../../myconfig/public.scss";
 
 #register {
   background-color: $bc;
@@ -126,6 +126,8 @@ export default {
 form {
   padding: 10%;
   background-color: #fff;
+    box-shadow: 0px 2px 1px 1px $shadow;
+
 }
 #codeIpt {
   position: relative;

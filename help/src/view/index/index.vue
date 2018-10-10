@@ -89,7 +89,7 @@
                     我的团队
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li>
+                  <li @click="$goto('setting')">
                     <img src="../../assets/images/mainpage/04.png" alt="">
                     我的设置
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
@@ -177,14 +177,14 @@ export default {
         { rank: 1, iphone: 1, money: 2 },
         { rank: 1, iphone: 1, money: 2 },
         { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 12}
+        { rank: 1, iphone: 1, money: 12 }
       ],
       totalCount_invite: 0,
       showList: true, //显示哪一页
       pageSize: 8, //每页条数
       /* 底部tab */
       bottomTab: ["持币生息榜", "邀请奖励榜"],
-      ifTab:0
+      ifTab: 0
     };
   },
   methods: {
@@ -249,7 +249,7 @@ export default {
         });
     },
     /* 底部切换 */
-    tabBottom(idx){
+    tabBottom(idx) {
       this.ifTab = idx;
       this.showList = !this.showList;
     }
@@ -428,6 +428,7 @@ export default {
     color: #fff;
     border-radius: 2px;
     padding: 14px;
+    border-radius: 2px;
 
     img {
       width: 24px;

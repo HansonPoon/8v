@@ -77,25 +77,6 @@ export default {
       top: -2px;
       margin-right: 10px;
     }
-    // // 前三个
-    // &:nth-child(1) .number {
-    //   // background-color: #e70034;
-    //   color: transparent;
-    //   background: url("../../assets/images/num1.png") no-repeat center center;
-    //   background-size: contain;
-    // }
-    // &:nth-child(2) .number {
-    //   // background-color: #f29700;
-    //   color: transparent;
-    //   background: url("../../assets/images/num2.png") no-repeat center center;
-    //   background-size: contain;
-    // }
-    // &:nth-child(3) .number {
-    //   // background-color: #8fc41e;
-    //   color: transparent;
-    //   background: url("../../assets/images/num3.png") no-repeat center center;
-    //   background-size: contain;
-    // }
     .money {
       color: $money;
     }
