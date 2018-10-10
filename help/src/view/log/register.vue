@@ -116,11 +116,11 @@ export default {
               validateCode: this.form.code,
               pwd: this.form.passwd,
               rePwd: this.form.rpasswd,
-              inviterPhone: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
+              inviterId: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
               type: 0
             })
             .then(res => {
-              if (res.data.code == 1004) {
+              if (res.data.code == 0) {
                 this.$Message.success(res.data.message);
                 this.$router.push({ name: "login" });
               } else {

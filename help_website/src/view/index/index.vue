@@ -1,113 +1,119 @@
 <template>
-    <div id="index">
-        <div id="banner">
-            <img src="../../assets/01/banner.png" alt="">
-        </div>
-        <section class="introduce">
-            <div class="container clearfix">
-                <div class="left fl">
-                    <div class="title">游戏介绍</div>
-                    <p class="content">LONGWIN是一个构建在第4代区块链技术和智能合约之上的去中心化社交博彩平台。LONGWIN解决方案利用区块链技术，确保客户获得最安全和最透明的游戏体验；<br> 我们开发平台的目的是打造一个商业级区块链，完全摆脱中心化“庄家”存在的局限性。我们目前正在创建一个极为快速且高性能的平台，后期将迭代开发升级带有各种各样的经典博彩游乐场桌面游戏以及富有乐趣的多人/战略类游戏。LONGWI将始终赋予即时且完全无需交费的投注游戏，我们的游戏将始终保持100%可验证的公平性。
-                    </p>
-                    <div class="f3">
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f301.png" alt=""> 区块链技术
-                        </div>
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f302.png" alt=""> 安全透明
-                        </div>
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f303.png" alt=""> 去中心化
-                        </div>
-                    </div>
-                </div>
-                <div class="right">
-                    <img src="../../assets/01/introduce.png" alt="">
-                </div>
-            </div>
-
-        </section>
-        <section class="tec">
-            <div class="container clearfix">
-                <div class="imgBox fl">
-                    <img class="" src="../../assets/01/tec.png" alt="">
-                </div>
-                <div class="txt">
-                    利用区块链技术，确保客户获得最安全和最透明的游戏体验。没有中间人参与:玩家创建赌局，设置规则，并提供流动资产以完成支付。智能合约保护资金并根据博彩条款和结果自动分配胜局。整个流程完全去中心化、安全且自我调节。除此之外，独特的社交和游戏化元素带来了全新水平的社区参与度
-                </div>
-            </div>
-        </section>
-        <section class="rule">
-            <div class="container">
-                <div class="main">
-                    <img src="../../assets/01/rule.png" alt="">
-                    <div class="title">游戏规则</div>
-                    <section class="ruleDetail">
-                        <div class="ruletitle">投注规则</div>
-                        <p>1、投注额：200USDT—1000USDT（后期根据实际情况开放额度）</p>
-                        <p>2、门票：预先购买。</p>
-                        <p>3、每日投注总额度：500000USDT。能否投注成功将依据账号自身星级、投注时间确定。</p>
-                        <p>4、投注锁定周期：10天为一期。</p>
-                        <p>5、一个账号一个周期：每个账号在完成上一个周期后才能进行下一个周期的投注。</p>
-                        <p>6、每期利息合计：15%（本金在锁定期周期内，每日利息：1.5%。）</p>
-                        <p>7、提取规则：投注10天完成后，产生的利息分红以及本金用户可以随时提取。</p>
-                    </section>
-                    <section class="ruleDetail clearfix">
-                        <div class="ruleLeft fl">
-                            <div class="title">邀请奖励(5%)</div>
-                            <p>邀请等级奖励：</p>
-                            <p>一级：5%</p>
-                            <p>二级：4%</p>
-                            <p>三级：3%</p>
-                            <p>四级：2%</p>
-                        </div>
-                        <div class="ruleRight">
-                            <div class="title">星级评定规则</div>
-                            <p>1、邀请；普通账户：被邀请人总投注额达到1000USDT增加一星。团队账户：被邀请人总投注额达到1000USDT增加一星。</p>
-                            <p>2、自投；普通账户：总投注额达到1000USDT增加一星。团队账户：总投注额达到1000USDT增加一星。</p>
-                            <p>3、上榜；账户上榜排行根据实际排行名次依次增加星级。</p>
-                            <p>4、扣星级；用户恶意操作扣1星。</p>
-                        </div>
-
-                    </section>
-                </div>
-            </div>
-        </section>
-        <section class="methods">
-            <div class="container">
-                <div class="title">游戏攻略</div>
-                <div class="f3">
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div id="index">
+    <div id="banner">
+      <img src="../../assets/01/banner.png" alt="">
     </div>
+    <section class="introduce">
+      <div class="container clearfix">
+        <div class="left fl">
+          <div class="title">游戏介绍</div>
+          <p class="content">LONGWIN是一个构建在第4代区块链技术和智能合约之上的去中心化社交博彩平台。LONGWIN解决方案利用区块链技术，确保客户获得最安全和最透明的游戏体验；<br> 我们开发平台的目的是打造一个商业级区块链，完全摆脱中心化“庄家”存在的局限性。我们目前正在创建一个极为快速且高性能的平台，后期将迭代开发升级带有各种各样的经典博彩游乐场桌面游戏以及富有乐趣的多人/战略类游戏。LONGWI将始终赋予即时且完全无需交费的投注游戏，我们的游戏将始终保持100%可验证的公平性。
+          </p>
+          <div class="f3">
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f301.png" alt=""> 区块链技术
+            </div>
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f302.png" alt=""> 安全透明
+            </div>
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f303.png" alt=""> 去中心化
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <img src="../../assets/01/introduce.png" alt="">
+        </div>
+      </div>
+
+    </section>
+    <section class="tec">
+      <div class="container clearfix">
+        <div class="imgBox fl">
+          <img class="" src="../../assets/01/tec.png" alt="">
+        </div>
+        <div class="txt">
+          利用区块链技术，确保客户获得最安全和最透明的游戏体验。没有中间人参与:玩家创建赌局，设置规则，并提供流动资产以完成支付。智能合约保护资金并根据博彩条款和结果自动分配胜局。整个流程完全去中心化、安全且自我调节。除此之外，独特的社交和游戏化元素带来了全新水平的社区参与度
+        </div>
+      </div>
+    </section>
+    <section class="rule">
+      <div class="container">
+        <div class="main">
+          <img src="../../assets/01/rule.png" alt="">
+          <div class="title">游戏规则</div>
+          <section class="ruleDetail">
+            <div class="ruletitle">投注规则</div>
+            <p>1、投注手续费：无</p>
+            <p>2、提现服务费：提现金额的5% + 10USDT</p>
+            <p>3、每日投注总额度：500000USDT。能否投注成功将依据账号自身星级、投注时间确定。</p>
+            <p>4、内排期：20天</p>
+            <p>6、投注规则：每个账号每天可以投注1次，投注额不低于前期的最高额度。</p>
+            <p>5、一个账号一个周期：每个账号在完成上一个周期后才能进行下一个周期的投注。</p>
+            <p>7、提取规则：投注20天完成后，产生的利息分红以及本金用户可以随时提取。</p>
+            <p>8、每日的利率：1%—2%浮动</p>
+            <!-- <p>7、提取规则：投注10天完成后，产生的利息分红以及本金用户可以随时提取。</p> -->
+          </section>
+          <section class="ruleDetail clearfix">
+            <div class="ruleLeft fl">
+              <div class="title">团队奖励</div>
+              <p>邀请等级奖励：</p>
+              <p>50 人 ：0.1%</p>
+              <p>200人：0.2%</p>
+              <p>500人：0.3%</p>
+              <!-- <div class="title">邀请奖励(5%)</div>
+              <p>邀请等级奖励：</p>
+              <p>一级：5%</p>
+              <p>二级：4%</p>
+              <p>三级：3%</p>
+              <p>四级：2%</p> -->
+            </div>
+            <div class="ruleRight">
+              <div class="title">星级评定规则</div>
+              <p>1、邀请；普通账户：被邀请人总投注额达到1000USDT增加一星。团队账户：被邀请人总投注额达到1000USDT增加一星。</p>
+              <p>2、自投；普通账户：总投注额达到1000USDT增加一星。团队账户：总投注额达到1000USDT增加一星。</p>
+              <p>3、上榜；账户上榜排行根据实际排行名次依次增加星级。</p>
+              <p>4、扣星级；用户恶意操作扣1星。</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="methods">
+      <div class="container">
+        <div class="title">游戏攻略</div>
+        <div class="f3">
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>

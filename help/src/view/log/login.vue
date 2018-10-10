@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-                this.$router.replace({ name: "index" });
+      this.$router.replace({ name: "index" });
 
       this.$refs[name].validate(valid => {
         if (valid) {
@@ -123,7 +123,7 @@ export default {
             })
             .then(res => {
               this.$Message.success(res.data.message);
-              if (res.data.code == 1006) {
+              if (res.data.code == 0) {
                 // 保存id与token
                 sessionStorage.setItem("data", JSON.stringify(res.data.data));
                 this.$router.replace({ name: "home" });

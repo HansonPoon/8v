@@ -21,7 +21,8 @@ Vue.prototype.$axios = axios
 
 // axios.defaults.baseURL = 'http://127.0.0.1:8001'
 // axios.defaults.baseURL = 'http://192.168.0.162:8001'
-axios.defaults.baseURL = 'http://longwin.io:8001'
+// axios.defaults.baseURL = 'http://longwin.io:8001'
+axios.defaults.baseURL = 'http://192.168.0.104:8001'
 
 
 Vue.component('v-header', header)    //顶部
