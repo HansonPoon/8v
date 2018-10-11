@@ -5,10 +5,10 @@
       <div class="top">
         <span>
           <Icon type="md-person" size=30 color="#fff" />
-          <span class="num">52</span> 人
+          <span class="num">{{inviteList.totalCount}}</span> 人
         </span>
         <Icon type="ios-archive" size=35 color="#fff" />
-        <span class="num">52</span> %
+        <span class="num">{{inviteList.reward}}</span> %
       </div>
       <div class="bot">
         <span>伞下团队成员总数</span>
@@ -16,13 +16,13 @@
       </div>
     </section>
     <div>
-      <v-nodata v-if="inviteList.length==0"></v-nodata>
+      <v-nodata v-if="inviteList.list.length==0"></v-nodata>
       <div v-else>
         <ul class="rankList">
-          <li v-for="(item,idx) in inviteList" :key="idx">
+          <li v-for="(item,idx) in inviteList.list" :key="idx">
             <img src="../../assets/images/f4/user.png" alt="">
-            <span>{{item.iphone}}</span>
-            <span class="money fr">{{item.money}} USDT</span>
+            <span>{{item.userId}}</span>
+            <span class="money fr">{{item.balanceAmount}} USDT</span>
           </li>
         </ul>
         <div class="fenye">
@@ -35,23 +35,40 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.changePageIdx(1, this.pageSize);
+  },
   data() {
     return {
-      inviteList: [
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 }
-      ],
+      data: null,
+      inviteList: {
+        reward: 0,
+        totalCount: 0,
+        list: []
+      },
       totalCount: 0,
-      pageSize: 7
+      pageSize: 6
     };
   },
   methods: {
-    changePageIdx() {}
+    changePageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("hzp/homePage/myTeamLsit", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize
+        })
+        .then(res => {
+          this.totalCount = res.data.data.totalCount;
+          this.inviteList.list = res.data.data.list;
+          this.inviteList.reward = res.data.data.reward;
+          this.inviteList.totalCount = res.data.data.totalCount;
+        });
+    }
   }
 };
 </script>

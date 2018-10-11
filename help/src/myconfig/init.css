@@ -36,6 +36,11 @@ ul, ol {
     text-align: center;
 }
 
+.notice{
+    padding: 15px;
+    font-size: 12px;
+    line-height: 25px;
+  }
 /* 弹出框 */
 
 #alert {

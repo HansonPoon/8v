@@ -72,32 +72,41 @@ export default {
           if (this.form.code == "") {
             this.$Message.error("验证码不能为空!");
           } else {
-            // 添加参数
-            this.data.userPassword = this.form.passwd;
-            this.data.confirmPwd = this.form.rpasswd;
-            this.data.validateCode = this.form.code;
             this.$axios
-              .post("/hzp/personal/updateLoginPassword", this.data)
+              .post("hzp/homePage/updatePassword", {
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                type: 1,
+                validateCode: this.form.code,
+                newPwd: this.form.passwd,
+                confirmPwd: this.form.rpasswd
+              })
               .then(res => {
-                this.$Message.success(res.data.message);
-                if (res.data.code == 1005) {
-                  this.$router.replace({name:'login'});
+                if (res.data.code == 0) {
+                  this.$Message.success("操作成功");
+                  this.$router.push({name:"login"});
+                } else {
+                  this.$Message.error(res.data.message);
                 }
               });
           }
         } else {
-          this.$Message.error("注册失败!");
+          this.$Message.error("操作失败!");
         }
       });
     },
     getCode() {
       // ajax..........
       if (this.timer == null) {
-        // 添加参数
-        this.data.type = 2;
-        this.$axios.post("hzp/verifying/ObtainCode", this.data).then(res => {
-          this.$Message.success(res.data.message);
-        });
+        this.$axios
+          .post("hzp/verifying/ObtainCode", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            type: 1
+          })
+          .then(res => {
+            this.$Message.success("验证码已发送");
+          });
         this.ifSend = true;
         let count = 60;
         this.timer = setInterval(() => {

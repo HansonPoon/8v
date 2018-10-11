@@ -12,36 +12,32 @@
         <div class="main">
             <div class="main">
                 <ul>
-                     <li>
+                    <li>
                         <span>当前余额</span>
-                        <span>{{balance}} USDT</span>
+                        <span>{{addr.restMoney}} USDT</span>
                     </li>
                     <li>
                         <span>
                             钱包地址
                         </span>
                         <span class='fr' style='word-break:break-word;'>
-                            {{receiveAddress}}
-                            <!-- <div id="address">{{receiveAddress}}</div> -->
-                            <!-- <div @click="$goto('changereceiveaddress')" class="changeAddressIcon">
-                                <Icon size='30' type="ios-browsers-outline" color='#2D8CF0' />
-                            </div> -->
+                            {{addr.userAddress}}
                         </span>
                     </li>
                     <li>
                         <span>提现数量</span>
                         <span>
-                            <Input v-model.number="buyNum" type='number' placeholder="请输入100的倍数"></Input>
+                            <Input v-model.number="buyNum" type='number' placeholder="请输入提现数量"></Input>
                         </span>
                     </li>
                     <li>
                         <span>手续费</span>
-                        <span>{{useTicket}} USDT</span>
+                        <span>{{fee}} USDT</span>
                     </li>
                     <li>
                         <span>实际到账</span>
                         <span>
-                            {{myTicket}} USDT
+                            {{realFee}} USDT
                         </span>
                     </li>
                 </ul>
@@ -52,10 +48,9 @@
         </div>
         <div class="notice">
             <p>温馨提示：</p>
-            <p>• 提现数量最少为100 USDT；</p>
-            <p>• 提现收取5%作为服务费，收取10 USDT作为矿工费；</p>
+            <p>• 提现数量最少为{{addr.encaLeast}} USDT；</p>
+            <p>• 提现收取{{addr.encashFee}}%作为服务费，收取10 USDT作为矿工费；</p>
             <p>• 提现后48小时内到账；</p>
-            
         </div>
         <!-- 弹出框 -->
         <div id="alert" v-if="showPop">
@@ -75,19 +70,11 @@
 
 <script>
 export default {
-//   created() {
-//     // 读本地储存和首次ajax...
-//     this.data = JSON.parse(sessionStorage.getItem("data"));
-//     // 获取门票数量
-//     this.$axios.post("/hzp/otc/getUserInfo", this.data).then(res => {
-//       this.myTicket = res.data.data.ticketCount;
-//       this.balance = res.data.data.restMoney;
-//       this.receiveAddress = res.data.data.receivableAddress;
-//       this.systemReceipt = res.data.data.systemReceipt;
-//       this.limit_min = res.data.data.transactionDownline;
-//       this.limit_max = res.data.data.tradeLine;
-//     });
-//   },
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.addr = JSON.parse(sessionStorage.getItem("addr"));
+  },
   mounted() {
     this.$Message.config({
       duration: 3
@@ -96,52 +83,72 @@ export default {
   data() {
     return {
       data: null,
-      limit_min: "",
-      limit_max: "",
-      receiveAddress: "",
-      balance: 0,
-      myTicket: 0,
-      buyNum: "",
+      addr: null,
+      buyNum: "", //提现数量
       showPop: false,
       secPasswd: "",
       systemReceipt: "" //系统地址
     };
   },
   computed: {
-    // 门票消耗
-    useTicket() {
-      return this.$useTicket(this.buyNum);
+    fee() {
+      if (this.buyNum) {
+        return this.buyNum * this.addr.encashFee + 10;
+      } else {
+        return 0;
+      }
+    },
+    realFee() {
+      if (this.buyNum) {
+        return this.buyNum - this.fee;
+      } else {
+        return 0;
+      }
     }
   },
   methods: {
     showPopBox() {
-      if (this.buyNum == "" || this.buyNum % 100 !== 0) {
-        this.$Message.error("只能输入100的倍数！");
-      } else if (this.buyNum < this.limit_min || this.buyNum > this.limit_max) {
-        this.$Message.error(`数量最少${this.limit_min}，最多${this.limit_max}`);
+      if (this.buyNum == "") {
+        this.$Message.error("请输入提现数量");
+      } else if (this.buyNum < Number(this.addr.encaLeast)) {
+        this.$Message.error(`提现数量最少${Number(this.addr.encaLeast)}`);
+      } else if (this.buyNum > this.addr.restMoney) {
+        this.$Message.error(`余额不足`);
       } else {
         this.showPop = true;
       }
     },
     confirm() {
-      // 添加参数
-      this.data.transactionAmount = this.buyNum;
-      this.data.transactionPassword = this.secPasswd;
-      this.$axios.post("/hzp/otc/sellOrder", this.data).then(res => {
-        this.showPop = false;
-        const status = res.data.code;
-        if (status == 4011) {
-          this.$Message.success(res.data.message);
-          // 返回上一页
-          setTimeout(() => this.$goBack(), 1000);
-        } else if (status == 4007) {
-          this.$Message.error(res.data.message);
-          // 去设置交易密码
-          setTimeout(() => this.$router.push({ name: "tradepasswd" }), 1000);
-        } else {
-          this.$Message.error(res.data.message);
-        }
-      });
+      if (this.secPasswd) {
+        this.$axios
+          .post("hzp/stake/encash", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            transferAmount: this.buyNum,
+            userPwd: this.secPasswd
+          })
+          .then(res => {
+            this.showPop = false;
+            const status = res.data.code;
+            if (status == 0) {
+              this.$Message.success(res.data.message);
+              this.addr.restMoney = this.addr.restMoney - this.buyNum;
+              // 刷新存储
+              sessionStorage.setItem("addr", JSON.stringify(this.addr));
+              // 返回上一页
+              setTimeout(() => this.$goBack(), 1000);
+            } else if (status == 4002) {
+              this.$Message.error(res.data.message);
+              // 去设置交易密码
+              setTimeout(
+                () => this.$router.push({ name: "tradepasswd" }),
+                1000
+              );
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
+      }
     }
   }
 };

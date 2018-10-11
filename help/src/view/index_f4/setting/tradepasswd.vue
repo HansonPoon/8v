@@ -24,6 +24,7 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
+    // this.addr = JSON.parse(sessionStorage.getItem("data"));
   },
   data() {
     // 确认密码
@@ -72,16 +73,21 @@ export default {
           if (this.form.code == "") {
             this.$Message.error("验证码不能为空!");
           } else {
-            // 添加参数
-            this.data.transactionPassword = this.form.passwd;
-            this.data.confirmPwd = this.form.rpasswd;
-            this.data.validateCode = this.form.code;
             this.$axios
-              .post("hzp/personal/updateTransactionPassword", this.data)
+              .post("hzp/homePage/updatePassword", {
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                type: 0,
+                validateCode: this.form.code,
+                newPwd: this.form.passwd,
+                confirmPwd: this.form.rpasswd
+              })
               .then(res => {
-                this.$Message.success(res.data.message);
-                if (res.data.code == 1005) {
+                if (res.data.code == 0) {
+                  this.$Message.success("操作成功");
                   this.$router.go(-1);
+                } else {
+                  this.$Message.error(res.data.message);
                 }
               });
           }
@@ -93,11 +99,15 @@ export default {
     getCode() {
       // ajax..........
       if (this.timer == null) {
-        // 添加参数
-        this.data.type = 4;
-        this.$axios.post("hzp/verifying/ObtainCode", this.data).then(res => {
-          this.$Message.success(res.data.message);
-        });
+        this.$axios
+          .post("hzp/verifying/ObtainCode", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            type: 4
+          })
+          .then(res => {
+            this.$Message.success("验证码已发送");
+          });
         this.ifSend = true;
         let count = 60;
         this.timer = setInterval(() => {
@@ -126,8 +136,7 @@ export default {
 form {
   padding: 10%;
   background-color: #fff;
-    box-shadow: 0px 2px 1px 1px $shadow;
-
+  box-shadow: 0px 2px 1px 1px $shadow;
 }
 #codeIpt {
   position: relative;

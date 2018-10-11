@@ -54,7 +54,7 @@ export default {
         passwd: "",
         rpasswd: "",
         inviter: "",
-        showPop:true
+        showPop: true
       },
       ruleCustom: {
         phone: [{ validator: phoneIdentify, trigger: "blur" }],
@@ -91,7 +91,14 @@ export default {
               type: 1
             })
             .then(res => {
-              this.$Message.success(res.data.message);
+              if (res.data.code == 0) {
+                this.$Message.success("修改成功");
+                setTimeout(() => {
+                  this.$goBack();
+                }, 1000);
+              } else {
+                this.$Message.success(res.data.message);
+              }
             });
         } else {
           this.$Message.error("操作失败!");

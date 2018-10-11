@@ -11,7 +11,7 @@
         </div>
         <main>
             <p>收款地址：</p>
-            <p class="address">{{address}}</p>
+            <p class="address">{{addr.platformAddress}}</p>
             <div class="btnBox">
                 <Button type="primary" size="large" style="width:100%;" @click="confirm">复制地址</Button>
             </div>
@@ -20,7 +20,7 @@
             <p>温馨提示：</p>
             <p>• 请向充值地址转账，系统会在检测到充值记录后，自动为您处理到账；</p>
             <p>• 转账时，请使用您绑定的钱包地址进行转账，如因地址不正确导致充值无效，系统概不负责；</p>
-            <p>• 每个用户每天限投注一次，投注限额300~3000 USDT；</p>
+            <p>• 每个用户每天限投注一次，投注限额{{addr.bettingRange}} USDT；</p>
         </section>
 
         <!-- 弹出框 -->
@@ -43,13 +43,12 @@
 export default {
   created() {
     this.data = JSON.parse(sessionStorage.getItem("data"));
-    this.$axios.post("hzp/personal/loadPersonal", this.data).then(res => {
-      this.address = res.data.data.receivableAddress;
-    });
+    this.addr = JSON.parse(sessionStorage.getItem("addr"));
   },
   data() {
     return {
       data: null,
+      addr:null,
       address: "",
       showPop: false
     };

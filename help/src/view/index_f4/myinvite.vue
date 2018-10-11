@@ -30,24 +30,33 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.changePageIdx(1, this.pageSize);
+  },
   data() {
     return {
-      inviteList: [
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 2 },
-        { rank: 1, iphone: 1, money: 12 }
-      ],
+      inviteList: [],
       totalCount: 0,
       pageSize: 6
     };
   },
   methods: {
-    changePageIdx() {}
+    changePageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("hzp/homePage/myInvitationLsit", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize
+        })
+        .then(res => {
+          this.inviteList = res.data.data.list;
+          this.totalCount = res.data.data.totalCount;
+        });
+    }
   }
 };
 </script>

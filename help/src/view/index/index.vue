@@ -26,31 +26,39 @@
               <!-- user -->
               <section id="user">
                 <div class="top">
-                  <img id="headPic" src="../../assets/images/mainpage/headpic.png" alt="">
+                  <img id="headPic" class="fl" src="../../assets/images/mainpage/headpic.png" alt="">
                   <div class="user iBox">
                     <div class="userInfo">
-                      <span class="tel">{{18181997033}}</span>
-                      <span class="userType">{{'团队账户'}}</span>
-                      <span class="userStatus">{{'正常'}}</span>
-                      <span class="sign fr">
+                      <span class="tel">{{userId}}</span>
+                      <span @click="sign" class="sign fr">
                         <img src="../../assets/images/mainpage/pen.png" alt="">
+                        <p>签到</p>
                       </span>
                     </div>
                     <div class="inviter">
-                      邀请人ID:{{'01903910'}}
+                      <div>
+                        <span v-if="userType == 0" class="userType">普通账户</span>
+                        <span v-else class="userType">团队账户</span>
+                        <span class="userStatus">{{userStatus}}</span>
+                      </div>
+                      邀请人ID:
+                      <span v-if="!inviteId">无</span>
+                      <span v-else>
+                        {{inviteId}}
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div class="bot clearfix">
                   <div class="left fl">
-                    <div class="money">{{5555555}} USDT</div>
+                    <div class="money">{{stakeAccumulate}} USDT</div>
                     <div class="txt">
                       <img src="../../assets/images/mainpage/$.png" alt="">
                       投注金额
                     </div>
                   </div>
                   <div class="right fr">
-                    <div class="money">{{5555555}} USDT</div>
+                    <div class="money">{{restMoney}} USDT</div>
                     <div class="txt">
                       <img src="../../assets/images/mainpage/last.png" alt="">
                       余额
@@ -97,7 +105,19 @@
                 </ul>
               </section>
               <div class="btnBox" align="center">
-                <Button type="primary" size="large" style="width:80%;" @click="showPop=true">退出登录</Button>
+                <Button type="primary" size="large" style="width:80%;" @click="getTouZhuInfo">退出投注</Button>
+              </div>
+              <!-- 弹出框 -->
+              <div id="alert" v-if="showPop">
+                <div id="pop">
+                  <div class="top">
+                    <p style="margin-bottom:35px;">您当前投注金额 {{touzhuInfo.balance}}；当前已分红 {{touzhuInfo.rewardMoney}}，退回投注 {{touzhuInfo.stakeMoney}}。确认退出？</p>
+                    <div class="btns">
+                      <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+                      <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -110,9 +130,9 @@
                 <div v-else>
                   <ul class="rankList">
                     <li v-for="(item,idx) in interestList" :key="idx">
-                      <div class="number">{{item.rank}}</div>
-                      <span>{{item.iphone}}</span>
-                      <span class="money fr">{{item.money}} USDT</span>
+                      <div class="number">{{item.ranking}}</div>
+                      <span>{{item.userId}}</span>
+                      <span class="money fr">{{item.totalAmount}} USDT</span>
                     </li>
                   </ul>
                   <div class="fenye">
@@ -126,9 +146,9 @@
                 <div v-else>
                   <ul class="rankList">
                     <li v-for="(item,idx) in inviteList" :key="idx">
-                      <div class="number">{{item.rank}}</div>
-                      <span>{{item.iphone}}</span>
-                      <span class="money fr">{{item.money}} USDT</span>
+                      <div class="number">{{item.ranking}}</div>
+                      <span>{{item.userId}}</span>
+                      <span class="money fr">{{item.totalAmount}} USDT</span>
                     </li>
                   </ul>
                   <div class="fenye">
@@ -146,27 +166,34 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.getHome();
+    this.changeInterestPageIdx(1, this.pageSize);
+    this.changeInvitePageIdx(1, this.pageSize);
+  },
   data() {
     return {
+      data: null,
+      addr:null,
+      /* 用户信息 */
+      advertisement: [],
+      userId: "",
+      userType: "",
+      userStatus: "",
+      inviteId: "",
+      stakeAccumulate: "",
+      restMoney: "",
       /* 滑动切换 */
       tabItem: ["主页", "排行榜"],
       isActive: 0, //当前显示的页面下标
       /* 滑动切换结束 */
       bannerStartIdx: 0,
       /* 持币生息榜 */
-      interestList: [
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 },
-        { rank: 1, iphone: 1, money: 1 }
-      ],
+      interestList: [],
       totalCount_interest: 0,
       /* 邀请奖励榜 */
       inviteList: [
@@ -184,7 +211,11 @@ export default {
       pageSize: 8, //每页条数
       /* 底部tab */
       bottomTab: ["持币生息榜", "邀请奖励榜"],
-      ifTab: 0
+      ifTab: 0,
+      /* 退出弹框 */
+      showPop: false,
+      /* 投注信息 */
+      touzhuInfo: null
     };
   },
   methods: {
@@ -218,10 +249,60 @@ export default {
       }
     },
     /* 滑动切换结束 */
+    /* 底部切换 */
+    tabBottom(idx) {
+      this.ifTab = idx;
+      this.showList = !this.showList;
+    },
+    /* 签到 */
+    sign() {
+      // 如果已经签过到了
+      if (this.addr.userSign == '未签到') {
+        this.$axios
+          .post("hzp/homePage/signIn", {
+            userId: this.data.userId,
+            userToken: this.data.userToken
+          })
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$Message.success("签到成功");
+              // 刷新页面
+              this.getHome();
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
+      } else {
+        this.$Message.error('今日已签过到了~')
+      }
+    },
+    /* ***************ajax ********************/
+    getHome() {
+      this.$axios
+        .post("hzp/homePage/home", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          const userInfo = res.data.data;
+          this.advertisement = userInfo.advertisement;
+          this.userId = userInfo.userId;
+          this.userType = userInfo.userType;
+          this.userStatus = userInfo.userStatus;
+          this.inviteId = userInfo.inviteId;
+          this.stakeAccumulate = userInfo.stakeAccumulate;
+          this.restMoney = userInfo.restMoney;
+
+          this.addr = userInfo;
+
+          // 存平台地址和用户钱包地址
+          sessionStorage.setItem("addr", JSON.stringify(userInfo));
+        });
+    },
     changeInterestPageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
       this.$axios
-        .post("/hzp/rankingList/reankingInterestRoInvitation", {
+        .post("hzp/homePage/rankingInterestRoInvitation", {
           userId: this.data.userId,
           userToken: this.data.userToken,
           fromNum: pageIdx,
@@ -236,7 +317,7 @@ export default {
     changeInvitePageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
       this.$axios
-        .post("/hzp/rankingList/reankingInterestRoInvitation", {
+        .post("hzp/homePage/rankingInterestRoInvitation", {
           userId: this.data.userId,
           userToken: this.data.userToken,
           fromNum: pageIdx,
@@ -248,10 +329,38 @@ export default {
           this.totalCount_invite = res.data.data.totalCount;
         });
     },
-    /* 底部切换 */
-    tabBottom(idx) {
-      this.ifTab = idx;
-      this.showList = !this.showList;
+    getTouZhuInfo() {
+      this.$axios
+        .post("hzp/stake/getExitInfo", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.showPop = true;
+            this.touzhuInfo = res.data.data;
+          }
+        });
+    },
+    exit() {
+      this.$axios
+        .post("hzp/stake/userExit", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.code == 0) {
+            this.$Message.success("退出投注成功");
+            setTimeout(() => {
+              //清除所有本地存储
+              sessionStorage.clear();
+              this.$router.replace({ name: "login" });
+            }, 1000);
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
     }
   }
 };
@@ -341,25 +450,19 @@ export default {
     #headPic {
       width: 40px;
       height: 40px;
+      margin-top: 5px;
     }
 
     .user {
       margin-bottom: 10px;
-    }
-    .userInfo {
-      margin-left: 20px;
-      .tel {
-        font-size: 16px;
-        color: $userf3;
-        font-weight: bold;
-      }
+      width: calc(100% - 45px);
       .userType {
         border-radius: 2px;
         border: 1px solid $usertype;
         color: $usertype;
         font-size: 12px;
         padding: 2px 4px;
-        margin: 0 6px;
+        margin-right: 6px;
         position: relative;
         top: -2px;
       }
@@ -373,8 +476,24 @@ export default {
         position: relative;
         top: -2px;
       }
+    }
+    .userInfo {
+      margin-left: 20px;
+      .tel {
+        font-size: 16px;
+        color: $userf3;
+        font-weight: bold;
+      }
+
       .sign {
         margin-top: 2px;
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+
+        & > p {
+          font-size: 12px;
+        }
         img {
           width: 17px;
           height: 17px;

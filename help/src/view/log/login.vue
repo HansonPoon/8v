@@ -112,8 +112,7 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      this.$router.replace({ name: "index" });
-
+      // this.$router.replace({ name: "index" });
       this.$refs[name].validate(valid => {
         if (valid) {
           this.$axios
@@ -122,11 +121,13 @@ export default {
               pwd: this.form.passwd
             })
             .then(res => {
-              this.$Message.success(res.data.message);
               if (res.data.code == 0) {
+                this.$Message.success("登录成功");
                 // 保存id与token
                 sessionStorage.setItem("data", JSON.stringify(res.data.data));
-                this.$router.replace({ name: "home" });
+                this.$router.replace({ name: "index" });
+              } else {
+                this.$Message.error(res.data.message);
               }
             });
         } else {

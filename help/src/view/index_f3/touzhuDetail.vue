@@ -2,15 +2,16 @@
   <div>
     <v-header headname="投注明细"></v-header>
     <section id="list">
-      <ul>
-        <li>
-          <div class="time">2018-09-19 14;12;22</div>
+      <v-nodata v-if="list.length == 0" />
+      <ul v-else>
+        <li v-for="(item,idx) in list" :key="idx">
+          <div class="time">{{item.createTime}}</div>
           <div class="detail">
             <span class="money">
-              -1000 USDT
+              {{item.amount}} USDT
             </span>
             <span class="status fr">
-              <span v-if="true" class="success">已成功</span>
+              <span v-if="true" class="success">{{item.describe}}</span>
               <span v-else class="fail">提现失败：钱包地址错误</span>
             </span>
           </div>
@@ -22,6 +23,45 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.changeInterestPageIdx(1, this.pageSize);
+  },
+  mounted() {
+    this.$Message.config({
+      duration: 3
+    });
+  },
+  data() {
+    return {
+      data: null,
+      pageSize: 6,
+      totalCount: 0,
+      list: []
+    };
+  },
+  methods: {
+    changeInterestPageIdx(pageIdx) {
+      this.$axios
+        .post("hzp/homePage/showOrTurnList", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          pageSize: this.pageSize,
+          fromNum: pageIdx,
+          type: 0
+        })
+        .then(res => {
+          this.list = res.data.data.list;
+          this.totalCount = res.data.data.totalCount;
+        });
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
 @import "../../myconfig/public.scss";

@@ -1,6 +1,6 @@
 <template>
   <div id="changereceiveaddress">
-    <v-header headname='修改收款地址'></v-header>
+    <v-header headname='修改钱包地址'></v-header>
     <main>
       <Input v-model="usdtAddress" placeholder="USDT钱包收款地址" style="width: 100%" />
       <div id="codeIpt">
@@ -31,14 +31,6 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
-    this.$axios
-      .post("hzp/personal/loadPersonal", {
-        userId: this.data.userId,
-        userToken: this.data.userToken
-      })
-      .then(res => {
-        this.address = res.data.data.receivableAddress;
-      });
   },
   mounted() {
     this.$Message.config({
@@ -66,11 +58,15 @@ export default {
         } else if (!reg.test(this.usdtAddress)) {
           this.$Message.error("请检查收款地址!");
         } else {
-          // 添加参数
-          this.data.type = 3;
-          this.$axios.post("hzp/verifying/ObtainCode", this.data).then(res => {
-            this.$Message.success(res.data.message);
-          });
+          this.$axios
+            .post("hzp/verifying/ObtainCode", {
+              userId: this.data.userId,
+              userToken: this.data.userToken,
+              type: 3
+            })
+            .then(res => {
+              this.$Message.success("验证码已发送");
+            });
           this.ifSend = true;
           let count = 60;
           this.timer = setInterval(() => {
@@ -97,23 +93,52 @@ export default {
         // 添加参数
         this.data.address = this.usdtAddress;
         this.data.validateCode = this.code;
-        this.$axios.post("hzp/personal/updateAddress", this.data).then(res => {
-          if (res.data.code == 1005) {
-            this.$Message.success(res.data.message);
-            this.$router.go(-1);
-          } else {
-            this.$Message.error(res.data.message);
-          }
-        });
+        this.$axios
+          .post("hzp/homePage/updateAddress", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            address: this.usdtAddress,
+            validateCode: this.code
+          })
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$Message.success(res.data.message);
+              this.$router.go(-1);
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
       } else {
         this.$Message.info("收款地址已存在，若需修改请联系客服！");
       }
     },
     confirm() {
-      if (!!this.address) {
-        this.$Message.info("收款地址已存在，若需修改请联系客服！");
+      // if (!!this.address) {
+      //   this.$Message.info("收款地址已存在，若需修改请联系客服！");
+      // } else {
+      //   this.showPop = true;
+      // }
+      const reg = /^[0-9a-zA-Z]{42}$/;
+      if (this.code == "") {
+        this.$Message.error("请先输入验证码!");
+      } else if (!reg.test(this.usdtAddress)) {
+        this.$Message.error("请检查收款地址!");
       } else {
-        this.showPop = true;
+        this.$axios
+          .post("hzp/homePage/updateAddress", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            address: this.usdtAddress,
+            validateCode: this.code
+          })
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$Message.success(res.data.message);
+              this.$router.go(-1);
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
       }
     }
   }
@@ -126,8 +151,7 @@ export default {
 main {
   padding: 10%;
   background-color: #fff;
-    box-shadow: 0px 2px 1px 1px $shadow;
-
+  box-shadow: 0px 2px 1px 1px $shadow;
 
   & > div {
     margin-bottom: 20px;
