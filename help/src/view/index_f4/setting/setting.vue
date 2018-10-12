@@ -44,6 +44,10 @@
 
 <script>
 export default {
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+  },
   data() {
     return {
       showPop: false

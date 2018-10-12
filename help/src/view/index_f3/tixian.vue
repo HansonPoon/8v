@@ -93,7 +93,7 @@ export default {
   computed: {
     fee() {
       if (this.buyNum) {
-        return this.buyNum * this.addr.encashFee + 10;
+        return (this.buyNum * this.addr.encashFee).toFixed(2) + 10;
       } else {
         return 0;
       }

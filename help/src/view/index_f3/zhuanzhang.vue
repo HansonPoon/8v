@@ -86,7 +86,7 @@ export default {
       if (this.buyNum) {
         return this.buyNum * this.addr.encashFee < 0.01
           ? 0.01
-          : this.buyNum * this.addr.encashFee;
+          : (this.buyNum * this.addr.encashFee).toFixed(2);
       } else {
         return 0;
       }

@@ -1,113 +1,131 @@
 <template>
-    <div id="index">
-        <div id="banner">
-            <img src="../../assets/01/banner.png" alt="">
-        </div>
-        <section class="introduce">
-            <div class="container clearfix">
-                <div class="left fl">
-                    <div class="title">Game introduction</div>
-                    <p class="content">LONGWIN is a decentralized social gaming platform built on the fourth generation block chain technology and smart contracts. The LONGWIN solution uses block chaining technology to ensure that customers get the safest and most transparent gaming experience.<br> The purpose of our development platform is to create a commercial block chain, completely free from the limitations of centralized "bankers". We are currently creating an extremely fast and high-performance platform that will be developed and upgraded iteratively with a variety of classic gambling playground desktop games and fun multiplayer / strategy games. LONGWI will always give real-time and completely unpaid betting games, and our games will always maintain 100% verifiable fairness.
-                    </p>
-                    <div class="f3">
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f301.png" alt=""> Block chain technology
-                        </div>
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f302.png" alt=""> Safe and transparent
-                        </div>
-                        <div class="f3item clearfix">
-                            <img class="fl" src="../../assets/01/f303.png" alt=""> Centralization
-                        </div>
-                    </div>
-                </div>
-                <div class="right">
-                    <img src="../../assets/01/introduce.png" alt="">
-                </div>
-            </div>
-
-        </section>
-        <section class="tec">
-            <div class="container clearfix">
-                <div class="imgBox fl">
-                    <img class="" src="../../assets/01/tec.png" alt="">
-                </div>
-                <div class="txt">
-                    Use block chaining technology to ensure that customers get the safest and most transparent gaming experience. There is no middleman involved: players create gamble, set rules, and provide current assets to complete payment. Intelligent contract protection funds are automatically allocated according to betting terms and results. The whole process is completely decentralized, safe and self regulating. In addition, the unique social and game elements bring a new level of community participation.
-                </div>
-            </div>
-        </section>
-        <section class="rule">
-            <div class="container">
-                <div class="main">
-                    <img src="../../assets/01/rule.png" alt="">
-                    <div class="title">Game rules</div>
-                    <section class="ruleDetail">
-                        <div class="ruletitle">Rules of betting</div>
-                        <p>1、Amount of Betting: 200USDT - 1000USDT (late opening according to actual situation)</p>
-                        <p>2、Admission: pre purchase.</p>
-                        <p>3、Total daily bet: 500000USDT. The success of betting will be determined according to the star rating and betting time of the account itself.</p>
-                        <p>4、Betting lock cycle: 10 days for a period.</p>
-                        <p>5、One account for one cycle: Each account can only bet on the next cycle after completing the previous cycle.</p>
-                        <p>6、The total interest for each period is 15%: the principal interest is 1.5% per day during the period of lock up.）</p>
-                        <p>7、Rule of extraction: dividends paid on the 10 day after betting, and the principal user can withdraw at any time.</p>
-                    </section>
-                    <section class="ruleDetail clearfix">
-                        <div class="ruleLeft fl">
-                            <div class="title">Invitation Award (5%)</div>
-                            <p>Invitation level award:</p>
-                            <p>Level 1: 5%</p>
-                            <p>Level 2：4%</p>
-                            <p>Level 3：3%</p>
-                            <p>Level 4：2%</p>
-                        </div>
-                        <div class="ruleRight">
-                            <div class="title">Star rating rules</div>
-                            <p>1、Invitation; ordinary accounts: the total number of invitations has been increased to 1000USDT by one star. Team account: the total number of invitations has been increased to 1000USDT by one star.</p>
-                            <p>2、Self investment; ordinary account: total betting amount to 1000USDT increased by one star. Team account: total betting amount to 1000USDT increased by one star.</p>
-                            <p>3、The list is ranked by the actual ranking.</p>
-                            <p>4、Button star; user malicious operation button 1 stars.</p>
-                        </div>
-
-                    </section>
-                </div>
-            </div>
-        </section>
-        <section class="methods">
-            <div class="container">
-                <div class="title">Walkthrough</div>
-                <div class="f3">
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                    <div class="f3item">
-                        <div class="imgBox"></div>
-                        <div class="bot">
-                            <p class="f3title">
-                                Social Connect
-                            </p>
-                            <p class="txt">Mobile & web payments Accept credit card payments.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div id="index">
+    <div id="banner">
+      <img src="../../assets/01/banner.png" alt="">
     </div>
+    <section class="introduce">
+      <div class="container clearfix">
+        <div class="left fl">
+          <div class="title">Game introduction</div>
+          <p class="content">LONGWIN is a decentralized social gaming platform built on the fourth generation block chain technology and smart contracts. The LONGWIN solution uses block chaining technology to ensure that customers get the safest and most transparent gaming experience.<br> The purpose of our development platform is to create a commercial block chain, completely free from the limitations of centralized "bankers". We are currently creating an extremely fast and high-performance platform that will be developed and upgraded iteratively with a variety of classic gambling playground desktop games and fun multiplayer / strategy games. LONGWI will always give real-time and completely unpaid betting games, and our games will always maintain 100% verifiable fairness.
+          </p>
+          <div class="f3">
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f301.png" alt=""> Block chain technology
+            </div>
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f302.png" alt=""> Safe and transparent
+            </div>
+            <div class="f3item clearfix">
+              <img class="fl" src="../../assets/01/f303.png" alt=""> Centralization
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <img src="../../assets/01/introduce.png" alt="">
+        </div>
+      </div>
+
+    </section>
+    <section class="tec">
+      <div class="container clearfix">
+        <div class="imgBox fl">
+          <img class="" src="../../assets/01/tec.png" alt="">
+        </div>
+        <div class="txt">
+          Use block chaining technology to ensure that customers get the safest and most transparent gaming experience. There is no middleman involved: players create gamble, set rules, and provide current assets to complete payment. Intelligent contract protection funds are automatically allocated according to betting terms and results. The whole process is completely decentralized, safe and self regulating. In addition, the unique social and game elements bring a new level of community participation.
+        </div>
+      </div>
+    </section>
+    <section class="rule">
+      <div class="container">
+        <div class="main">
+          <img src="../../assets/01/rule.png" alt="">
+          <div class="title">Game rules</div>
+          <section class="ruleDetail">
+            <div class="ruletitle">Rules of betting</div>
+            <p>1. the guarantee mechanism of Betting: with investment. Guarantee the safety of each user's principal.</p>
+            <p>2. betting rule: every account can be betting 1 times a day, and the amount of betting is 300 to 3000 USDT per day.</p>
+            <p>3. stable sources, high returns. The daily interest rate fluctuated from 1% to 2% according to the actual revenue from platform line.</p>
+            <p>4. No previous cost. After the user obtains the income, the platform receives 5% of the user's benefit as the platform service charge.</p>
+            <p>5. generous invitation Commission Award. After the successful registration of the betting, the inviter will get the corresponding reward. 
+              <br>
+
+              <!-- First prize: 8%;
+
+              Two level reward: 5%;
+
+              Three level reward: 3%;
+
+              Four to ten Awards: 1%;
+
+              Eleven to fifteen Awards: 0.8%;
+
+              After grade Sixteen: 0.6% -->
+              </p>
+          </section>
+          <section class="ruleDetail clearfix">
+            <!-- <div class="ruleLeft fl">
+              <div class="title">团队奖励</div>
+              <p>邀请等级奖励：</p>
+              <p>50 人 ：0.1%</p>
+              <p>200人：0.2%</p>
+              <p>500人：0.3%</p>
+            </div> -->
+            <div class="ruleRight">
+              <div class="title">Invitation level award rules</div>
+              <p>1. First prize: 8%</p>
+              <p>2. Two level reward: 5%</p>
+              <p>3. Three level reward: 3%</p>
+              <p>4. Four to ten Awards: 1%</p>
+              <p>5. Eleven to fifteen Awards: 0.8%</p>
+              <p>6. After grade Sixteen: 0.6%</p>
+              <!-- <div class="title">Star rating rules</div>
+              <p>1. invitation: the total number of invitations has been increased to 1000USDT by one star.</p>
+              <p>2. self Investment: total betting amount to 1000USDT increased by one star.</p>
+              <p>3. list: the ranking of accounts is increased according to the actual ranking.</p>
+              <p>4. buckle Star: user malicious operation button 1 stars.</p> -->
+              <!-- <p>5. star rule changes will be adjusted according to the actual situation.</p> -->
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="methods">
+      <div class="container">
+        <div class="title">Walkthrough</div>
+        <div class="f3">
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+          <div class="f3item">
+            <div class="imgBox"></div>
+            <div class="bot">
+              <p class="f3title">
+                Social Connect
+              </p>
+              <p class="txt">Mobile & web payments Accept credit card payments.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>

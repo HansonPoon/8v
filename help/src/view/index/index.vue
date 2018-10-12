@@ -16,10 +16,12 @@
           <div class="contentPage page1 fl">
             <div class="container">
               <!-- banner -->
-              <Carousel v-model="bannerStartIdx" loop arrow="never">
-                <CarouselItem>
+              <Carousel v-model="bannerStartIdx" loop autoplay arrow="never">
+                <CarouselItem v-for="(item,idx) in advertisement" :key="idx">
                   <div class="demo-carousel">
-                    <img src="../../assets/images/mainpage/banner.png" alt="">
+                    <a href="http://www.longwin.io/#/index" target="_blank">
+                      <img :src="item.pictureAddress" alt="">
+                    </a>
                   </div>
                 </CarouselItem>
               </Carousel>
@@ -92,7 +94,7 @@
                     我的邀请
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li @click="$goto('myteam')">
+                  <li v-if="userType != 0" @click="$goto('myteam')">
                     <img src="../../assets/images/mainpage/03.png" alt="">
                     我的团队
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
@@ -178,7 +180,7 @@ export default {
   data() {
     return {
       data: null,
-      addr:null,
+      addr: null,
       /* 用户信息 */
       advertisement: [],
       userId: "",
@@ -257,24 +259,26 @@ export default {
     /* 签到 */
     sign() {
       // 如果已经签过到了
-      if (this.addr.userSign == '未签到') {
-        this.$axios
-          .post("hzp/homePage/signIn", {
-            userId: this.data.userId,
-            userToken: this.data.userToken
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.$Message.success("签到成功");
-              // 刷新页面
-              this.getHome();
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
-      } else {
-        this.$Message.error('今日已签过到了~')
-      }
+
+      // if (this.addr.userSign == '未签到') {
+      this.$axios
+        .post("hzp/homePage/signIn", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("签到成功");
+            // 刷新页面
+            this.getHome();
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
+      // }
+      // else {
+      //   this.$Message.error('今日已签过到了~')
+      // }
     },
     /* ***************ajax ********************/
     getHome() {
@@ -365,7 +369,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 @import "../../myconfig/init.css";

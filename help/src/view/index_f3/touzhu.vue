@@ -1,30 +1,30 @@
 <template>
-    <div id="touzhu">
-        <div id="header">
-            <div class="backBox">
-                <Icon class="cp" @click="$goBack()" type="ios-arrow-back" size='28' />
-            </div>
-            投注
-            <div @click="$goto('touzhuDetail')" id="detail">
-                投注明细
-            </div>
-        </div>
-        <main>
-            <p>收款地址：</p>
-            <p class="address">{{addr.platformAddress}}</p>
-            <div class="btnBox">
-                <Button type="primary" size="large" style="width:100%;" @click="confirm">复制地址</Button>
-            </div>
-        </main>
-        <section id="txt">
-            <p>温馨提示：</p>
-            <p>• 请向充值地址转账，系统会在检测到充值记录后，自动为您处理到账；</p>
-            <p>• 转账时，请使用您绑定的钱包地址进行转账，如因地址不正确导致充值无效，系统概不负责；</p>
-            <p>• 每个用户每天限投注一次，投注限额{{addr.bettingRange}} USDT；</p>
-        </section>
+  <div id="touzhu">
+    <div id="header">
+      <div class="backBox">
+        <Icon class="cp" @click="$goBack()" type="ios-arrow-back" size='28' />
+      </div>
+      投注
+      <div @click="$goto('touzhuDetail')" id="detail">
+        投注明细
+      </div>
+    </div>
+    <main>
+      <p>收款地址：</p>
+      <p class="address">{{addr.platformAddress}}</p>
+      <div class="btnBox">
+        <Button class="copybtn" type="primary" size="large" style="width:100%;" :data-clipboard-text='addr.platformAddress' @click="copy">复制地址</Button>
+      </div>
+    </main>
+    <section id="txt">
+      <p>温馨提示：</p>
+      <p>• 请向充值地址转账，系统会在检测到充值记录后，自动为您处理到账；</p>
+      <p>• 转账时，请使用您绑定的钱包地址进行转账，如因地址不正确导致充值无效，系统概不负责；</p>
+      <p>• 每个用户每天限投注一次，投注限额{{addr.bettingRange}} USDT；</p>
+    </section>
 
-        <!-- 弹出框 -->
-        <!-- <div id="alert" v-if="showPop">
+    <!-- 弹出框 -->
+    <!-- <div id="alert" v-if="showPop">
             <div id="pop">
                 <div class="top">
                     <p align='center'>温馨提示：</p>
@@ -36,10 +36,12 @@
                 </div>
             </div>
         </div> -->
-    </div>
+  </div>
 </template>
 
 <script>
+import Clipboard from "clipboard";
+
 export default {
   created() {
     this.data = JSON.parse(sessionStorage.getItem("data"));
@@ -48,12 +50,22 @@ export default {
   data() {
     return {
       data: null,
-      addr:null,
+      addr: null,
       address: "",
       showPop: false
     };
   },
   methods: {
+    copy() {
+      let clipboard = new Clipboard(".copybtn");
+      clipboard.on("success", e => {
+        this.$Message.success("复制成功！");
+        clipboard.destroy();
+      });
+      clipboard.on("error", e => {
+        clipboard.destroy();
+      });
+    },
     confirm() {
       if (!!this.address) {
         this.$Message.info("收款地址已存在，若需修改请联系客服！");

@@ -22,7 +22,7 @@
         <Input v-model="form.rpasswd" type='password' placeholder="确认密码"></Input>
       </FormItem>
       <FormItem>
-        <Input v-model="form.inviter" placeholder="邀请人（选填）"></Input>
+        <Input :disabled="!!this.r_id" v-model="form.inviter" placeholder="邀请人（选填）"></Input>
       </FormItem>
       <FormItem>
         <Button style="width:100%" type="primary" @click="handleSubmit('form')">确认</Button>
@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     // 自动填写
-    this.form.inviter = this.form.r_id;
+    this.form.inviter = this.r_id;
   },
   data() {
     //   手机号正则
@@ -67,7 +67,7 @@ export default {
     };
     return {
       msg: "获取",
-      fromName:'',  //从哪个路由过来
+      fromName: "", //从哪个路由过来
       form: {
         phone: "",
         code: "",
@@ -101,8 +101,7 @@ export default {
       },
       timer: null,
       ifSend: false,
-      r_id: null,
-      inviter:null
+      r_id: null
     };
   },
   methods: {
@@ -116,12 +115,12 @@ export default {
               validateCode: this.form.code,
               pwd: this.form.passwd,
               rePwd: this.form.rpasswd,
-              inviterId: !!this.r_id ? this.r_id : null, //值为undefined ajax不展示字段
+              inviterId: !!this.r_id ? this.r_id : this.form.inviter, //值为undefined ajax不展示字段
               type: 0
             })
             .then(res => {
               if (res.data.code == 0) {
-                this.$Message.success('注册成功');
+                this.$Message.success("注册成功");
                 this.$router.push({ name: "login" });
               } else {
                 this.$Message.error(res.data.message);
@@ -161,19 +160,19 @@ export default {
         }
       }
     },
-    back(){
+    back() {
       // console.log(this.fromName);
       if (this.fromName) {
         // 从其他页面跳过来的
         this.$goBack();
-      }else{
+      } else {
         // 分享链接直接打开的
-        this.$router.push('/');
+        this.$router.push("/");
       }
     }
   },
   beforeRouteEnter(to, from, next) {
-    next(vm=>{
+    next(vm => {
       // 把守卫中的数据赋值给vm
       vm.fromName = from.name;
     });

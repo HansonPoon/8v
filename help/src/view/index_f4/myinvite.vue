@@ -16,8 +16,8 @@
                 <ul class="rankList">
                     <li v-for="(item,idx) in inviteList" :key="idx">
                         <img src="../../assets/images/f4/user.png" alt="">
-                        <span>{{item.iphone}}</span>
-                        <span class="money fr">{{item.money}} USDT</span>
+                        <span>{{item.inviteUserId}}</span>
+                        <span class="money fr">{{item.stakeAccumulate}} USDT</span>
                     </li>
                 </ul>
                 <div class="fenye">

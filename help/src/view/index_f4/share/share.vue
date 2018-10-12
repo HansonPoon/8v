@@ -3,7 +3,7 @@
     <v-header headname='分享'></v-header>
     <main>
       <div class="btnBox">
-        <div class="link" >{{ userLink }}</div>
+        <div class="link">{{ userLink }}</div>
         <div class="btn copybtn" :data-clipboard-text='userLink' @click="confirm">复制网址</div>
       </div>
     </main>
@@ -16,13 +16,13 @@ import Clipboard from "clipboard";
 export default {
   created() {
     this.data = JSON.parse(sessionStorage.getItem("data"));
-    const userId = JSON.parse(sessionStorage.getItem("userInfo")).userId;
+    const userId = JSON.parse(sessionStorage.getItem("addr")).userId;
     this.userLink = "http://longwin.io/#/register" + "?" + userId;
   },
   data() {
     return {
       data: null,
-      userLink: "123"
+      userLink: ""
     };
   },
   methods: {
@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 main {
   height: calc(100% - 44px);
-  background: url("../../../../assets/images/share.png") no-repeat center center;
+  background: url("../../../assets/images/share.png") no-repeat center center;
   background-size: cover;
   position: relative;
   .btnBox {

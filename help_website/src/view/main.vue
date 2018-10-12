@@ -12,7 +12,7 @@
                 <a href="#">中文</a>
               </li>
               <li>
-                <a href="http://en.longwin.io">ENGLISH</a>
+                <a href="http://www.longwin.io">English</a>
               </li>
             </ul>
           </div>
@@ -27,10 +27,10 @@
             <router-link :to="{name:'index'}" tag="span">首页</router-link>
           </span>
           <span>
-            <router-link :to="{name:'introduce'}" tag="span">项目介绍</router-link>
+            <router-link :to="{name:'introduce'}" tag="span">LongWin</router-link>
           </span>
           <span>
-            <router-link :to="{name:'background'}" tag="span">项目立项</router-link>
+            <router-link :to="{name:'background'}" tag="span">Bwin</router-link>
           </span>
         </nav>
       </div>

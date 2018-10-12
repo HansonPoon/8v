@@ -31,6 +31,7 @@ export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.addr = JSON.parse(sessionStorage.getItem("addr"));
   },
   mounted() {
     this.$Message.config({
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       data: null,
+      addr: null,
       address: "",
       usdtAddress: "",
       code: "",
@@ -133,7 +135,10 @@ export default {
           })
           .then(res => {
             if (res.data.code == 0) {
-              this.$Message.success(res.data.message);
+              this.addr.userAddress = this.usdtAddress;
+              // 更新存储
+              sessionStorage.setItem("addr", JSON.stringify(this.addr));
+              this.$Message.success("修改成功");
               this.$router.go(-1);
             } else {
               this.$Message.error(res.data.message);

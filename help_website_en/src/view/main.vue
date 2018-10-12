@@ -9,10 +9,10 @@
             </span>
             <ul>
               <li>
-                <a href="http://www.longwin.io">中文</a>
+                <a href="http://cn.longwin.io">中文</a>
               </li>
               <li>
-                <a href="#">ENGLISH</a>
+                <a href="#">English</a>
               </li>
             </ul>
           </div>
@@ -27,10 +27,10 @@
             <router-link :to="{name:'index'}" tag="span">Home</router-link>
           </span>
           <span>
-            <router-link :to="{name:'introduce'}" tag="span">Introduction</router-link>
+            <router-link :to="{name:'introduce'}" tag="span">LongWin</router-link>
           </span>
           <span>
-            <router-link :to="{name:'background'}" tag="span">Establishment</router-link>
+            <router-link :to="{name:'background'}" tag="span">Bwin</router-link>
           </span>
         </nav>
       </div>
@@ -72,7 +72,7 @@
                 Intelligent contracts are essentially digital contracts.
               </p>
               <p>
-                When a condition is satisfied 
+                When a condition is satisfied
               </p>
               <p>
                 The code will execute automatically.
