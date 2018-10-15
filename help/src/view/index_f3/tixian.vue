@@ -48,9 +48,10 @@
         </div>
         <div class="notice">
             <p>温馨提示：</p>
-            <p>• 提现数量最少为{{addr.encaLeast}} USDT；</p>
-            <p>• 提现收取{{addr.encashFee}}%作为服务费，收取10 USDT作为矿工费；</p>
-            <p>• 提现后48小时内到账；</p>
+            <p>• 平台收取提现服务费：{{addr.encashFee}}%</p>
+            <p>• 在转账过程中，区块链矿工需要收取每笔转账费10个USDT</p>
+            <p>• 提现数量最少为{{addr.encaLeast}} USDT</p>
+            <p>• 提现申请提交后后48小时内到账绑定钱包</p>
         </div>
         <!-- 弹出框 -->
         <div id="alert" v-if="showPop">

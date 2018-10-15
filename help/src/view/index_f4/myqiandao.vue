@@ -1,23 +1,14 @@
 <template>
   <div>
-    <div id="header">
-      <div class="backBox">
-        <Icon class="cp" @click="$goBack()" type="ios-arrow-back" size='28' />
-      </div>
-      我的邀请
-      <div @click="$goto('share')" id="detail">
-        <Icon type="md-share" />
-        邀请
-      </div>
-    </div>
+    <v-header headname="我的签到" />
     <div>
-      <v-nodata v-if="inviteList.length==0"></v-nodata>
+      <v-nodata v-if="inviteList.list.length==0"></v-nodata>
       <div v-else>
         <ul class="rankList">
-          <li v-for="(item,idx) in inviteList" :key="idx">
-            <img src="../../assets/images/f4/user.png" alt="">
-            <span>{{item.inviteUserId}}</span>
-            <span class="money fr">{{item.stakeAccumulate}} USDT</span>
+          <li v-for="(item,idx) in inviteList.list" :key="idx">
+            <!-- <img src="../../assets/images/f4/user.png" alt=""> -->
+            <span>{{item}}</span>
+            <span class="money fr">已签到</span>
           </li>
         </ul>
         <div class="fenye">
@@ -37,30 +28,37 @@ export default {
   },
   data() {
     return {
-      inviteList: [],
-      totalCount: 0,
+      data: null,
+      inviteList: {
+        reward: 0,
+        totalCount: 0,
+        list: []
+      },
       pageSize: 6
     };
+  },
+  computed: {
+    totalCount() {
+      return this.inviteList.list.length;
+    }
   },
   methods: {
     changePageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
       this.$axios
-        .post("hzp/homePage/myInvitationLsit", {
+        .post("hzp/homePage/signList", {
           userId: this.data.userId,
-          userToken: this.data.userToken,
-          fromNum: pageIdx,
-          pageSize: this.pageSize
+          userToken: this.data.userToken
+          //   fromNum: pageIdx,
+          //   pageSize: this.pageSize
         })
         .then(res => {
-          this.inviteList = res.data.data.list;
-          this.totalCount = res.data.data.totalCount;
+          this.inviteList.list = res.data.data;
         });
     }
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 @import "../../myconfig/public.scss";

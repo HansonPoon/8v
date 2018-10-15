@@ -3,6 +3,7 @@
     <header>
       <div class="top">
         <div class="container clearfix">
+          <a style="color:#fff;margin-right:20px;" href="http://game.longwin.io" target="_blank">longwinBetting</a>
           <div class="lang fr">
             <span>
               <img src="../assets/01/lang.png" alt=""> Language
@@ -161,6 +162,7 @@ header {
     line-height: 36px;
     background-color: #000;
     color: #fff;
+    text-align: right;
 
     span {
       cursor: pointer;

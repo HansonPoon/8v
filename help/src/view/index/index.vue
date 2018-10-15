@@ -11,10 +11,10 @@
       </div>
 
       <div id="tabContent" class="tabContent clearfix" style="left:0;">
-        <v-touch style="height:100%;" class="clearfix" v-on:swipeleft="onSwipeLeft"  v-on:swiperight="onSwipeRight"   tag="div">
+        <!-- <v-touch style="height:100%;" class="clearfix" v-on:swipeleft="onSwipeLeft"  v-on:swiperight="onSwipeRight"   tag="div"> -->
           <!-- 第一页 -->
           <div class="contentPage page1 fl">
-            <div class="container">
+            <div class="container con1">
               <!-- banner -->
               <Carousel v-model="bannerStartIdx" loop autoplay arrow="never">
                 <CarouselItem v-for="(item,idx) in advertisement" :key="idx">
@@ -32,7 +32,7 @@
                   <div class="user iBox">
                     <div class="userInfo">
                       <span class="tel">{{userId}}</span>
-                      <span @click="sign" class="sign fr">
+                      <span @click="sign" class="sign fr cp">
                         <img src="../../assets/images/mainpage/pen.png" alt="">
                         <p>签到</p>
                       </span>
@@ -69,37 +69,42 @@
                 </div>
               </section>
               <section id="f3">
-                <div @click="$goto('touzhu')" class="f3Item">
+                <div @click="$goto('touzhu')" class="f3Item cp">
                   <img src="../../assets/images/mainpage/f3_01.png" alt="">
                   <p>投注</p>
                 </div>
-                <div @click="$goto('tixian')" class="f3Item">
+                <div @click="$goto('tixian')" class="f3Item cp">
                   <img src="../../assets/images/mainpage/f3_02.png" alt="">
                   <p>提现</p>
                 </div>
-                <div @click="$goto('zhuanzhang')" class="f3Item">
+                <div @click="$goto('zhuanzhang')" class="f3Item cp">
                   <img src="../../assets/images/mainpage/f3_03.png" alt="">
                   <p>转账</p>
                 </div>
               </section>
               <section class="list">
                 <ul>
-                  <li @click="$goto('yueDetail')">
+                  <li @click="$goto('yueDetail')" class="cp">
                     <img src="../../assets/images/mainpage/01.png" alt="">
                     余额明细
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li @click="$goto('myinvite')">
+                  <li @click="$goto('myinvite')" class="cp">
                     <img src="../../assets/images/mainpage/02.png" alt="">
                     我的邀请
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li v-if="userType != 0" @click="$goto('myteam')">
+                  <li @click="$goto('myqiandao')" class="cp">
+                    <img src="../../assets/images/mainpage/pen.png" alt="">
+                    我的签到
+                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                  </li>
+                  <li v-if="userType != 0" @click="$goto('myteam')" class="cp">
                     <img src="../../assets/images/mainpage/03.png" alt="">
                     我的团队
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
                   </li>
-                  <li @click="$goto('setting')">
+                  <li @click="$goto('setting')" class="cp">
                     <img src="../../assets/images/mainpage/04.png" alt="">
                     我的设置
                     <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
@@ -107,7 +112,7 @@
                 </ul>
               </section>
               <div class="btnBox" align="center">
-                <Button type="primary" size="large" style="width:80%;" @click="getTouZhuInfo">退出投注</Button>
+                <Button type="primary" size="large" style="width:80%;" @click="getTouZhuInfo">退出游戏</Button>
               </div>
               <!-- 弹出框 -->
               <div id="alert" v-if="showPop">
@@ -160,14 +165,15 @@
               </div>
             </div>
             <div id="footer">
-              <div @click="tabBottom(idx)" v-for="(item,idx) in bottomTab" :class="{active:ifTab===idx}" :key="idx">{{item}}</div>
+              <div class="cp" @click="tabBottom(idx)" v-for="(item,idx) in bottomTab" :class="{active:ifTab===idx}" :key="idx">{{item}}</div>
             </div>
           </div>
-        </v-touch>
+        <!-- </v-touch> -->
       </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   created() {
@@ -374,8 +380,11 @@ export default {
 @import "../../myconfig/init.css";
 @import "../../myconfig/public.scss";
 #index {
-  overflow-y: scroll;
-  overflow-x: hidden;
+  // overflow-y: scroll;
+  // overflow-x: hidden;
+  // overflow-y: scroll;
+  // -webkit-overflow-scrolling: touch;
+  // overflow: auto;
 }
 /* tab开始 */
 #top {
@@ -389,6 +398,8 @@ export default {
   height: 100%;
   font-size: 16px;
   overflow: hidden;
+  //  -webkit-overflow-scrolling: touch;
+  // overflow: auto;
   position: relative;
   .tab-nav {
     display: flex;
@@ -423,11 +434,15 @@ export default {
   }
   .page1 {
     overflow-y: scroll;
+    // -webkit-overflow-scrolling: touch;
   }
   .contentPage {
     width: calc(100% / 2);
     height: 100%;
     display: inline-block;
+  }
+  .con1 {
+    // min-height: 668px; //兼容safari
   }
 }
 /* tab结束 */

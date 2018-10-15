@@ -9,7 +9,19 @@
         投注明细
       </div>
     </div>
-    <main>
+    <main v-if="!addr.isStake">
+      <p>充值金额：</p>
+      <p class="address" style="margin-bottom:20px;">
+        <Input v-model="money" type='number' placeholder=""></Input>
+      </p>
+      <div class="btnBox">
+        <Button class="copybtn" type="primary" size="large" style="width:100%;" @click="next">下一步</Button>
+      </div>
+    </main>
+    <main v-else>
+      <div id='erweima'>
+        <img :src="addr.qrUrl">
+      </div>
       <p>收款地址：</p>
       <p class="address">{{addr.platformAddress}}</p>
       <div class="btnBox">
@@ -24,18 +36,18 @@
     </section>
 
     <!-- 弹出框 -->
-    <!-- <div id="alert" v-if="showPop">
-            <div id="pop">
-                <div class="top">
-                    <p align='center'>温馨提示：</p>
-                    <p style="margin:20px 0 30px;">收款地址只能修改一次，请仔细确认</p>
-                    <div class="btns">
-                        <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
-                        <Button type="primary" size="default" style="width:45%;" @click="secendConfirm">确认</Button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    <div id="alert" v-if="showPop">
+      <div id="pop">
+        <div class="top">
+          <p align='center'>温馨提示：</p>
+          <p style="margin:20px 0 30px;">每天限投注一次，投注限额{{addr.bettingRange}}USDT，请仔细确认</p>
+          <div class="btns">
+            <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+            <Button type="primary" size="default" style="width:45%;" @click="secendConfirm">确认</Button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,7 +64,8 @@ export default {
       data: null,
       addr: null,
       address: "",
-      showPop: false
+      showPop: false,
+      money: ""
     };
   },
   methods: {
@@ -74,7 +87,27 @@ export default {
       }
     },
     secendConfirm() {
-      this.$goto("changereceiveaddress");
+      if (this.money) {
+        this.$axios
+          .post("hzp/stake/userStake", {
+            userId: this.data.userId,
+            userToken: this.data.userToken,
+            stakeAmount: this.money
+          })
+          .then(res => {
+            if (res.data.code == 0) {
+              this.ifShow = false;
+            } else {
+              this.$Message.error(res.data.message);
+            }
+            this.showPop = false;
+          });
+      } else {
+        this.$Message.error("请检查充值金额");
+      }
+    },
+    next() {
+      this.showPop = true;
     }
   }
 };
@@ -105,5 +138,13 @@ main {
   line-height: 25px;
   padding: 15px;
   font-size: 12px;
+}
+// 二维码
+#erweima {
+  text-align: center;
+  img {
+    width: 100px;
+    height: 100px;
+  }
 }
 </style>

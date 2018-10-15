@@ -9,6 +9,9 @@
       </div>
       <Button type="primary" size="large" style="width:100%;margin:15px 0;" @click="confirm">保存</Button>
     </main>
+    <div class="notice">
+      提示：基于以太网络的USDT收款码
+    </div>
     <!-- 弹出框 -->
     <div id="alert" v-if="showPop">
       <div id="pop">

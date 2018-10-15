@@ -72,6 +72,11 @@ export default new Router({
       name: 'share',
       component: () => import('@/view/index_f4/share/share.vue')
     },
+    {
+      path: '/myqiandao',
+      name: 'myqiandao',
+      component: () => import('@/view/index_f4/myqiandao.vue')
+    },
     /* 设置 */
     {
       path: '/setting',

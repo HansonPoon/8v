@@ -20,18 +20,18 @@ Vue.config.devtools = true  //启用vue调试工具
 Vue.prototype.$axios = axios
 
 axios.defaults.baseURL = 'http://longwin.io:8001'
-// axios.defaults.baseURL = 'http://192.168.0.111:8001'
+// axios.defaults.baseURL = 'http://192.168.0.116:8001'
 
 
 Vue.component('v-header', header)    //顶部
 Vue.component('v-nodata', nodata)    //没有数据
 
-import VueTouch from 'vue-touch'    //使用滑动插件
+// import VueTouch from 'vue-touch'    //使用滑动插件
 
-Vue.use(VueTouch, { name: 'v-touch' })
-VueTouch.config.swipe = {
-  threshold: 20 //手指左右滑动距离
-}
+// Vue.use(VueTouch, { name: 'v-touch' })
+// VueTouch.config.swipe = {
+//   threshold: 20 //手指左右滑动距离
+// }
 
 
 /* eslint-disable no-new */
