@@ -40,7 +40,8 @@
       <div id="pop">
         <div class="top">
           <p align='center'>温馨提示：</p>
-          <p style="margin:20px 0 30px;">每天限投注一次，投注限额{{addr.bettingRange}}USDT，请仔细确认</p>
+          <p style="margin:20px 0 30px;color:red;">1.每天限投注"确认"一次，请仔细确认
+            <br>2.投注限额{{addr.bettingRange}}USDT</p>
           <div class="btns">
             <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
             <Button type="primary" size="default" style="width:45%;" @click="secendConfirm">确认</Button>
@@ -87,7 +88,10 @@ export default {
       }
     },
     secendConfirm() {
-      if (this.money) {
+      if (
+        this.money &&
+        this.money >= Number(this.addr.bettingRange.split("~")[0])
+      ) {
         this.$axios
           .post("hzp/stake/userStake", {
             userId: this.data.userId,
@@ -96,7 +100,13 @@ export default {
           })
           .then(res => {
             if (res.data.code == 0) {
-              this.ifShow = false;
+              // this.$Message.success(res.data.message);
+              this.addr.isStake = true;
+            } else if (res.data.code == 4009) {
+              this.$Message.error(res.data.message);
+              setTimeout(() => {
+                this.$goto("changereceiveaddress");
+              }, 1000);
             } else {
               this.$Message.error(res.data.message);
             }

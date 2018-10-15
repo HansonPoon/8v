@@ -23,14 +23,28 @@
         </li>
       </ul>
       <div class="btnBox" align="center">
-        <Button type="primary" size="large" style="width:80%;" @click="showPop=true">退出登录</Button>
+        <Button type="primary" size="large" style="width:80%;" @click="getTouZhuInfo">注销账号</Button>
+        <!-- <Button type="primary" size="large" style="width:80%;" @click="showPop=true">注销账号</Button> -->
       </div>
       <!-- 弹出框 -->
-      <div id="alert" v-if="showPop">
+      <!-- <div id="alert" v-if="showPop">
         <div id="pop">
           <div class="top">
             <p>确认退出登录？</p>
             <p style='word-break:break-word;margin:20px 0;height:42px;'>{{payAddress}}</p>
+            <div class="btns">
+              <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+              <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- 弹出框 -->
+      <div id="alert" v-if="showPop">
+        <div id="pop">
+          <div class="top">
+            <p style="margin-bottom:20px;color:red;">您当前投注金额 {{touzhuInfo.balance}}；当前已分红 {{touzhuInfo.rewardMoney}}，退回投注 {{touzhuInfo.stakeMoney}}。确认注销后，本帐户所有数据将清零。</p>
+            <p style="margin-bottom:35px;color:red;">请谨慎操作！</p>
             <div class="btns">
               <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
               <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
@@ -54,26 +68,41 @@ export default {
     };
   },
   methods: {
+    getTouZhuInfo() {
+      this.$axios
+        .post("hzp/stake/getExitInfo", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.showPop = true;
+            this.touzhuInfo = res.data.data;
+          }
+        });
+    },
     exit() {
       this.$axios
-        .post("hzp/homePage/outLogin", this.data)
+        .post("hzp/stake/userExit", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
         .then(res => {
-          this.showPop = false;
-          if (res.data.code === 0) {
-            this.$Message.success(res.data.message);
-            //   清除所有本地存储
-            sessionStorage.clear();
-            this.$router.replace({ name: "login" });
+          console.log(res);
+          if (res.data.code == 0) {
+            this.$Message.success("注销成功");
+            setTimeout(() => {
+              //清除所有本地存储
+              sessionStorage.clear();
+              this.$router.replace({ name: "login" });
+            }, 1000);
+          } else if (res.data.code == 4009) {
+            this.$Message.error(res.data.message);
+            setTimeout(() => {
+              this.$goto("changereceiveaddress");
+            }, 1000);
           } else {
             this.$Message.error(res.data.message);
-            this.$router.replace({ name: "login" });
-          }
-        })
-        .catch(error => {
-          if (error) {
-            this.$Message.error(error.toString());
-            this.$showPop = false;
-            this.$router.replace({ name: "login" });
           }
         });
     }

@@ -1,62 +1,62 @@
 <template>
-    <div>
-        <v-header headname="转账"></v-header>
-        <div class="main">
-            <div class="main">
-                <ul>
-                    <li>
-                        <span>当前余额</span>
-                        <span>{{addr.restMoney}} USDT</span>
-                    </li>
-                    <li>
-                        <span>转入号码</span>
-                        <span>
-                            <Input v-model.number="tranId" type='number' placeholder="请输入转入号码"></Input>
-                        </span>
-                    </li>
-                    <li>
-                        <span>转账数量</span>
-                        <span>
-                            <Input v-model.number="buyNum" type='number' placeholder="请输入转账数量"></Input>
-                        </span>
-                    </li>
-                    <li>
-                        <span>手续费</span>
-                        <span>{{fee}} USDT</span>
-                    </li>
-                    <li>
-                        <span>实际到账</span>
-                        <span>
-                            {{realFee}} USDT
-                        </span>
-                    </li>
-                </ul>
-                <div class="btnBox">
-                    <Button type="primary" size="large" style="width:80%;" @click="showPopBox">确认</Button>
-                </div>
-            </div>
+  <div>
+    <v-header headname="转账"></v-header>
+    <div class="main">
+      <div class="main">
+        <ul>
+          <li>
+            <span>当前余额</span>
+            <span>{{addr.restMoney}} USDT</span>
+          </li>
+          <li>
+            <span>转入号码</span>
+            <span>
+              <Input v-model.number="tranId" type='number' placeholder="请输入转入号码"></Input>
+            </span>
+          </li>
+          <li>
+            <span>转账数量</span>
+            <span>
+              <Input v-model.number="buyNum" type='number' placeholder="请输入转账数量"></Input>
+            </span>
+          </li>
+          <li>
+            <span>手续费</span>
+            <span>{{fee}} USDT</span>
+          </li>
+          <li>
+            <span>实际到账</span>
+            <span>
+              {{realFee}} USDT
+            </span>
+          </li>
+        </ul>
+        <div class="btnBox">
+          <Button type="primary" size="large" style="width:80%;" @click="showPopBox">确认</Button>
         </div>
-        <div class="notice">
-            <p>温馨提示：</p>
-            <p>• 转账数量最少为1 USDT；</p>
-            <p>• 转账时收取转账金额的10%作为手续费，不满0.01按0.01收取；</p>
-            <p>• 转账时请仔细核对转入号码，如转入号码错误平台概不负责；</p>
-
-        </div>
-        <!-- 弹出框 -->
-        <div id="alert" v-if="showPop">
-            <div id="pop">
-                <div class="top">
-                    <p>请输入支付密码：</p>
-                    <Input v-model="secPasswd" type='password' style="width:100%;margin:20px 0 30px;" />
-                    <div class="btns">
-                        <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
-                        <Button type="primary" size="default" style="width:45%;" @click="confirm">确认</Button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="notice">
+      <p>温馨提示：</p>
+      <p>• 转账数量最少为1 USDT；</p>
+      <p>• 转账时收取转账金额的10%作为手续费，不满0.01按0.01收取；</p>
+      <p>• 转账时请仔细核对转入号码，如转入号码错误平台概不负责；</p>
+
+    </div>
+    <!-- 弹出框 -->
+    <div id="alert" v-if="showPop">
+      <div id="pop">
+        <div class="top">
+          <p>请输入支付密码：</p>
+          <Input v-model="secPasswd" type='password' style="width:100%;margin:20px 0 30px;" />
+          <div class="btns">
+            <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
+            <Button type="primary" size="default" style="width:45%;" @click="confirm">确认</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -84,16 +84,24 @@ export default {
   computed: {
     fee() {
       if (this.buyNum) {
-        return this.buyNum * this.addr.encashFee < 0.01
-          ? 0.01
-          : (this.buyNum * this.addr.encashFee).toFixed(2);
+        if (this.buyNum < this.addr.encaLeast) {
+          return 0;
+        } else {
+          return (this.buyNum * this.addr.encashFee) / 100 < 0.01
+            ? 0.01
+            : ((this.buyNum * this.addr.encashFee) / 100).toFixed(2);
+        }
       } else {
         return 0;
       }
     },
     realFee() {
       if (this.buyNum) {
-        return this.buyNum - this.fee <= 0 ? 0 : this.buyNum - this.fee;
+        if (this.buyNum < this.addr.encaLeast) {
+          return 0;
+        } else {
+          return this.buyNum - this.fee <= 0 ? 0 : this.buyNum - this.fee;
+        }
       } else {
         return 0;
       }
@@ -112,7 +120,7 @@ export default {
       }
     },
     confirm() {
-      if (this.buyNum < 1) {
+      if (this.buyNum < Number(this.addr.bettingRange.split('~')[0])) {
         this.$Message.error("转账金额不能小于1");
       } else if (!this.tranId) {
         this.$Message.error("请输入转入号码");

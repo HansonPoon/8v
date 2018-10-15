@@ -12,162 +12,165 @@
 
       <div id="tabContent" class="tabContent clearfix" style="left:0;">
         <!-- <v-touch style="height:100%;" class="clearfix" v-on:swipeleft="onSwipeLeft"  v-on:swiperight="onSwipeRight"   tag="div"> -->
-          <!-- 第一页 -->
-          <div class="contentPage page1 fl">
-            <div class="container con1">
-              <!-- banner -->
-              <Carousel v-model="bannerStartIdx" loop autoplay arrow="never">
-                <CarouselItem v-for="(item,idx) in advertisement" :key="idx">
-                  <div class="demo-carousel">
-                    <a href="http://www.longwin.io/#/index" target="_blank">
-                      <img :src="item.pictureAddress" alt="">
-                    </a>
+        <!-- 第一页 -->
+        <div class="contentPage page1 fl">
+          <div class="container con1">
+            <!-- banner -->
+            <Carousel v-model="bannerStartIdx" loop autoplay arrow="never">
+              <CarouselItem v-for="(item,idx) in advertisement" :key="idx">
+                <div class="demo-carousel">
+                  <a href="http://www.longwin.io/#/index" target="_blank">
+                    <img :src="item.pictureAddress" alt="">
+                  </a>
+                </div>
+              </CarouselItem>
+            </Carousel>
+            <!-- user -->
+            <section id="user">
+              <div class="top">
+                <img id="headPic" class="fl" src="../../assets/images/mainpage/headpic.png" alt="">
+                <div class="user iBox">
+                  <div class="userInfo">
+                    <span class="tel">{{userId}}</span>
+                    <span @click="sign" class="sign fr cp">
+                      <img src="../../assets/images/mainpage/pen.png" alt="">
+                      <p>签到</p>
+                    </span>
                   </div>
-                </CarouselItem>
-              </Carousel>
-              <!-- user -->
-              <section id="user">
+                  <div class="inviter">
+                    <div>
+                      <span v-if="userType == 0" class="userType">普通账户</span>
+                      <span v-else class="userType">团队账户</span>
+                      <span class="userStatus">{{userStatus}}</span>
+                    </div>
+                    邀请人ID:
+                    <span v-if="!inviteId">无</span>
+                    <span v-else>
+                      {{inviteId}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="bot clearfix">
+                <div class="left fl">
+                  <div class="money">{{stakeAccumulate}} USDT</div>
+                  <div class="txt">
+                    <img src="../../assets/images/mainpage/$.png" alt="">
+                    投注金额
+                  </div>
+                </div>
+                <div class="right fr">
+                  <div class="money">{{restMoney}} USDT</div>
+                  <div class="txt">
+                    <img src="../../assets/images/mainpage/last.png" alt="">
+                    余额
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section id="f3">
+              <div @click="$goto('touzhu')" class="f3Item cp">
+                <img src="../../assets/images/mainpage/f3_01.png" alt="">
+                <p>投注</p>
+              </div>
+              <div @click="$goto('tixian')" class="f3Item cp">
+                <img src="../../assets/images/mainpage/f3_02.png" alt="">
+                <p>提现</p>
+              </div>
+              <div @click="$goto('zhuanzhang')" class="f3Item cp">
+                <img src="../../assets/images/mainpage/f3_03.png" alt="">
+                <p>转账</p>
+              </div>
+            </section>
+            <section class="list">
+              <ul>
+                <li @click="$goto('yueDetail')" class="cp">
+                  <img src="../../assets/images/mainpage/01.png" alt="">
+                  余额明细
+                  <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                </li>
+                <li @click="$goto('myinvite')" class="cp">
+                  <img src="../../assets/images/mainpage/02.png" alt="">
+                  我的邀请
+                  <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                </li>
+                <li @click="$goto('myqiandao')" class="cp">
+                  <img src="../../assets/images/mainpage/pen.png" alt="">
+                  我的签到
+                  <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                </li>
+                <li v-if="userType != 0" @click="$goto('myteam')" class="cp">
+                  <img src="../../assets/images/mainpage/03.png" alt="">
+                  我的团队
+                  <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                </li>
+                <li @click="$goto('setting')" class="cp">
+                  <img src="../../assets/images/mainpage/04.png" alt="">
+                  我的设置
+                  <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+                </li>
+              </ul>
+            </section>
+            <div class="btnBox" align="center">
+              <Button type="primary" size="large" style="width:80%;" @click="exitPop=true">退出登录</Button>
+
+            </div>
+  
+            <!-- 退出弹出框 -->
+            <div id="alert" v-if="exitPop">
+              <div id="pop">
                 <div class="top">
-                  <img id="headPic" class="fl" src="../../assets/images/mainpage/headpic.png" alt="">
-                  <div class="user iBox">
-                    <div class="userInfo">
-                      <span class="tel">{{userId}}</span>
-                      <span @click="sign" class="sign fr cp">
-                        <img src="../../assets/images/mainpage/pen.png" alt="">
-                        <p>签到</p>
-                      </span>
-                    </div>
-                    <div class="inviter">
-                      <div>
-                        <span v-if="userType == 0" class="userType">普通账户</span>
-                        <span v-else class="userType">团队账户</span>
-                        <span class="userStatus">{{userStatus}}</span>
-                      </div>
-                      邀请人ID:
-                      <span v-if="!inviteId">无</span>
-                      <span v-else>
-                        {{inviteId}}
-                      </span>
-                    </div>
+                  <p>确认退出登录？</p>
+                  <p style='word-break:break-word;margin:20px 0;height:42px;'> </p>
+                  <div class="btns">
+                    <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="exitPop=false">取消</Button>
+                    <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
                   </div>
                 </div>
-                <div class="bot clearfix">
-                  <div class="left fl">
-                    <div class="money">{{stakeAccumulate}} USDT</div>
-                    <div class="txt">
-                      <img src="../../assets/images/mainpage/$.png" alt="">
-                      投注金额
-                    </div>
-                  </div>
-                  <div class="right fr">
-                    <div class="money">{{restMoney}} USDT</div>
-                    <div class="txt">
-                      <img src="../../assets/images/mainpage/last.png" alt="">
-                      余额
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section id="f3">
-                <div @click="$goto('touzhu')" class="f3Item cp">
-                  <img src="../../assets/images/mainpage/f3_01.png" alt="">
-                  <p>投注</p>
-                </div>
-                <div @click="$goto('tixian')" class="f3Item cp">
-                  <img src="../../assets/images/mainpage/f3_02.png" alt="">
-                  <p>提现</p>
-                </div>
-                <div @click="$goto('zhuanzhang')" class="f3Item cp">
-                  <img src="../../assets/images/mainpage/f3_03.png" alt="">
-                  <p>转账</p>
-                </div>
-              </section>
-              <section class="list">
-                <ul>
-                  <li @click="$goto('yueDetail')" class="cp">
-                    <img src="../../assets/images/mainpage/01.png" alt="">
-                    余额明细
-                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
-                  </li>
-                  <li @click="$goto('myinvite')" class="cp">
-                    <img src="../../assets/images/mainpage/02.png" alt="">
-                    我的邀请
-                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
-                  </li>
-                  <li @click="$goto('myqiandao')" class="cp">
-                    <img src="../../assets/images/mainpage/pen.png" alt="">
-                    我的签到
-                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
-                  </li>
-                  <li v-if="userType != 0" @click="$goto('myteam')" class="cp">
-                    <img src="../../assets/images/mainpage/03.png" alt="">
-                    我的团队
-                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
-                  </li>
-                  <li @click="$goto('setting')" class="cp">
-                    <img src="../../assets/images/mainpage/04.png" alt="">
-                    我的设置
-                    <Icon class="fr" type="ios-arrow-forward" size='22' color='rgb(153,153,153)' />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 第二页 -->
+        <div class="contentPage fl">
+          <div class="container">
+            <!-- 持币生息榜 -->
+            <div id="list1" v-if="showList">
+              <v-nodata v-if="interestList.length==0"></v-nodata>
+              <div v-else>
+                <ul class="rankList">
+                  <li v-for="(item,idx) in interestList" :key="idx">
+                    <div class="number">{{item.ranking}}</div>
+                    <span>{{item.userId}}</span>
+                    <span class="money fr">{{item.totalAmount}} USDT</span>
                   </li>
                 </ul>
-              </section>
-              <div class="btnBox" align="center">
-                <Button type="primary" size="large" style="width:80%;" @click="getTouZhuInfo">退出游戏</Button>
+                <div class="fenye">
+                  <Page :total="totalCount_interest" :pageSize='pageSize' @on-change='changeInterestPageIdx' size="small" />
+                </div>
               </div>
-              <!-- 弹出框 -->
-              <div id="alert" v-if="showPop">
-                <div id="pop">
-                  <div class="top">
-                    <p style="margin-bottom:35px;">您当前投注金额 {{touzhuInfo.balance}}；当前已分红 {{touzhuInfo.rewardMoney}}，退回投注 {{touzhuInfo.stakeMoney}}。确认退出？</p>
-                    <div class="btns">
-                      <Button type="default" size="default" style="width:45%;margin-right:10%;" @click="showPop=false">取消</Button>
-                      <Button type="primary" size="default" style="width:45%;" @click="exit">确认</Button>
-                    </div>
-                  </div>
+            </div>
+            <!-- 邀请奖励榜 -->
+            <div id="list2" v-else>
+              <v-nodata v-if="inviteList.length==0"></v-nodata>
+              <div v-else>
+                <ul class="rankList">
+                  <li v-for="(item,idx) in inviteList" :key="idx">
+                    <div class="number">{{item.ranking}}</div>
+                    <span>{{item.userId}}</span>
+                    <span class="money fr">{{item.totalAmount}} USDT</span>
+                  </li>
+                </ul>
+                <div class="fenye">
+                  <Page :total="totalCount_invite" :pageSize='pageSize' @on-change='changeInvitePageIdx' size="small" />
                 </div>
               </div>
             </div>
           </div>
-          <!-- 第二页 -->
-          <div class="contentPage fl">
-            <div class="container">
-              <!-- 持币生息榜 -->
-              <div id="list1" v-if="showList">
-                <v-nodata v-if="interestList.length==0"></v-nodata>
-                <div v-else>
-                  <ul class="rankList">
-                    <li v-for="(item,idx) in interestList" :key="idx">
-                      <div class="number">{{item.ranking}}</div>
-                      <span>{{item.userId}}</span>
-                      <span class="money fr">{{item.totalAmount}} USDT</span>
-                    </li>
-                  </ul>
-                  <div class="fenye">
-                    <Page :total="totalCount_interest" :pageSize='pageSize' @on-change='changeInterestPageIdx' size="small" />
-                  </div>
-                </div>
-              </div>
-              <!-- 邀请奖励榜 -->
-              <div id="list2" v-else>
-                <v-nodata v-if="inviteList.length==0"></v-nodata>
-                <div v-else>
-                  <ul class="rankList">
-                    <li v-for="(item,idx) in inviteList" :key="idx">
-                      <div class="number">{{item.ranking}}</div>
-                      <span>{{item.userId}}</span>
-                      <span class="money fr">{{item.totalAmount}} USDT</span>
-                    </li>
-                  </ul>
-                  <div class="fenye">
-                    <Page :total="totalCount_invite" :pageSize='pageSize' @on-change='changeInvitePageIdx' size="small" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="footer">
-              <div class="cp" @click="tabBottom(idx)" v-for="(item,idx) in bottomTab" :class="{active:ifTab===idx}" :key="idx">{{item}}</div>
-            </div>
+          <div id="footer">
+            <div class="cp" @click="tabBottom(idx)" v-for="(item,idx) in bottomTab" :class="{active:ifTab===idx}" :key="idx">{{item}}</div>
           </div>
+        </div>
         <!-- </v-touch> -->
       </div>
     </div>
@@ -223,7 +226,8 @@ export default {
       /* 退出弹框 */
       showPop: false,
       /* 投注信息 */
-      touzhuInfo: null
+      touzhuInfo: null,
+      exitPop: false
     };
   },
   methods: {
@@ -299,7 +303,7 @@ export default {
           this.userId = userInfo.userId;
           this.userType = userInfo.userType;
           this.userStatus = userInfo.userStatus;
-          this.inviteId = userInfo.inviteId;
+          this.inviteId = userInfo.inviteUserId;
           this.stakeAccumulate = userInfo.stakeAccumulate;
           this.restMoney = userInfo.restMoney;
 
@@ -352,26 +356,29 @@ export default {
           }
         });
     },
-    exit() {
+     exit() {
       this.$axios
-        .post("hzp/stake/userExit", {
-          userId: this.data.userId,
-          userToken: this.data.userToken
-        })
+        .post("hzp/homePage/outLogin", this.data)
         .then(res => {
-          console.log(res);
-          if (res.data.code == 0) {
-            this.$Message.success("退出投注成功");
-            setTimeout(() => {
-              //清除所有本地存储
-              sessionStorage.clear();
-              this.$router.replace({ name: "login" });
-            }, 1000);
+          this.showPop = false;
+          if (res.data.code === 0) {
+            //   清除所有本地存储
+            sessionStorage.clear();
+            this.$router.replace({ name: "login" });
           } else {
             this.$Message.error(res.data.message);
+            this.$router.replace({ name: "login" });
+          }
+        })
+        .catch(error => {
+          if (error) {
+            this.$Message.error(error.toString());
+            this.$showPop = false;
+            this.$router.replace({ name: "login" });
           }
         });
     }
+   
   }
 };
 </script>

@@ -17,7 +17,7 @@ export default {
   created() {
     this.data = JSON.parse(sessionStorage.getItem("data"));
     const userId = JSON.parse(sessionStorage.getItem("addr")).userId;
-    this.userLink = "http://longwin.io/#/register" + "?" + userId;
+    this.userLink = "http://game.longwin.io/#/register" + "?" + userId;
   },
   data() {
     return {
