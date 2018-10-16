@@ -4,7 +4,7 @@
     <Form ref="form" :model="form" :rules="ruleCustom">
       <FormItem prop='code' id="codeIpt">
         <Input v-model="form.code" placeholder="验证码"></Input>
-        <div class="code" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
+        <div class="code cp" @click="getCode" :class="{active:ifSend}">{{msg}}</div>
       </FormItem>
       <FormItem prop='passwd'>
         <Input v-model="form.passwd" type="password" placeholder="密码：至少6位"></Input>

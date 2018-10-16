@@ -48,7 +48,7 @@
     </div>
     <div class="notice">
       <p>温馨提示：</p>
-      <p>• 平台收取提现服务费：{{addr.encashFee}}%</p>
+      <p>• 平台收取提现服务费：{{addr.encashFee*100}}%</p>
       <p>• 在转账过程中，区块链矿工需要收取每笔转账费10个USDT</p>
       <p>• 提现数量最少为{{addr.encaLeast}} USDT</p>
       <p>• 提现申请提交后后48小时内到账绑定钱包</p>
