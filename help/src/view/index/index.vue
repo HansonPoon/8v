@@ -113,9 +113,8 @@
             </section>
             <div class="btnBox" align="center">
               <Button type="primary" size="large" style="width:80%;" @click="exitPop=true">退出登录</Button>
-
             </div>
-  
+
             <!-- 退出弹出框 -->
             <div id="alert" v-if="exitPop">
               <div id="pop">
@@ -244,7 +243,7 @@ export default {
       this.isActive = idx;
       //   改变横线位置
       document.getElementById("bottomLine").style.left =
-        (idx * pageWidth) / 2 + "px";
+        (idx * pageWidth) / this.tabItem.length + "px";
     },
     // 左滑动
     onSwipeLeft() {
@@ -356,7 +355,7 @@ export default {
           }
         });
     },
-     exit() {
+    exit() {
       this.$axios
         .post("hzp/homePage/outLogin", this.data)
         .then(res => {
@@ -378,7 +377,6 @@ export default {
           }
         });
     }
-   
   }
 };
 </script>
@@ -386,13 +384,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../myconfig/init.css";
 @import "../../myconfig/public.scss";
-#index {
-  // overflow-y: scroll;
-  // overflow-x: hidden;
-  // overflow-y: scroll;
-  // -webkit-overflow-scrolling: touch;
-  // overflow: auto;
-}
 /* tab开始 */
 #top {
   width: 100%;
@@ -405,8 +396,6 @@ export default {
   height: 100%;
   font-size: 16px;
   overflow: hidden;
-  //  -webkit-overflow-scrolling: touch;
-  // overflow: auto;
   position: relative;
   .tab-nav {
     display: flex;
@@ -441,15 +430,11 @@ export default {
   }
   .page1 {
     overflow-y: scroll;
-    // -webkit-overflow-scrolling: touch;
   }
   .contentPage {
     width: calc(100% / 2);
     height: 100%;
     display: inline-block;
-  }
-  .con1 {
-    // min-height: 668px; //兼容safari
   }
 }
 /* tab结束 */

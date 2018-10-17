@@ -49,7 +49,7 @@
     <div class="notice">
       <p>温馨提示：</p>
       <p>• 平台收取提现服务费：{{addr.encashFee*100}}%</p>
-      <p>• 在转账过程中，区块链矿工需要收取每笔转账费10个USDT</p>
+      <p>• 在转账过程中，区块链矿工需要收取每笔转账费2%</p>
       <p>• 提现数量最少为{{addr.encaLeast}} USDT</p>
       <p>• 提现申请提交后后48小时内到账绑定钱包</p>
     </div>
@@ -93,11 +93,12 @@ export default {
   },
   computed: {
     fee() {
+      console.log(Number(this.addr.encashFee )+0.02)
       if (this.buyNum) {
         if (this.buyNum < this.addr.encaLeast) {
           return 0;
         } else {
-          return (this.buyNum * (this.addr.encashFee / 100) + 10).toFixed(2);
+          return (this.buyNum * (Number(this.addr.encashFee) + 0.02)).toFixed(2);
         }
       } else {
         return 0;

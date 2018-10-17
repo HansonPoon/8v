@@ -2,7 +2,7 @@
   <div id="receiveaddress">
     <v-header headname='钱包地址'></v-header>
     <main>
-      <p>钱包地址：</p>
+      <p>Imtoken钱包地址：</p>
       <p v-if="!addr.userAddress" class="address">您还未设置地址，请点击修改添加</p>
       <p class="address">{{addr.userAddress}}</p>
       <div class="btnBox">
