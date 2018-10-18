@@ -61,99 +61,105 @@
 
 <script>
 export default {
-  created() {
-    // 读本地储存和首次ajax...
-    this.data = JSON.parse(sessionStorage.getItem("data"));
-    this.addr = JSON.parse(sessionStorage.getItem("addr"));
-  },
-  mounted() {
-    this.$Message.config({
-      duration: 3
-    });
-  },
-  data() {
-    return {
-      data: null,
-      addr: null,
-      buyNum: "",
-      showPop: false,
-      secPasswd: "",
-      tranId: "" //转入号码
-    };
-  },
-  computed: {
-    fee() {
-      if (this.buyNum) {
-        if (this.buyNum < this.addr.encaLeast) {
-          return 0;
-        } else {
-          return (this.buyNum * this.addr.encashFee) / 100 < 0.01
-            ? 0.01
-            : ((this.buyNum * this.addr.encashFee) / 100).toFixed(2);
-        }
-      } else {
-        return 0;
-      }
+    created() {
+        // 读本地储存和首次ajax...
+        this.data = JSON.parse(sessionStorage.getItem("data"));
+        this.addr = JSON.parse(sessionStorage.getItem("addr"));
     },
-    realFee() {
-      if (this.buyNum) {
-        if (this.buyNum < this.addr.encaLeast) {
-          return 0;
-        } else {
-          return this.buyNum - this.fee <= 0 ? 0 : this.buyNum - this.fee;
-        }
-      } else {
-        return 0;
-      }
-    }
-  },
-  methods: {
-    showPopBox() {
-      if (this.buyNum == "") {
-        this.$Message.error("请输入提现数量");
-      } else if (this.buyNum < Number(this.encaLeast)) {
-        this.$Message.error(`提现数量最少${Number(this.encaLeast)}`);
-      } else if (this.buyNum > this.addr.restMoney) {
-        this.$Message.error(`余额不足`);
-      } else {
-        this.showPop = true;
-      }
+    mounted() {
+        this.$Message.config({
+            duration: 3
+        });
     },
-    confirm() {
-      if (this.buyNum < Number(this.addr.bettingRange.split('~')[0])) {
-        this.$Message.error("转账金额不能小于1");
-      } else if (!this.tranId) {
-        this.$Message.error("请输入转入号码");
-      } else {
-        this.$axios
-          .post("hzp/stake/trasfer", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            phone: this.tranId,
-            transferAmount: this.buyNum,
-            userPwd: this.secPasswd
-          })
-          .then(res => {
-            this.showPop = false;
-            const status = res.data.code;
-            if (status == 0) {
-              this.$Message.success(res.data.message);
-              // 返回上一页
-              setTimeout(() => this.$goBack(), 1000);
-            } else if (status == 4002) {
-              this.$Message.error(res.data.message);
-              // 去设置交易密码
-              setTimeout(
-                () => this.$router.push({ name: "tradepasswd" }),
-                1000
-              );
+    data() {
+        return {
+            data: null,
+            addr: null,
+            buyNum: "",
+            showPop: false,
+            secPasswd: "",
+            tranId: "" //转入号码
+        };
+    },
+    computed: {
+        fee() {
+            if (this.buyNum) {
+                if (this.buyNum < 1) {
+                    return 0;
+                } else {
+                    return this.buyNum * this.addr.encashFee < 0.01
+                        ? 0.01
+                        : (this.buyNum * this.addr.encashFee).toFixed(2);
+                }
             } else {
-              this.$Message.error(res.data.message);
+                return 0;
             }
-          });
-      }
+        },
+        realFee() {
+            if (this.buyNum) {
+                if (this.buyNum < 1) {
+                    return 0;
+                } else {
+                    return this.buyNum - this.fee <= 0
+                        ? 0
+                        : this.buyNum - this.fee;
+                }
+            } else {
+                return 0;
+            }
+        }
+    },
+    methods: {
+        showPopBox() {
+            if (this.buyNum == "") {
+                this.$Message.error("请输入提现数量");
+            } else if (this.buyNum < Number(this.encaLeast)) {
+                this.$Message.error(`提现数量最少${Number(this.encaLeast)}`);
+            } else if (this.buyNum > this.addr.restMoney) {
+                this.$Message.error(`余额不足`);
+            } else {
+                this.showPop = true;
+            }
+        },
+        confirm() {
+            // console.log(Number(this.addr.bettingRange.split("~")[0]));
+            if (this.buyNum < 1) {
+                this.$Message.error("转账金额不能小于1");
+            } else if (!this.tranId) {
+                this.$Message.error("请输入转入号码");
+            } else if (!this.secPasswd) {
+                this.$Message.error("请输入交易密码");
+            } else {
+                this.$axios
+                    .post("hzp/stake/trasfer", {
+                        userId: this.data.userId,
+                        userToken: this.data.userToken,
+                        phone: this.tranId,
+                        transferAmount: this.buyNum,
+                        userPwd: this.secPasswd
+                    })
+                    .then(res => {
+                        this.showPop = false;
+                        const status = res.data.code;
+                        if (status == 0) {
+                            this.$Message.success(res.data.message);
+                            // 返回上一页
+                            setTimeout(() => this.$goBack(), 1000);
+                        } else if (status == 4002) {
+                            this.$Message.error(res.data.message);
+                            // 去设置交易密码
+                            setTimeout(
+                                () =>
+                                    this.$router.push({ name: "tradepasswd" }),
+                                1000
+                            );
+                        } else {
+                            this.$Message.error(res.data.message);
+                        }
+                    });
+            }
+        }
     }
-  }
 };
 </script>
 
