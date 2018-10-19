@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     fee() {
-      console.log(Number(this.addr.encashFee )+0.02)
+      // console.log(Number(this.addr.encashFee )+0.02)
       if (this.buyNum) {
         if (this.buyNum < this.addr.encaLeast) {
           return 0;
