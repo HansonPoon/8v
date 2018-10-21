@@ -74,12 +74,12 @@
             </div> -->
             <div class="ruleRight">
               <div class="title">Invitation level award rules</div>
-              <p>1. First prize: 8%</p>
-              <p>2. Two level reward: 5%</p>
+              <p>1. First prize: 5%</p>
+              <p>2. Two level reward: 4%</p>
               <p>3. Three level reward: 3%</p>
-              <p>4. Four to ten Awards: 1%</p>
-              <p>5. Eleven to fifteen Awards: 0.8%</p>
-              <p>6. After grade Sixteen: 0.6%</p>
+              <p>4. Four to ten Awards: 2%</p>
+              <p>5. Eleven to fifteen Awards: 1%</p>
+              <p>6. After grade Sixteen: 0.8%</p>
               <!-- <div class="title">Star rating rules</div>
               <p>1. invitation: the total number of invitations has been increased to 1000USDT by one star.</p>
               <p>2. self Investment: total betting amount to 1000USDT increased by one star.</p>
