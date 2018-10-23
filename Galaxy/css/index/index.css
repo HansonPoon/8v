@@ -1,0 +1,73 @@
+@charset "UTF-8";
+/* 
+桌面端CSS
+*/
+
+header {
+    background: url('../../static/img/index/bg.png') no-repeat center center;
+    color: white;
+}
+/* *******************导航**************** */
+nav {
+    padding: 40px 50px;
+}
+
+.nav_left img {
+    width: 130px;
+    height: 40px;
+}
+
+.nav_right ul{
+    padding-top: 3px;
+}
+
+.nav_right li {
+    padding: 5px 20px;
+    float: left;
+    cursor: pointer;
+}
+
+/* 导航选中 */
+.navActice{
+    background-color: #fff;
+    color: rgb(19,53,58);
+}
+
+/* *********************波浪*************** */
+.sea {
+    height: 410px;
+    position: relative;
+}
+
+#seaPlugin {
+    height: 100%;
+}
+
+.mask {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.mask div:nth-child(1) {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.mask div:nth-child(2) img {
+    width: 224px;
+    height: 16px;
+}
+
+.mask div:nth-child(3) img {
+    width: 150px;
+    height: 43px;
+    margin-top: 60px;
+    cursor: pointer;
+}
+
+
+
