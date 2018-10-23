@@ -4,7 +4,7 @@
 */
 
 header {
-    background: url('../../static/img/index/bg.png') no-repeat center center;
+    background: url("../../static/img/index/bg.png") no-repeat center center;
     color: white;
 }
 /* *******************导航**************** */
@@ -17,7 +17,7 @@ nav {
     height: 40px;
 }
 
-.nav_right ul{
+.nav_right ul {
     padding-top: 3px;
 }
 
@@ -28,9 +28,9 @@ nav {
 }
 
 /* 导航选中 */
-.navActice{
+.navActice {
     background-color: #fff;
-    color: rgb(19,53,58);
+    color: rgb(19, 53, 58);
 }
 
 /* *********************波浪*************** */
@@ -69,5 +69,105 @@ nav {
     cursor: pointer;
 }
 
+#sea_circle {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+}
+/* ***********header结束************** */
 
+main {
+    width: 80%;
+    margin: 0 auto;
+}
+main>section{
+    margin-top: 100px;
+    height: 240px;
+    color: rgb(34,17,84);
+    font-size: 0;
+    position: relative;
+}
+main>section .imgBox{
+    width: 50%;
+    position: relative;
+}
+main>section .text{
+    /* width: 50%; */
+    height: 240px;
 
+}
+main .textWrap{
+    position: relative;
+    width: 50%;
+    height: 100%;
+}
+main>section .text p:first-child{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+main>section .text p:last-child{
+    font-size: 16px;
+    line-height: 27px;
+}
+/* ***********section1********** */
+#img01{
+    text-align: center;
+    height: 100%;
+}
+#img01 img{
+    width: 206px;
+    height: 230px;
+    position: absolute;
+    right: 20%;
+    top: 0;
+}
+.txt01{
+    padding-top: 45px;
+    width: 339px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+/* ***********section2********** */
+#img01{
+    text-align: center;
+    height: 100%;
+}
+#img01 img{
+    width: 206px;
+    height: 230px;
+    position: absolute;
+    right: 20%;
+    top: 0;
+}
+.txt02{
+    padding-top: 45px;
+    width: 297px;
+    /* height: auto; */
+    position: absolute;
+    top: 0;
+    right: 57px;
+}
+
+/* *************main结束************** */
+
+footer {
+    height: 190px;
+    background: linear-gradient(45deg, rgb(54, 12, 80), rgb(9, 13, 61));
+    text-align: center;
+    color: #fff;
+}
+footer img {
+    width: 60px;
+    height: 60px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+footer .copyRight {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
