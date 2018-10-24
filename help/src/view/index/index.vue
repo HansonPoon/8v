@@ -1,5 +1,5 @@
 <template>
-  <div id="index">
+  <div id="index" ref="wrapper">
 
     <div id="tab">
       <div id="top">
@@ -177,6 +177,8 @@
 </template>
 
 <script>
+import BScroll from "better-scroll";
+
 export default {
   created() {
     // 读本地储存和首次ajax...
@@ -184,6 +186,9 @@ export default {
     this.getHome();
     this.changeInterestPageIdx(1, this.pageSize);
     this.changeInvitePageIdx(1, this.pageSize);
+  },
+  mounted() {
+    this.scrollFn();
   },
   data() {
     return {
@@ -376,6 +381,45 @@ export default {
             this.$router.replace({ name: "login" });
           }
         });
+    },
+    /* ************************************* */
+    scrollFn() {
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.wrapper, {
+            click: true,
+            scrollY: true,
+            probeType: 3
+          });
+        } else {
+          this.scroll.refresh();
+        }
+        this.scroll.on("scroll", pos => {
+          console.log(pos.y, this.dropDown);
+          //如果下拉超过50px 就显示下拉刷新的文字
+          if (pos.y > 50) {
+            this.dropDown = true;
+          } else {
+            this.dropDown = false;
+          }
+        });
+        //touchEnd（手指离开以后触发） 通过这个方法来监听下拉刷新
+        this.scroll.on("touchEnd", pos => {
+          // 下拉动作
+          if (pos.y > 50) {
+            console.log("下拉刷新成功");
+            this.dropDown = false;
+          }
+          //上拉加载 总高度>下拉的高度+10 触发加载更多
+          if (this.scroll.maxScrollY > pos.y + 10) {
+            console.log("加载更多");
+            //使用refresh 方法 来更新scroll  解决无法滚动的问题
+            this.scroll.refresh();
+          }
+          console.log(this.scroll.maxScrollY + "总距离----下拉的距离" + pos.y);
+        });
+        console.log(this.scroll.maxScrollY);
+      });
     }
   }
 };

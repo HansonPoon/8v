@@ -14,19 +14,34 @@
       <p class="address" style="margin-bottom:20px;">
         <Input v-model="money" type='number' placeholder=""></Input>
       </p>
+      <span>充值方式：</span>
+      <RadioGroup v-model="touzhuType" style="margin-bottom:2px;">
+        <Radio label="USDT" style="margin-right:40px;">
+          <span>USDT</span>
+        </Radio>
+        <Radio label="balance">
+          <span>余额</span>
+        </Radio>
+      </RadioGroup>
+
       <div class="btnBox">
         <Button class="copybtn" type="primary" size="large" style="width:100%;" @click="next">下一步</Button>
       </div>
     </main>
     <main v-else>
-      <div id='erweima'>
-        <img :src="addr.qrUrl">
+      <div v-if="!futouSuccess">
+        <div id='erweima'>
+          <img :src="addr.qrUrl">
+        </div>
+        <p>收款地址：</p>
+        <p class="address">{{addr.platformAddress}}</p>
+        <div class="btnBox">
+          <Button class="copybtn" type="primary" size="large" style="width:100%;" :data-clipboard-text='addr.platformAddress' @click="copy">复制地址</Button>
+        </div>
       </div>
-      <p>收款地址：</p>
-      <p class="address">{{addr.platformAddress}}</p>
-      <div class="btnBox">
-        <Button class="copybtn" type="primary" size="large" style="width:100%;" :data-clipboard-text='addr.platformAddress' @click="copy">复制地址</Button>
-      </div>
+      <div v-else>
+        投注成功
+        </div>
     </main>
     <section id="txt">
       <p>温馨提示：</p>
@@ -66,7 +81,9 @@ export default {
       addr: null,
       address: "",
       showPop: false,
-      money: ""
+      money: "",
+      touzhuType: "USDT",
+      futouSuccess:false
     };
   },
   methods: {
@@ -92,26 +109,52 @@ export default {
         this.money &&
         this.money >= Number(this.addr.bettingRange.split("~")[0])
       ) {
-        this.$axios
-          .post("hzp/stake/userStake", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            stakeAmount: this.money
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              // this.$Message.success(res.data.message);
-              this.addr.isStake = true;
-            } else if (res.data.code == 4009) {
-              this.$Message.error(res.data.message);
-              setTimeout(() => {
-                this.$goto("changereceiveaddress");
-              }, 1000);
-            } else {
-              this.$Message.error(res.data.message);
-            }
-            this.showPop = false;
-          });
+        if (this.touzhuType == "USDT") {
+          this.$axios
+            .post("hzp/stake/userStake", {
+              userId: this.data.userId,
+              userToken: this.data.userToken,
+              stakeAmount: this.money
+            })
+            .then(res => {
+              if (res.data.code == 0) {
+                // this.$Message.success(res.data.message);
+                this.addr.isStake = true;
+              } else if (res.data.code == 4009) {
+                this.$Message.error(res.data.message);
+                setTimeout(() => {
+                  this.$goto("changereceiveaddress");
+                }, 1000);
+              } else {
+                this.$Message.error(res.data.message);
+              }
+              this.showPop = false;
+            });
+        } else {
+          /* ajax...... */
+          this.$axios
+            .post("hzp/stake/restStake", {
+              userId: this.data.userId,
+              userToken: this.data.userToken,
+              stakeAmount: this.money
+            })
+            .then(res => {
+              if (res.data.code == 0) {
+                this.addr.isStake = true;
+                this.futouSuccess = true;
+                this.$Message.success(res.message);
+                
+              } else if (res.data.code == 4009) {
+                this.$Message.error(res.message);
+                setTimeout(() => {
+                  this.$goto("changereceiveaddress");
+                }, 1000);
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.showPop = false;
+            });
+        }
       } else {
         this.$Message.error("请检查充值金额");
       }
@@ -141,7 +184,7 @@ main {
   }
   .btnBox {
     text-align: center;
-    margin: 10px 0;
+    margin-top: 30px;
   }
 }
 #txt {

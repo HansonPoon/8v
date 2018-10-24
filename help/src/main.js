@@ -7,6 +7,7 @@ import nodata from '@/components/nodata.vue'  //头部组件
 import publicjs from '@/myconfig/public.js'
 import axios from 'axios'
 
+
 import Vue from 'vue'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
@@ -19,8 +20,8 @@ Vue.config.devtools = true  //启用vue调试工具
 
 Vue.prototype.$axios = axios
 
-axios.defaults.baseURL = 'http://game.longwin.io:8001'
-// axios.defaults.baseURL = 'http://192.168.0.111:8001'
+// axios.defaults.baseURL = 'http://game.longwin.io:8001'
+axios.defaults.baseURL = 'http://192.168.0.111:8001'
 
 
 Vue.component('v-header', header)    //顶部
