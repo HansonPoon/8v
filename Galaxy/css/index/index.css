@@ -7,7 +7,9 @@ header {
     background: url("../../static/img/index/bg.png") no-repeat center center;
     color: white;
 }
+
 /* *******************导航**************** */
+
 nav {
     padding: 40px 50px;
 }
@@ -28,12 +30,14 @@ nav {
 }
 
 /* 导航选中 */
+
 .navActice {
     background-color: #fff;
     color: rgb(19, 53, 58);
 }
 
 /* *********************波浪*************** */
+
 .sea {
     height: 410px;
     position: relative;
@@ -77,79 +81,289 @@ nav {
     bottom: 0;
     transform: translate(-50%, 50%);
 }
+
 /* ***********header结束************** */
 
 main {
-    width: 80%;
-    margin: 0 auto;
+    /* width: 80%;
+    margin: 0 auto; */
 }
-main>section{
+
+main>section {
     margin-top: 100px;
     height: 240px;
-    color: rgb(34,17,84);
+    color: rgb(34, 17, 84);
     font-size: 0;
     position: relative;
 }
-main>section .imgBox{
+
+main>section .imgBox {
     width: 50%;
     position: relative;
 }
-main>section .text{
+
+main>section .text {
     /* width: 50%; */
     height: 240px;
-
 }
-main .textWrap{
+
+main .textWrap {
     position: relative;
     width: 50%;
     height: 100%;
 }
-main>section .text p:first-child{
+
+main>section .text p:first-child, .application .title {
     font-size: 30px;
     margin-bottom: 20px;
+    font-weight: bold;
 }
-main>section .text p:last-child{
+
+main>section .text p:last-child, .application .txt {
     font-size: 16px;
     line-height: 27px;
+    color: rgba(34, 17, 84, .6);
 }
+
 /* ***********section1********** */
-#img01{
+
+#img01 {
     text-align: center;
     height: 100%;
 }
-#img01 img{
+
+#img01 img {
     width: 206px;
     height: 230px;
     position: absolute;
     right: 20%;
     top: 0;
 }
-.txt01{
+
+.txt01 {
     padding-top: 45px;
     width: 339px;
     position: absolute;
     top: 0;
     left: 0;
 }
+
 /* ***********section2********** */
-#img01{
+
+#img02 {
     text-align: center;
-    height: 100%;
-}
-#img01 img{
-    width: 206px;
-    height: 230px;
+    /* height: 100%; */
+    height: 620px;
+    width: 100%;
+    background: url('../../static/img/index/main_02_01.png') no-repeat center center;
+    background-size: 100% auto;
     position: absolute;
-    right: 20%;
-    top: 0;
+    right: 0px;
+    margin-top: 10%;
 }
-.txt02{
+
+#img02 img {
+    /* width: 206px; */
+    /* height: 230px; */
+    width: 500px;
+    position: absolute;
+    /* right: 0; */
+    left: 0;
+    top: -430px;
+}
+
+.txt02 {
     padding-top: 45px;
     width: 297px;
     /* height: auto; */
     position: absolute;
     top: 0;
     right: 57px;
+}
+
+/* ***********section3********** */
+
+.txt03 {
+    width: 347px;
+}
+
+/* ***********section4 节点扩容********** */
+
+.section4 {
+    text-align: center;
+    height: auto;
+}
+
+#txt04 {
+    width: 559px;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+#img04 img {
+    width: 648px;
+    height: 293px;
+}
+
+/* ***********应用场景1********** */
+
+.container {
+    max-width: 1190px;
+    /* max-width: 70%; */
+    margin: 0 auto;
+}
+
+.application {
+    position: relative;
+}
+
+.application .title {
+    color: rgb(51, 51, 51);
+    margin-top: 100px;
+}
+
+.application .picBox {
+    width: 100%;
+}
+
+#bg1 {
+    /* height: 500px; */
+    /* width: 50%; */
+    width: 500px;
+    position: absolute;
+    right: 0;
+    top: -30px;
+    /* transform: scale(.5) */
+}
+
+#phone {
+    width: 360px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+}
+
+.application .f3 {
+    margin-top: 27px;
+    height: 320px;
+    position: relative;
+}
+
+.application .f3Item {
+    padding-top: 7px;
+    font-size: 12px;
+    text-align: center;
+    width: 98px;
+    height: 98px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 0 rgba(64, 19, 155, 0.1);
+}
+
+.application .f3Item img {
+    width: 50px;
+    height: 50px;
+}
+
+.application .f3Item p {
+    color: rgb(29, 25, 70);
+}
+
+.application .f3Item span {
+    color: rgba(29, 25, 70, .5);
+}
+
+.f3Item:first-child {
+    position: absolute;
+    left: 60px;
+    top: 0;
+}
+
+.f3Item:nth-child(2) {
+    position: absolute;
+    left: 200px;
+    top: 88px;
+}
+
+.f3Item:nth-child(3) {
+    position: absolute;
+    left: 0;
+    top: 137px;
+}
+
+/* ***********应用场景2********** */
+
+.apply2 {
+    margin-top: 100px;
+    padding-bottom: 50px;
+    background: url("../../static/img/index/形状\ 17.png") no-repeat left top;
+    background-size: contain;
+}
+
+.apply2 .title {
+    margin-top: 0;
+    text-align: right;
+}
+
+.f5 {
+    position: relative;
+}
+
+.f5Item {
+    margin-bottom: 45px;
+}
+
+.f5Item>img {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.f5Item>div {
+    padding: 17px 10px;
+    background: linear-gradient(45deg, rgb(100, 13, 155), rgb(20, 26, 156));
+    width: 200px;
+    height: 90px;
+    position: relative;
+    color: #fff;
+    font-size: 12px;
+}
+
+.f5Item .text {
+    color: rgba(255, 255, 255, .6);
+    line-height: 40px;
+}
+
+.f5Item .eyePic {
+    width: 19px;
+    height: 13px;
+    position: absolute;
+    right: 11px;
+    bottom: 12px;
+}
+
+.f5>div:nth-child(1) {
+    margin-top: 20px;
+    margin-left: 34px;
+}
+
+.f5>div:nth-child(2) {
+    margin-left: 67px;
+}
+
+.f5>div:nth-child(3) {
+    margin-left: 34px;
+}
+
+.f5>div:nth-child(4) {
+    position: absolute;
+    top: 108px;
+    right: 31px;
+}
+
+.f5>div:nth-child(5) {
+    position: absolute;
+    top: 241px;
+    right: 0;
 }
 
 /* *************main结束************** */
@@ -160,12 +374,14 @@ footer {
     text-align: center;
     color: #fff;
 }
+
 footer img {
     width: 60px;
     height: 60px;
     margin-top: 35px;
     margin-bottom: 15px;
 }
+
 footer .copyRight {
     margin-top: 10px;
     font-size: 12px;
