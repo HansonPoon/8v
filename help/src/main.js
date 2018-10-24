@@ -20,8 +20,8 @@ Vue.config.devtools = true  //启用vue调试工具
 
 Vue.prototype.$axios = axios
 
-// axios.defaults.baseURL = 'http://game.longwin.io:8001'
-axios.defaults.baseURL = 'http://192.168.0.111:8001'
+axios.defaults.baseURL = 'http://game.longwin.io:8001'
+// axios.defaults.baseURL = 'http://192.168.0.111:8001'
 
 
 Vue.component('v-header', header)    //顶部
