@@ -1,0 +1,302 @@
+/*          统一进行屏幕适配         */
+body {
+    min-width: 350px;
+    max-width: 1920px;
+}
+@media screen and (min-width: 1440px) {
+    .mobileNav {
+        display: none;
+    }
+    .wave {
+        padding-bottom: 546px;
+    }
+}
+@media screen and (min-width: 1190px) and (max-width: 1440px) {
+    .mobileNav {
+        display: none;
+    }
+    nav .nav_right li {
+        font-size: 18px;
+    }
+    .topbox h1.cover {
+        font-size: 45px;
+    }
+    section .textBox h1 {
+        font-size: 40px;
+    }
+    section .textBox p {
+        font-size: 20px;
+    }
+    .scene .tags p {
+        font-size: 16px;
+    }
+    .scene.people .msgboxs > div > p {
+        font-size: 17px;
+    }
+    .downloadbox {
+        zoom: 0.75;
+    }
+    .downloadbox span {
+        transform: scale(0.8);
+        display: inline-block;
+        margin-top: -2px;
+        margin-left: -10px;
+    }
+
+
+}
+@media screen and (max-width: 1190px) {
+    .mobileNav {
+        display: none;
+    }
+    .scene .tags p {
+        font-size: 12px;
+	}
+	header .topbox h1.cover {
+        font-size: 40px;
+        margin-bottom: 25%;
+    }
+    .topbox .play.cover {
+        margin-bottom: 5%;
+    }
+}
+@media screen and (min-width: 690px) and (max-width: 1190px) {
+    .mobileNav {
+        display: none;
+    }
+    nav .nav_right li {
+        font-size: 14px;
+    }
+    .topbox h1.cover {
+        font-size: 45px;
+    }
+    section .textBox h1 {
+        font-size: 28px;
+    }
+    section .textBox p {
+        font-size: 16px;
+    }
+    .scene.people .msgboxs > div > p {
+        font-size: 14px;
+    }
+    .mapbox,
+    .downloadbox {
+        margin: 0 5%;
+    }
+    .downloadbox {
+        zoom: 0.62;
+        padding-bottom: 35%;
+    }
+    .downloadbox span {
+        transform: scale(0.7);
+        display: inline-block;
+        margin-top: -3px;
+        margin-left: -18px;
+    }
+}
+@media screen and (max-width: 990px) {
+    .mobileNav {
+        display: none;
+    }
+    .scene .tags i {
+        margin-top: 15%;
+    }
+    .scene .tags p:last-child {
+        display: none;
+    }
+    .scene.people .msgboxs > div > p {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 800px) {
+    nav {
+        opacity: 0;
+    }
+    .mobileNav {
+        display: block;
+    }
+    .menu {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 690px) {
+	header .topbox h1.cover {
+        font-size: 30px;
+        margin-bottom: 25%;
+    }
+    .topbox .play.cover {
+        /* margin-bottom: 5%; */
+    }
+    .mobileNav {
+        display: block;
+    }
+    .menu {
+        font-size: 16px;
+    }
+    header {
+        padding-top: 52.9%;
+    }
+    nav {
+        padding: 3%;
+    }
+    nav .nav_logo {
+        display: none;
+    }
+    nav .nav_right {
+        margin-left: 0px;
+    }
+    nav .nav_right li {
+        font-size: 12px;
+    }
+    .topbox h1.cover {
+        font-size: 26px;
+    }
+    .nav_right li {
+        font-size: 12px;
+        padding: 2px 6px;
+    }
+    section .textBox h1 {
+        font-size: 16px;
+    }
+    section .textBox p {
+        font-size: 12px;
+    }
+    .scene.people .msgboxs > div {
+        min-width: 144px;
+        min-height: 64px;
+    }
+    .mapbox {
+        margin: 0;
+    }
+    .mapbox h1 {
+        font-size: 18px;
+    }
+    .mapbox p {
+        font-size: 12px;
+    }
+    .downloadbox {
+        zoom: 0.4;
+        margin: 0 3%;
+        padding-bottom: 42%;
+    }
+    .downloadbox span {
+        transform: scale(0.5);
+        display: inline-block;
+        margin-top: -7px;
+        margin-left: -44px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+	header .topbox h1.cover {
+        font-size: 26px;
+        margin-bottom: 25%;
+    }
+    .topbox .play.cover {
+        /* margin-bottom: 5%; */
+    }
+    .menu {
+        font-size: 16px;
+    }
+    .mobileNav {
+        display: block;
+    }
+    .scene .tags i {
+        margin-top: 24%;
+    }
+    .scene .tags p {
+        display: none;
+    }
+    .scene.people .msgboxs > div > p,
+    .scene.people .msgboxs > div > p > span {
+        margin-top: 5%;
+    }
+    .scene.people .avatars > i:first-child {
+        margin-left: 1%;
+    }
+    .scene.people .msgboxs > div:first-child {
+        margin-left: 8.2%;
+    }
+    .scene.people .avatars > i:nth-child(3),
+    .scene.people .msgboxs > div:nth-child(3) {
+        margin-top: 32%;
+    }
+    .scene.people .avatars > i:nth-child(2),
+    .scene.people .avatars > i:nth-child(4),
+    .scene.people .avatars > i:last-child,
+    .scene.people .msgboxs > div:nth-child(2),
+    .scene.people .msgboxs > div:nth-child(4),
+    .scene.people .msgboxs > div:last-child {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .menu {
+        font-size: 16px;
+    }
+    .mobileNav {
+        display: block;
+    }
+    .nav_left {
+        display: none;
+    }
+}
+@media screen and (max-width: 480px) {
+    header .topbox h1.cover {
+        font-size: 24px;
+        margin-bottom: 20%;
+    }
+    .topbox .play.cover {
+        padding: 0 35px 0 10px;
+        font-size: 12px;
+        margin-bottom: 6%;
+        line-height: 30px;
+    }
+    .topbox .play.cover img {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0px;
+    }
+}
+@media screen and (max-width: 414px) {
+    .topbox .play.cover {
+        padding: 0 35px 0 10px;
+        font-size: 14px;
+        margin-bottom: 6%;
+        line-height: 30px;
+    }
+
+    header .topbox h1.cover {
+        font-size: 22px;
+        margin-bottom: 20%;
+    }
+    .topbox .play.cover img {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0px;
+    }
+}
+@media screen and (max-width: 375px) {
+    header .topbox h1.cover {
+        font-size: 20px;
+        margin-bottom: 20%;
+    }
+    .topbox .play.cover {
+        padding: 0 35px 0 10px;
+        font-size: 12px;
+        margin-bottom: 6%;
+        line-height: 30px;
+    }
+    .topbox .play.cover img {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0px;
+    }
+}

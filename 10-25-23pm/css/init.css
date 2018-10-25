@@ -1,0 +1,57 @@
+/* ********************样式初始化********************** */
+
+@font-face {
+    font-family: 'myfont';
+    src: url('../static/fonts/PINGFANG\ MEDIUM.TTF');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'myfont';
+}
+
+a:-webkit-any-link {
+    color: white;
+    text-decoration: none;
+}
+
+i {
+    font-style: normal;
+}
+
+html, body {
+    font-size: 16px;
+}
+
+body {
+    opacity: 0;
+    transition-duration: .3s;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix::after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+.ib {
+    display: inline-block;
+}
