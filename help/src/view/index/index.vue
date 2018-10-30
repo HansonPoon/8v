@@ -138,7 +138,7 @@
               <div v-else>
                 <ul class="rankList">
                   <li v-for="(item,idx) in interestList" :key="idx">
-                    <div class="number">{{item.ranking}}</div>
+                    <div :class="'rankListItem'+item.ranking" class="number">{{item.ranking}}</div>
                     <span>{{item.userId}}</span>
                     <span class="money fr">{{item.totalAmount}} USDT</span>
                   </li>
@@ -154,7 +154,7 @@
               <div v-else>
                 <ul class="rankList">
                   <li v-for="(item,idx) in inviteList" :key="idx">
-                    <div class="number">{{item.ranking}}</div>
+                    <div :class="'rankListItem'+item.ranking" class="number">{{item.ranking}}</div>
                     <span>{{item.userId}}</span>
                     <span class="money fr">{{item.totalAmount}} USDT</span>
                   </li>
@@ -178,257 +178,263 @@
 <script>
 // 引用下拉刷新插件
 import BScroll from "better-scroll";
-
+import md5 from "js-md5";
 export default {
-    created() {
-        // 读本地储存和首次ajax...
-        this.data = JSON.parse(sessionStorage.getItem("data"));
-        this.getHome();
-        this.changeInterestPageIdx(1, this.pageSize);
-        this.changeInvitePageIdx(1, this.pageSize);
+  created() {
+    // 读本地储存和首次ajax...
+    this.data = JSON.parse(sessionStorage.getItem("data"));
+    this.getHome();
+    this.changeInterestPageIdx(1, this.pageSize);
+    this.changeInvitePageIdx(1, this.pageSize);
+  },
+  mounted() {
+    this.scrollFn();
+  },
+  data() {
+    return {
+      data: null,
+      addr: null,
+      /* 用户信息 */
+      advertisement: [],
+      userId: "",
+      userType: "",
+      userStatus: "",
+      inviteId: "",
+      stakeAccumulate: "",
+      restMoney: "",
+      /* 滑动切换 */
+      tabItem: ["主页", "排行榜"],
+      isActive: 0, //当前显示的页面下标
+      /* 滑动切换结束 */
+      bannerStartIdx: 0,
+      /* 持币生息榜 */
+      interestList: [],
+      totalCount_interest: 0,
+      /* 邀请奖励榜 */
+      inviteList: [
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 2 },
+        { rank: 1, iphone: 1, money: 12 }
+      ],
+      totalCount_invite: 0,
+      showList: true, //显示哪一页
+      pageSize: 6, //每页条数
+      /* 底部tab */
+      bottomTab: ["持币生息榜", "邀请奖励榜"],
+      ifTab: 0,
+      /* 退出弹框 */
+      showPop: false,
+      /* 投注信息 */
+      touzhuInfo: null,
+      exitPop: false,
+      dropDown: false //下拉刷新
+    };
+  },
+  methods: {
+    /* 滑动切换 */
+    tabPage(idx) {
+      // 获取页面容器
+      const tabContent = document.getElementById("tabContent");
+      // 获取页面实际宽度
+      const pageWidth = tabContent.getElementsByClassName("contentPage")[0]
+        .offsetWidth;
+      //   根据下标来位移
+      tabContent.style.left = -idx * pageWidth + "px";
+      // 改变导航文字颜色
+      this.isActive = idx;
+      //   改变横线位置
+      document.getElementById("bottomLine").style.left =
+        (idx * pageWidth) / this.tabItem.length + "px";
     },
-    mounted() {
-        this.scrollFn();
+    // 左滑动
+    onSwipeLeft() {
+      if (this.isActive < 1) {
+        this.isActive++;
+        this.tabPage(this.isActive);
+      }
     },
-    data() {
-        return {
-            data: null,
-            addr: null,
-            /* 用户信息 */
-            advertisement: [],
-            userId: "",
-            userType: "",
-            userStatus: "",
-            inviteId: "",
-            stakeAccumulate: "",
-            restMoney: "",
-            /* 滑动切换 */
-            tabItem: ["主页", "排行榜"],
-            isActive: 0, //当前显示的页面下标
-            /* 滑动切换结束 */
-            bannerStartIdx: 0,
-            /* 持币生息榜 */
-            interestList: [],
-            totalCount_interest: 0,
-            /* 邀请奖励榜 */
-            inviteList: [
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 2 },
-                { rank: 1, iphone: 1, money: 12 }
-            ],
-            totalCount_invite: 0,
-            showList: true, //显示哪一页
-            pageSize: 8, //每页条数
-            /* 底部tab */
-            bottomTab: ["持币生息榜", "邀请奖励榜"],
-            ifTab: 0,
-            /* 退出弹框 */
-            showPop: false,
-            /* 投注信息 */
-            touzhuInfo: null,
-            exitPop: false,
-            dropDown: false //下拉刷新
-        };
+    // 右滑动
+    onSwipeRight() {
+      if (this.isActive > 0) {
+        this.isActive--;
+        this.tabPage(this.isActive);
+      }
     },
-    methods: {
-        /* 滑动切换 */
-        tabPage(idx) {
-            // 获取页面容器
-            const tabContent = document.getElementById("tabContent");
-            // 获取页面实际宽度
-            const pageWidth = tabContent.getElementsByClassName(
-                "contentPage"
-            )[0].offsetWidth;
-            //   根据下标来位移
-            tabContent.style.left = -idx * pageWidth + "px";
-            // 改变导航文字颜色
-            this.isActive = idx;
-            //   改变横线位置
-            document.getElementById("bottomLine").style.left =
-                (idx * pageWidth) / this.tabItem.length + "px";
-        },
-        // 左滑动
-        onSwipeLeft() {
-            if (this.isActive < 1) {
-                this.isActive++;
-                this.tabPage(this.isActive);
-            }
-        },
-        // 右滑动
-        onSwipeRight() {
-            if (this.isActive > 0) {
-                this.isActive--;
-                this.tabPage(this.isActive);
-            }
-        },
-        /* 滑动切换结束 */
-        /* 底部切换 */
-        tabBottom(idx) {
-            this.ifTab = idx;
-            this.showList = !this.showList;
-        },
-        /* 签到 */
-        sign() {
-            // 如果已经签过到了
+    /* 滑动切换结束 */
+    /* 底部切换 */
+    tabBottom(idx) {
+      this.ifTab = idx;
+      this.showList = !this.showList;
+    },
+    /* 签到 */
+    sign() {
+      // 如果已经签过到了
 
-            // if (this.addr.userSign == '未签到') {
-            this.$axios
-                .post("hzp/homePage/signIn", {
-                    userId: this.data.userId,
-                    userToken: this.data.userToken
-                })
-                .then(res => {
-                    if (res.data.code == 0) {
-                        this.$Message.success("签到成功");
-                        // 刷新页面
-                        this.getHome();
-                    } else {
-                        this.$Message.error(res.data.message);
-                    }
-                });
-            // }
-            // else {
-            //   this.$Message.error('今日已签过到了~')
-            // }
-        },
-        /* ***************ajax ********************/
-        getHome() {
-            this.$axios
-                .post("hzp/homePage/home", {
-                    userId: this.data.userId,
-                    userToken: this.data.userToken
-                })
-                .then(res => {
-                    const userInfo = res.data.data;
-                    this.advertisement = userInfo.advertisement;
-                    this.userId = userInfo.userId;
-                    this.userType = userInfo.userType;
-                    this.userStatus = userInfo.userStatus;
-                    this.inviteId = userInfo.inviteUserId;
-                    this.stakeAccumulate = userInfo.stakeAccumulate;
-                    this.restMoney = userInfo.restMoney;
+      // if (this.addr.userSign == '未签到') {
+      this.$axios
+        .post("hzp/homePage/signIn", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("签到成功");
+            // 刷新页面
+            this.getHome();
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
+      // }
+      // else {
+      //   this.$Message.error('今日已签过到了~')
+      // }
+    },
+    /* ***************ajax ********************/
+    getHome() {
+      this.$axios
+        .post("hzp/homePage/home", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          sign: md5(
+            JSON.stringify({
+              userId: this.data.userId,
+              userToken: this.data.userToken,
+              key: "HzpKey"
+            })
+          )
+        })
+        .then(res => {
+          const userInfo = res.data.data;
+          this.advertisement = userInfo.advertisement;
+          this.userId = userInfo.userId;
+          this.userType = userInfo.userType;
+          this.userStatus = userInfo.userStatus;
+          this.inviteId = userInfo.inviteUserId;
+          this.stakeAccumulate = userInfo.stakeAccumulate;
+          this.restMoney = userInfo.restMoney;
 
-                    this.addr = userInfo;
+          this.addr = userInfo;
 
-                    // 存平台地址和用户钱包地址
-                    sessionStorage.setItem("addr", JSON.stringify(userInfo));
-                });
-        },
-        changeInterestPageIdx(pageIdx, pageSize) {
-            //当前页码，每页条数
-            this.$axios
-                .post("hzp/homePage/rankingInterestRoInvitation", {
-                    userId: this.data.userId,
-                    userToken: this.data.userToken,
-                    fromNum: pageIdx,
-                    pageSize: this.pageSize,
-                    type: 0
-                })
-                .then(res => {
-                    this.interestList = res.data.data.list;
-                    this.totalCount_interest = res.data.data.totalCount;
-                });
-        },
-        changeInvitePageIdx(pageIdx, pageSize) {
-            //当前页码，每页条数
-            this.$axios
-                .post("hzp/homePage/rankingInterestRoInvitation", {
-                    userId: this.data.userId,
-                    userToken: this.data.userToken,
-                    fromNum: pageIdx,
-                    pageSize: this.pageSize,
-                    type: 1
-                })
-                .then(res => {
-                    this.inviteList = res.data.data.list;
-                    this.totalCount_invite = res.data.data.totalCount;
-                });
-        },
-        getTouZhuInfo() {
-            this.$axios
-                .post("hzp/stake/getExitInfo", {
-                    userId: this.data.userId,
-                    userToken: this.data.userToken
-                })
-                .then(res => {
-                    if (res.data.code == 0) {
-                        this.showPop = true;
-                        this.touzhuInfo = res.data.data;
-                    }
-                });
-        },
-        exit() {
-            this.$axios
-                .post("hzp/homePage/outLogin", this.data)
-                .then(res => {
-                    this.showPop = false;
-                    if (res.data.code === 0) {
-                        //   清除所有本地存储
-                        sessionStorage.clear();
-                        this.$router.replace({ name: "login" });
-                    } else {
-                        this.$Message.error(res.data.message);
-                        this.$router.replace({ name: "login" });
-                    }
-                })
-                .catch(error => {
-                    if (error) {
-                        this.$Message.error(error.toString());
-                        this.$showPop = false;
-                        this.$router.replace({ name: "login" });
-                    }
-                });
-        },
-        /* ************************************* */
-        scrollFn() {
-            this.$nextTick(() => {
-                if (!this.scroll) {
-                    this.scroll = new BScroll(this.$refs.wrapper, {
-                        click: true,
-                        scrollY: true,
-                        probeType: 3
-                    });
-                } else {
-                    this.scroll.refresh();
-                }
-                this.scroll.on("scroll", pos => {
-                    // console.log(pos.y, this.dropDown);
-                    //如果下拉超过50px 就显示下拉刷新的文字
-                    if (pos.y > 50) {
-                        this.dropDown = true;
-                    } else {
-                        this.dropDown = false;
-                    }
-                });
-                //touchEnd（手指离开以后触发） 通过这个方法来监听下拉刷新
-                this.scroll.on("touchEnd", pos => {
-                    // 下拉动作
-                    if (pos.y > 50) {
-                        console.log("下拉刷新成功");
-                        this.dropDown = false;
-                        /* ********业务逻辑********** */
-                        // my ajax -- 重新请求用户信息
-                        this.getHome();
-                    }
-                    //上拉加载 总高度>下拉的高度+10 触发加载更多
-                    if (this.scroll.maxScrollY > pos.y + 10) {
-                        console.log("加载更多");
-                        //使用refresh 方法 来更新scroll  解决无法滚动的问题
-                        this.scroll.refresh();
-                    }
-                    // console.log(
-                    //     this.scroll.maxScrollY + "总距离----下拉的距离" + pos.y
-                    // );
-                });
-                // console.log(this.scroll.maxScrollY);
-            });
+          // 存平台地址和用户钱包地址
+          sessionStorage.setItem("addr", JSON.stringify(userInfo));
+        });
+    },
+    changeInterestPageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("hzp/homePage/rankingInterestRoInvitation", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 0
+        })
+        .then(res => {
+          this.interestList = res.data.data.list;
+          this.totalCount_interest = res.data.data.totalCount;
+        });
+    },
+    changeInvitePageIdx(pageIdx, pageSize) {
+      //当前页码，每页条数
+      this.$axios
+        .post("hzp/homePage/rankingInterestRoInvitation", {
+          userId: this.data.userId,
+          userToken: this.data.userToken,
+          fromNum: pageIdx,
+          pageSize: this.pageSize,
+          type: 1
+        })
+        .then(res => {
+          this.inviteList = res.data.data.list;
+          this.totalCount_invite = res.data.data.totalCount;
+        });
+    },
+    getTouZhuInfo() {
+      this.$axios
+        .post("hzp/stake/getExitInfo", {
+          userId: this.data.userId,
+          userToken: this.data.userToken
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.showPop = true;
+            this.touzhuInfo = res.data.data;
+          }
+        });
+    },
+    exit() {
+      this.$axios
+        .post("hzp/homePage/outLogin", this.data)
+        .then(res => {
+          this.showPop = false;
+          if (res.data.code === 0) {
+            //   清除所有本地存储
+            sessionStorage.clear();
+            this.$router.replace({ name: "login" });
+          } else {
+            this.$Message.error(res.data.message);
+            this.$router.replace({ name: "login" });
+          }
+        })
+        .catch(error => {
+          if (error) {
+            this.$Message.error(error.toString());
+            this.$showPop = false;
+            this.$router.replace({ name: "login" });
+          }
+        });
+    },
+    /* ************************************* */
+    scrollFn() {
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll(this.$refs.wrapper, {
+            click: true,
+            scrollY: true,
+            probeType: 3
+          });
+        } else {
+          this.scroll.refresh();
         }
+        this.scroll.on("scroll", pos => {
+          // console.log(pos.y, this.dropDown);
+          //如果下拉超过50px 就显示下拉刷新的文字
+          if (pos.y > 50) {
+            this.dropDown = true;
+          } else {
+            this.dropDown = false;
+          }
+        });
+        //touchEnd（手指离开以后触发） 通过这个方法来监听下拉刷新
+        this.scroll.on("touchEnd", pos => {
+          // 下拉动作
+          if (pos.y > 50) {
+            console.log("下拉刷新成功");
+            this.dropDown = false;
+            /* ********业务逻辑********** */
+            // my ajax -- 重新请求用户信息
+            this.getHome();
+          }
+          //上拉加载 总高度>下拉的高度+10 触发加载更多
+          if (this.scroll.maxScrollY > pos.y + 10) {
+            console.log("加载更多");
+            //使用refresh 方法 来更新scroll  解决无法滚动的问题
+            this.scroll.refresh();
+          }
+          // console.log(
+          //     this.scroll.maxScrollY + "总距离----下拉的距离" + pos.y
+          // );
+        });
+        // console.log(this.scroll.maxScrollY);
+      });
     }
+  }
 };
 </script>
 
@@ -437,329 +443,315 @@ export default {
 @import "../../myconfig/public.scss";
 /* 下拉刷新 */
 .drop-down {
-    position: absolute;
-    top: 50px;
-    left: 0px;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #ccc;
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #ccc;
 }
 /* tab开始 */
 #top {
-    width: 100%;
-    height: 150px;
-    background: url("../../assets/images/mainpage/bc.png") no-repeat center
-        center;
-    background-size: cover;
+  width: 100%;
+  height: 150px;
+  background: url("../../assets/images/mainpage/bc.png") no-repeat center center;
+  background-size: cover;
 }
 #tab {
-    width: 100%;
-    height: 100%;
-    font-size: 16px;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  overflow: hidden;
+  position: relative;
+  .tab-nav {
+    display: flex;
+    display: -ms-flexbox;
+    border-bottom: 1px solid rgba(254, 254, 254, 0.4);
     position: relative;
-    .tab-nav {
-        display: flex;
-        display: -ms-flexbox;
-        border-bottom: 1px solid rgba(254, 254, 254, 0.4);
-        position: relative;
-    }
-    #bottomLine {
-        width: calc(100% / 2);
-        height: 2px;
-        background-color: #fff;
-        position: absolute;
-        bottom: -1px;
-        transition: 0.3s ease-in-out;
-    }
-    .tabItem {
-        width: calc(100% / 2);
-        line-height: 44px;
-        text-align: center;
-        color: rgba(254, 254, 254, 0.4);
-    }
-    .tabActive {
-        color: #fff;
-    }
-    // 内容页面
-    .tabContent {
-        margin-top: -90px;
-        position: relative;
-        width: calc(100% * 2);
-        height: calc(100% - 60px);
-        transition: 0.3s ease-in-out;
-    }
-    .page1 {
-        overflow-y: scroll;
-    }
-    .contentPage {
-        width: calc(100% / 2);
-        height: 100%;
-        display: inline-block;
-    }
+  }
+  #bottomLine {
+    width: calc(100% / 2);
+    height: 2px;
+    background-color: #fff;
+    position: absolute;
+    bottom: -1px;
+    transition: 0.3s ease-in-out;
+  }
+  .tabItem {
+    width: calc(100% / 2);
+    line-height: 44px;
+    text-align: center;
+    color: rgba(254, 254, 254, 0.4);
+  }
+  .tabActive {
+    color: #fff;
+  }
+  // 内容页面
+  .tabContent {
+    margin-top: -90px;
+    position: relative;
+    width: calc(100% * 2);
+    height: calc(100% - 60px);
+    transition: 0.3s ease-in-out;
+  }
+  .page1 {
+    overflow-y: scroll;
+  }
+  .contentPage {
+    width: calc(100% / 2);
+    height: 100%;
+    display: inline-block;
+  }
 }
 /* tab结束 */
 .container {
-    width: 90%;
-    margin: 0 auto;
+  width: 90%;
+  margin: 0 auto;
 }
 /* 第一页 */
 // banner
 .ivu-carousel-list img {
-    height: 120px;
-    width: 100%;
+  height: 120px;
+  width: 100%;
 }
 #user {
-    background-color: #fff;
-    margin: 25px 0;
-    padding: 10px;
-    box-shadow: 0px 2px 1px 1px $shadow;
-    border: 1px solid $line;
-    .top {
-        border-bottom: 1px solid $line;
+  background-color: #fff;
+  margin: 25px 0;
+  padding: 10px;
+  box-shadow: 0px 2px 1px 1px $shadow;
+  border: 1px solid $line;
+  .top {
+    border-bottom: 1px solid $line;
 
-        #headPic {
-            width: 40px;
-            height: 40px;
-            margin-top: 5px;
-        }
-
-        .user {
-            margin-bottom: 10px;
-            width: calc(100% - 45px);
-            .userType {
-                border-radius: 2px;
-                border: 1px solid $usertype;
-                color: $usertype;
-                font-size: 12px;
-                padding: 2px 4px;
-                margin-right: 6px;
-                position: relative;
-                top: -2px;
-            }
-            .userStatus {
-                border-radius: 2px;
-                border: 1px solid $userstatus;
-                color: $userstatus;
-                font-size: 12px;
-                padding: 2px 4px;
-                margin-right: 20px;
-                position: relative;
-                top: -2px;
-            }
-        }
-        .userInfo {
-            margin-left: 20px;
-            .tel {
-                font-size: 16px;
-                color: $userf3;
-                font-weight: bold;
-            }
-
-            .sign {
-                margin-top: 2px;
-                display: inline-block;
-                width: 30px;
-                text-align: center;
-
-                & > p {
-                    font-size: 12px;
-                }
-                img {
-                    width: 17px;
-                    height: 17px;
-                }
-            }
-        }
-        .inviter {
-            margin-left: 20px;
-            font-size: 12px;
-            color: $font;
-            line-height: 30px;
-        }
+    #headPic {
+      width: 40px;
+      height: 40px;
+      margin-top: 5px;
     }
-    .bot {
+
+    .user {
+      margin-bottom: 10px;
+      width: calc(100% - 45px);
+      .userType {
+        border-radius: 2px;
+        border: 1px solid $usertype;
+        color: $usertype;
+        font-size: 12px;
+        padding: 2px 4px;
+        margin-right: 6px;
+        position: relative;
+        top: -2px;
+      }
+      .userStatus {
+        border-radius: 2px;
+        border: 1px solid $userstatus;
+        color: $userstatus;
+        font-size: 12px;
+        padding: 2px 4px;
+        margin-right: 20px;
+        position: relative;
+        top: -2px;
+      }
+    }
+    .userInfo {
+      margin-left: 20px;
+      .tel {
+        font-size: 16px;
+        color: $userf3;
+        font-weight: bold;
+      }
+
+      .sign {
+        margin-top: 2px;
+        display: inline-block;
+        width: 30px;
         text-align: center;
-        padding: 10px 10px 0 10px;
+
+        & > p {
+          font-size: 12px;
+        }
         img {
-            width: 15px;
-            height: 15px;
-            vertical-align: middle;
-            position: relative;
-            top: -2px;
-            margin-right: 5px;
+          width: 17px;
+          height: 17px;
         }
-        .left {
-            width: 50%;
-            border-right: 1px solid $line;
-        }
-        .right {
-            width: 50%;
-        }
-        .money {
-            font-size: 14px;
-            font-weight: bold;
-            color: $userf3;
-        }
-        .txt {
-            font-size: 12px;
-            line-height: 30px;
-        }
+      }
     }
+    .inviter {
+      margin-left: 20px;
+      font-size: 12px;
+      color: $font;
+      line-height: 30px;
+    }
+  }
+  .bot {
+    text-align: center;
+    padding: 10px 10px 0 10px;
+    img {
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+      margin-right: 5px;
+    }
+    .left {
+      width: 50%;
+      border-right: 1px solid $line;
+    }
+    .right {
+      width: 50%;
+    }
+    .money {
+      font-size: 14px;
+      font-weight: bold;
+      color: $userf3;
+    }
+    .txt {
+      font-size: 12px;
+      line-height: 30px;
+    }
+  }
 }
 #f3 {
-    display: flex;
-    justify-content: space-between;
-    margin: 25px 0;
-    .f3Item {
-        width: 28%;
-        text-align: center;
-        font-size: 14px;
-        color: #fff;
-        border-radius: 2px;
-        padding: 14px;
-        border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0;
+  .f3Item {
+    width: 28%;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 2px;
+    padding: 14px;
+    border-radius: 2px;
 
-        img {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 5px;
-        }
+    img {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 5px;
     }
-    .f3Item:nth-child(1) {
-        background: linear-gradient(
-            97deg,
-            rgb(126, 121, 250),
-            rgb(152, 148, 253)
-        );
-    }
-    .f3Item:nth-child(2) {
-        background: linear-gradient(
-            97deg,
-            rgb(254, 93, 146),
-            rgb(252, 137, 175)
-        );
-    }
-    .f3Item:nth-child(3) {
-        background: linear-gradient(
-            97deg,
-            rgb(255, 173, 93),
-            rgb(255, 189, 125)
-        );
-    }
+  }
+  .f3Item:nth-child(1) {
+    background: linear-gradient(97deg, rgb(126, 121, 250), rgb(152, 148, 253));
+  }
+  .f3Item:nth-child(2) {
+    background: linear-gradient(97deg, rgb(254, 93, 146), rgb(252, 137, 175));
+  }
+  .f3Item:nth-child(3) {
+    background: linear-gradient(97deg, rgb(255, 173, 93), rgb(255, 189, 125));
+  }
 }
 .list {
-    ul {
-        padding: 0 15px;
-        border-radius: 6px;
-        overflow: hidden;
-        background-color: #fff;
-        box-shadow: 0px 2px 1px 1px $shadow;
-        border: 1px solid $line;
-
-        li {
-            border-bottom: 1px solid $line;
-            font-size: 14px;
-            line-height: 40px;
-
-            img {
-                width: 15px;
-                height: 15px;
-                vertical-align: middle;
-                position: relative;
-                top: -2px;
-                margin-right: 8px;
-            }
-
-            i {
-                margin-top: 10px;
-            }
-        }
-        li:last-child {
-            border: none;
-        }
-    }
-}
-.btnBox {
-    margin: 30px 0;
-}
-/* 第二页 */
-.rankList {
-    border-radius: 6px;
-    font-size: 14px;
-    overflow: hidden;
+  ul {
     padding: 0 15px;
+    border-radius: 6px;
+    overflow: hidden;
     background-color: #fff;
     box-shadow: 0px 2px 1px 1px $shadow;
     border: 1px solid $line;
 
     li {
-        padding: 10px 15px;
-        line-height: 40px;
-        border-bottom: 1px solid $line;
-        .number {
-            display: inline-block;
-            width: 22px;
-            line-height: 22px;
-            text-align: center;
-            border-radius: 50%;
-            margin-right: 15px;
-            color: #fff;
-            background-color: #c1c1c1;
-        }
-        // 前三个
-        &:nth-child(1) .number {
-            // background-color: #e70034;
-            color: transparent;
-            background: url("../../assets/images/num1.png") no-repeat center
-                center;
-            background-size: contain;
-        }
-        &:nth-child(2) .number {
-            // background-color: #f29700;
-            color: transparent;
-            background: url("../../assets/images/num2.png") no-repeat center
-                center;
-            background-size: contain;
-        }
-        &:nth-child(3) .number {
-            // background-color: #8fc41e;
-            color: transparent;
-            background: url("../../assets/images/num3.png") no-repeat center
-                center;
-            background-size: contain;
-        }
-        .money {
-            color: $money;
-        }
+      border-bottom: 1px solid $line;
+      font-size: 14px;
+      line-height: 40px;
+
+      img {
+        width: 15px;
+        height: 15px;
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+        margin-right: 8px;
+      }
+
+      i {
+        margin-top: 10px;
+      }
     }
     li:last-child {
-        border: none;
+      border: none;
     }
+  }
+}
+.btnBox {
+  margin: 30px 0;
+}
+/* 第二页 */
+.rankList {
+  border-radius: 6px;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 0 15px;
+  background-color: #fff;
+  box-shadow: 0px 2px 1px 1px $shadow;
+  border: 1px solid $line;
+
+  li {
+    padding: 10px 15px;
+    line-height: 40px;
+    border-bottom: 1px solid $line;
+    .number {
+      display: inline-block;
+      width: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      margin-right: 15px;
+      color: #fff;
+      background-color: #c1c1c1;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    // 前三个
+    .rankListItem1 {
+      color: transparent;
+      background: url("../../assets/images/num1.png") no-repeat center center;
+      background-size: contain;
+    }
+    .rankListItem2 {
+      color: transparent;
+      background: url("../../assets/images/num2.png") no-repeat center center;
+      background-size: contain;
+    }
+    .rankListItem3 {
+      color: transparent;
+      background: url("../../assets/images/num3.png") no-repeat center center;
+      background-size: contain;
+    }
+    .money {
+      color: $money;
+    }
+  }
+  li:last-child {
+    border: none;
+  }
 }
 /* 底部切换 */
 #footer {
-    width: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 0;
+  width: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 0;
 
-    & > div {
-        display: inline-block;
-        width: 50%;
-        font-size: 16px;
-        text-align: center;
-        line-height: 50px;
-        background-color: #3e4c88;
-        color: rgba(254, 254, 254, 0.4);
-    }
-    .active {
-        color: #fff;
-    }
+  & > div {
+    display: inline-block;
+    width: 50%;
+    font-size: 16px;
+    text-align: center;
+    line-height: 50px;
+    background-color: #3e4c88;
+    color: rgba(254, 254, 254, 0.4);
+  }
+  .active {
+    color: #fff;
+  }
 }
 </style>
 

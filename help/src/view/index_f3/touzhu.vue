@@ -39,9 +39,10 @@
           <Button class="copybtn" type="primary" size="large" style="width:100%;" :data-clipboard-text='addr.platformAddress' @click="copy">复制地址</Button>
         </div>
       </div>
-      <div v-else>
+      <div id='touzhuSuccess' v-else>
+        <Icon type="ios-checkmark-circle-outline" size='40' style="position:relative;top:-3px;"/>
         投注成功
-        </div>
+      </div>
     </main>
     <section id="txt">
       <p>温馨提示：</p>
@@ -83,7 +84,7 @@ export default {
       showPop: false,
       money: "",
       touzhuType: "USDT",
-      futouSuccess:false
+      futouSuccess: false
     };
   },
   methods: {
@@ -142,15 +143,14 @@ export default {
               if (res.data.code == 0) {
                 this.addr.isStake = true;
                 this.futouSuccess = true;
-                this.$Message.success(res.message);
-                
+                this.$Message.success(res.data.message);
               } else if (res.data.code == 4009) {
-                this.$Message.error(res.message);
+                this.$Message.error(res.data.message);
                 setTimeout(() => {
                   this.$goto("changereceiveaddress");
                 }, 1000);
               } else {
-                this.$Message.error(res.message);
+                this.$Message.error(res.data.message);
               }
               this.showPop = false;
             });
@@ -199,5 +199,10 @@ main {
     width: 100px;
     height: 100px;
   }
+}
+#touzhuSuccess{
+  font-size: 30px;
+  text-align: center;
+  color: $lightblue;
 }
 </style>
