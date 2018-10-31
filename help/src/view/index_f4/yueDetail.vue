@@ -58,17 +58,29 @@ export default {
   methods: {
     changePageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
-      this.$axios
-        .post("hzp/homePage/balanceDetailsList", {
-          userId: this.data.userId,
-          userToken: this.data.userToken,
-          fromNum: pageIdx,
-          pageSize: this.pageSize
-        })
-        .then(res => {
-          this.interestList = res.data.data.list;
-          this.totalCount_interest = res.data.data.totalCount;
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/balanceDetailsList",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                fromNum: pageIdx,
+                pageSize: this.pageSize
+              })
+            )
+            .then(res => {
+              this.interestList = res.data.data.list;
+              this.totalCount_interest = res.data.data.totalCount;
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     }
   }
 };

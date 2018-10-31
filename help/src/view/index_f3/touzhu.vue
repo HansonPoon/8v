@@ -40,7 +40,7 @@
         </div>
       </div>
       <div id='touzhuSuccess' v-else>
-        <Icon type="ios-checkmark-circle-outline" size='40' style="position:relative;top:-3px;"/>
+        <Icon type="ios-checkmark-circle-outline" size='40' style="position:relative;top:-3px;" />
         投注成功
       </div>
     </main>
@@ -111,49 +111,73 @@ export default {
         this.money >= Number(this.addr.bettingRange.split("~")[0])
       ) {
         if (this.touzhuType == "USDT") {
-          this.$axios
-            .post("hzp/stake/userStake", {
-              userId: this.data.userId,
-              userToken: this.data.userToken,
-              stakeAmount: this.money
-            })
-            .then(res => {
-              if (res.data.code == 0) {
-                // this.$Message.success(res.data.message);
-                this.addr.isStake = true;
-              } else if (res.data.code == 4009) {
-                this.$Message.error(res.data.message);
-                setTimeout(() => {
-                  this.$goto("changereceiveaddress");
-                }, 1000);
-              } else {
-                this.$Message.error(res.data.message);
-              }
-              this.showPop = false;
-            });
+          this.$axios.get("hzp/stake/factorSource").then(res => {
+            if (res.data.code == 0) {
+              //继续请求。。
+              const factor = res.data.data;
+              this.$axios
+                .post(
+                  "hzp/stake/userStake",
+                  this.$axiosParam({
+                    factor,
+                    userId: this.data.userId,
+                    userToken: this.data.userToken,
+                    stakeAmount: this.money
+                  })
+                )
+                .then(res => {
+                  if (res.data.code == 0) {
+                    // this.$Message.success(res.data.message);
+                    this.addr.isStake = true;
+                  } else if (res.data.code == 4009) {
+                    this.$Message.error(res.data.message);
+                    setTimeout(() => {
+                      this.$goto("changereceiveaddress");
+                    }, 1000);
+                  } else {
+                    this.$Message.error(res.data.message);
+                  }
+                  this.showPop = false;
+                });
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
         } else {
           /* ajax...... */
-          this.$axios
-            .post("hzp/stake/restStake", {
-              userId: this.data.userId,
-              userToken: this.data.userToken,
-              stakeAmount: this.money
-            })
-            .then(res => {
-              if (res.data.code == 0) {
-                this.addr.isStake = true;
-                this.futouSuccess = true;
-                this.$Message.success(res.data.message);
-              } else if (res.data.code == 4009) {
-                this.$Message.error(res.data.message);
-                setTimeout(() => {
-                  this.$goto("changereceiveaddress");
-                }, 1000);
-              } else {
-                this.$Message.error(res.data.message);
-              }
-              this.showPop = false;
-            });
+          this.$axios.get("hzp/stake/factorSource").then(res => {
+            if (res.data.code == 0) {
+              //继续请求。。
+              const factor = res.data.data;
+              this.$axios
+                .post(
+                  "hzp/stake/restStake",
+                  this.$axiosParam({
+                    factor,
+                    userId: this.data.userId,
+                    userToken: this.data.userToken,
+                    stakeAmount: this.money
+                  })
+                )
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.addr.isStake = true;
+                    this.futouSuccess = true;
+                    this.$Message.success(res.data.message);
+                  } else if (res.data.code == 4009) {
+                    this.$Message.error(res.data.message);
+                    setTimeout(() => {
+                      this.$goto("changereceiveaddress");
+                    }, 1000);
+                  } else {
+                    this.$Message.error(res.data.message);
+                  }
+                  this.showPop = false;
+                });
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
         }
       } else {
         this.$Message.error("请检查充值金额");
@@ -200,7 +224,7 @@ main {
     height: 100px;
   }
 }
-#touzhuSuccess{
+#touzhuSuccess {
   font-size: 30px;
   text-align: center;
   color: $lightblue;

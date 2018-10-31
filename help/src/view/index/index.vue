@@ -178,11 +178,11 @@
 <script>
 // 引用下拉刷新插件
 import BScroll from "better-scroll";
-import md5 from "js-md5";
 export default {
   created() {
     // 读本地储存和首次ajax...
     this.data = JSON.parse(sessionStorage.getItem("data"));
+
     this.getHome();
     this.changeInterestPageIdx(1, this.pageSize);
     this.changeInvitePageIdx(1, this.pageSize);
@@ -273,124 +273,186 @@ export default {
     },
     /* 签到 */
     sign() {
-      // 如果已经签过到了
-
-      // if (this.addr.userSign == '未签到') {
-      this.$axios
-        .post("hzp/homePage/signIn", {
-          userId: this.data.userId,
-          userToken: this.data.userToken
-        })
-        .then(res => {
-          if (res.data.code == 0) {
-            this.$Message.success("签到成功");
-            // 刷新页面
-            this.getHome();
-          } else {
-            this.$Message.error(res.data.message);
-          }
-        });
-      // }
-      // else {
-      //   this.$Message.error('今日已签过到了~')
-      // }
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/signIn",
+              this.$axiosParam({
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                factor
+              })
+            )
+            .then(res => {
+              if (res.data.code == 0) {
+                this.$Message.success("签到成功");
+                // 刷新页面
+                this.getHome();
+              } else {
+                this.$Message.error(res.data.message);
+              }
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
     /* ***************ajax ********************/
     getHome() {
-      this.$axios
-        .post("hzp/homePage/home", {
-          userId: this.data.userId,
-          userToken: this.data.userToken,
-          sign: md5(
-            JSON.stringify({
-              userId: this.data.userId,
-              userToken: this.data.userToken,
-              key: "HzpKey"
-            })
-          )
-        })
-        .then(res => {
-          const userInfo = res.data.data;
-          this.advertisement = userInfo.advertisement;
-          this.userId = userInfo.userId;
-          this.userType = userInfo.userType;
-          this.userStatus = userInfo.userStatus;
-          this.inviteId = userInfo.inviteUserId;
-          this.stakeAccumulate = userInfo.stakeAccumulate;
-          this.restMoney = userInfo.restMoney;
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/home",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken
+              })
+            )
+            .then(res => {
+              const userInfo = res.data.data;
+              this.advertisement = userInfo.advertisement;
+              this.userId = userInfo.userId;
+              this.userType = userInfo.userType;
+              this.userStatus = userInfo.userStatus;
+              this.inviteId = userInfo.inviteUserId;
+              this.stakeAccumulate = userInfo.stakeAccumulate;
+              this.restMoney = userInfo.restMoney;
 
-          this.addr = userInfo;
+              this.addr = userInfo;
 
-          // 存平台地址和用户钱包地址
-          sessionStorage.setItem("addr", JSON.stringify(userInfo));
-        });
+              // 存平台地址和用户钱包地址
+              sessionStorage.setItem("addr", JSON.stringify(userInfo));
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
     changeInterestPageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
-      this.$axios
-        .post("hzp/homePage/rankingInterestRoInvitation", {
-          userId: this.data.userId,
-          userToken: this.data.userToken,
-          fromNum: pageIdx,
-          pageSize: this.pageSize,
-          type: 0
-        })
-        .then(res => {
-          this.interestList = res.data.data.list;
-          this.totalCount_interest = res.data.data.totalCount;
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/rankingInterestRoInvitation",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                fromNum: pageIdx,
+                pageSize: this.pageSize,
+                type: 0
+              })
+            )
+            .then(res => {
+              this.interestList = res.data.data.list;
+              this.totalCount_interest = res.data.data.totalCount;
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
     changeInvitePageIdx(pageIdx, pageSize) {
       //当前页码，每页条数
-      this.$axios
-        .post("hzp/homePage/rankingInterestRoInvitation", {
-          userId: this.data.userId,
-          userToken: this.data.userToken,
-          fromNum: pageIdx,
-          pageSize: this.pageSize,
-          type: 1
-        })
-        .then(res => {
-          this.inviteList = res.data.data.list;
-          this.totalCount_invite = res.data.data.totalCount;
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/rankingInterestRoInvitation",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken,
+                fromNum: pageIdx,
+                pageSize: this.pageSize,
+                type: 1
+              })
+            )
+            .then(res => {
+              this.inviteList = res.data.data.list;
+              this.totalCount_invite = res.data.data.totalCount;
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
-    getTouZhuInfo() {
-      this.$axios
-        .post("hzp/stake/getExitInfo", {
-          userId: this.data.userId,
-          userToken: this.data.userToken
-        })
-        .then(res => {
-          if (res.data.code == 0) {
-            this.showPop = true;
-            this.touzhuInfo = res.data.data;
-          }
-        });
-    },
+    // getTouZhuInfo() {
+    //   this.$axios.get("hzp/stake/factorSource").then(res => {
+    //     if (res.data.code == 0) {
+    //       //继续请求。。
+    //       const factor = res.data.data;
+    //       this.$axios
+    //         .post(
+    //           "hzp/stake/getExitInfo",
+    //           this.$axiosParam({
+    //             factor,
+    //             userId: this.data.userId,
+    //             userToken: this.data.userToken
+    //           })
+    //         )
+    //         .then(res => {
+    //           if (res.data.code == 0) {
+    //             this.showPop = true;
+    //             this.touzhuInfo = res.data.data;
+    //           } else {
+    //           }
+    //         });
+    //     } else {
+    //       this.$Message.error(res.data.message);
+    //     }
+    //   });
+    // },
     exit() {
-      this.$axios
-        .post("hzp/homePage/outLogin", this.data)
-        .then(res => {
-          this.showPop = false;
-          if (res.data.code === 0) {
-            //   清除所有本地存储
-            sessionStorage.clear();
-            this.$router.replace({ name: "login" });
-          } else {
-            this.$Message.error(res.data.message);
-            this.$router.replace({ name: "login" });
-          }
-        })
-        .catch(error => {
-          if (error) {
-            this.$Message.error(error.toString());
-            this.$showPop = false;
-            this.$router.replace({ name: "login" });
-          }
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/homePage/outLogin",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken
+              })
+            )
+            .then(res => {
+              this.showPop = false;
+              if (res.data.code == 0) {
+                //   清除所有本地存储
+                sessionStorage.clear();
+                this.$router.replace({ name: "login" });
+              } else {
+                this.$Message.error(res.data.message);
+                this.$router.replace({ name: "login" });
+              }
+            })
+            .catch(error => {
+              if (error) {
+                this.$Message.error(error.toString());
+                this.$showPop = false;
+                this.$router.replace({ name: "login" });
+              }
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
-    /* ************************************* */
+    /* ***************下拉刷新********************** */
     scrollFn() {
       this.$nextTick(() => {
         if (!this.scroll) {

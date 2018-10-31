@@ -1,48 +1,47 @@
 <template>
-    <div id="login">
-        <div id="header">
-            LONGWIN
-        </div>
-        <div class="logo">
-            <img src="../../assets/images/logo.png" alt="">
-        </div>
-        <Form ref="form" :model="form" :rules="ruleCustom">
-            <FormItem prop="user" style="width:100%;margin-bottom:15%;">
-                <Input type="text" v-model="form.user" placeholder="请输入手机号">
-                <Icon size='22' type="ios-contact" slot="prepend"></Icon>
-                </Input>
-            </FormItem>
-            <FormItem prop="passwd" style="width:100%;margin-bottom:15%;">
-                <Input type="password" v-model="form.passwd" placeholder="请输入密码">
-                <Icon size='22' type="ios-lock" slot="prepend"></Icon>
-                </Input>
-            </FormItem>
-            <FormItem prop="code" style="width:100%;margin-bottom:15%;">
-                <Input style="width:55%;" v-model="form.code" placeholder="请输入验证码">
-                <Icon size='22' type="md-eye" slot="prepend"></Icon>
-                </Input>
-                <div id="codeBox" @click="refreshCode">
-                    <s-identify :identifyCode="identifyCode"></s-identify>
-                </div>
-            </FormItem>
-            <FormItem style="width:100%;">
-                <Button style="width:100%" type="primary" @click="handleSubmit('form')">登录</Button>
-            </FormItem>
-            <div class="foot clearfix">
-                <router-link :to="{name:'register'}" tag="span" class="fl">注册</router-link>
-                <div class="btnBox">
-                    <Button @click="openGate" type="primary" size="small" style="margin-right: 30px;">Gate官网</Button>
-                    <Button @click="openImtoken" type="primary" size="small">Imtoken官网</Button>
-                </div>
-                <router-link style="color:rgb(157,157,157)" :to="{name:'forgetpassword'}" tag="span" class="fr">忘记密码</router-link>
-            </div>
-        </Form>
+  <div id="login">
+    <div id="header">
+      LONGWIN
     </div>
+    <div class="logo">
+      <img src="../../assets/images/logo.png" alt="">
+    </div>
+    <Form ref="form" :model="form" :rules="ruleCustom">
+      <FormItem prop="user" style="width:100%;margin-bottom:15%;">
+        <Input type="text" v-model="form.user" placeholder="请输入手机号">
+        <Icon size='22' type="ios-contact" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem prop="passwd" style="width:100%;margin-bottom:15%;">
+        <Input type="password" v-model="form.passwd" placeholder="请输入密码">
+        <Icon size='22' type="ios-lock" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem prop="code" style="width:100%;margin-bottom:15%;">
+        <Input style="width:55%;" v-model="form.code" placeholder="请输入验证码">
+        <Icon size='22' type="md-eye" slot="prepend"></Icon>
+        </Input>
+        <div id="codeBox" @click="refreshCode">
+          <s-identify :identifyCode="identifyCode"></s-identify>
+        </div>
+      </FormItem>
+      <FormItem style="width:100%;">
+        <Button style="width:100%" type="primary" @click="handleSubmit('form')">登录</Button>
+      </FormItem>
+      <div class="foot clearfix">
+        <router-link :to="{name:'register'}" tag="span" class="fl">注册</router-link>
+        <div class="btnBox">
+          <Button @click="openGate" type="primary" size="small" style="margin-right: 30px;">Gate官网</Button>
+          <Button @click="openImtoken" type="primary" size="small">Imtoken官网</Button>
+        </div>
+        <router-link style="color:rgb(157,157,157)" :to="{name:'forgetpassword'}" tag="span" class="fr">忘记密码</router-link>
+      </div>
+    </Form>
+  </div>
 </template>
 
 <script>
 import identify from "@/components/identify/index";
-import md5 from "js-md5";
 
 export default {
   data() {
@@ -125,19 +124,14 @@ export default {
               //继续请求。。
               const factor = res.data.data;
               this.$axios
-                .post("hzp/user/login", {
-                  userPhone: this.form.user,
-                  pwd: this.form.passwd,
-                  factor,
-                  sign: md5(
-                    JSON.stringify({
-                      factor,
-                      pwd: this.form.passwd,
-                      userPhone: this.form.user,
-                      key: "HzpKey"
-                    })
-                  )
-                })
+                .post(
+                  "hzp/user/login",
+                  this.$axiosParam({
+                    userPhone: this.form.user,
+                    pwd: this.form.passwd,
+                    factor
+                  })
+                )
                 .then(res => {
                   if (res.data.code == 0) {
                     this.$Message.success("登录成功");

@@ -72,23 +72,35 @@ export default {
           if (this.form.code == "") {
             this.$Message.error("验证码不能为空!");
           } else {
-            this.$axios
-              .post("hzp/homePage/updatePassword", {
-                userId: this.data.userId,
-                userToken: this.data.userToken,
-                type: 1,
-                validateCode: this.form.code,
-                newPwd: this.form.passwd,
-                confirmPwd: this.form.rpasswd
-              })
-              .then(res => {
-                if (res.data.code == 0) {
-                  this.$Message.success("操作成功");
-                  this.$router.push({name:"login"});
-                } else {
-                  this.$Message.error(res.data.message);
-                }
-              });
+            this.$axios.get("hzp/stake/factorSource").then(res => {
+              if (res.data.code == 0) {
+                //继续请求。。
+                const factor = res.data.data;
+                this.$axios
+                  .post(
+                    "hzp/homePage/updatePassword",
+                    this.$axiosParam({
+                      factor,
+                      userId: this.data.userId,
+                      userToken: this.data.userToken,
+                      type: 1,
+                      validateCode: this.form.code,
+                      newPwd: this.form.passwd,
+                      confirmPwd: this.form.rpasswd
+                    })
+                  )
+                  .then(res => {
+                    if (res.data.code == 0) {
+                      this.$Message.success("操作成功");
+                      this.$router.push({ name: "login" });
+                    } else {
+                      this.$Message.error(res.data.message);
+                    }
+                  });
+              } else {
+                this.$Message.error(res.data.message);
+              }
+            });
           }
         } else {
           this.$Message.error("操作失败!");
@@ -98,15 +110,27 @@ export default {
     getCode() {
       // ajax..........
       if (this.timer == null) {
-        this.$axios
-          .post("hzp/verifying/ObtainCode", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            type: 1
-          })
-          .then(res => {
-            this.$Message.success("验证码已发送");
-          });
+        this.$axios.get("hzp/stake/factorSource").then(res => {
+          if (res.data.code == 0) {
+            //继续请求。。
+            const factor = res.data.data;
+            this.$axios
+              .post(
+                "hzp/verifying/ObtainCode",
+                this.$axiosParam({
+                  factor,
+                  userId: this.data.userId,
+                  userToken: this.data.userToken,
+                  type: 1
+                })
+              )
+              .then(res => {
+                this.$Message.success("验证码已发送");
+              });
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
         this.ifSend = true;
         let count = 60;
         this.timer = setInterval(() => {
@@ -135,8 +159,7 @@ export default {
 form {
   padding: 10%;
   background-color: #fff;
-    box-shadow: 0px 2px 1px 1px $shadow;
-
+  box-shadow: 0px 2px 1px 1px $shadow;
 }
 #codeIpt {
   position: relative;

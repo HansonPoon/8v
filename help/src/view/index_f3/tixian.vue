@@ -98,7 +98,9 @@ export default {
         if (this.buyNum < this.addr.encaLeast) {
           return 0;
         } else {
-          return (this.buyNum * (Number(this.addr.encashFee) + 0.02)).toFixed(2);
+          return (this.buyNum * (Number(this.addr.encashFee) + 0.02)).toFixed(
+            2
+          );
         }
       } else {
         return 0;
@@ -130,34 +132,46 @@ export default {
     },
     confirm() {
       if (this.secPasswd) {
-        this.$axios
-          .post("hzp/stake/encash", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            transferAmount: this.buyNum,
-            userPwd: this.secPasswd
-          })
-          .then(res => {
-            this.showPop = false;
-            const status = res.data.code;
-            if (status == 0) {
-              this.$Message.success(res.data.message);
-              this.addr.restMoney = this.addr.restMoney - this.buyNum;
-              // 刷新存储
-              sessionStorage.setItem("addr", JSON.stringify(this.addr));
-              // 返回上一页
-              setTimeout(() => this.$goBack(), 1000);
-            } else if (status == 4002) {
-              this.$Message.error(res.data.message);
-              // 去设置交易密码
-              setTimeout(
-                () => this.$router.push({ name: "tradepasswd" }),
-                1000
-              );
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
+        this.$axios.get("hzp/stake/factorSource").then(res => {
+          if (res.data.code == 0) {
+            //继续请求。。
+            const factor = res.data.data;
+            this.$axios
+              .post(
+                "hzp/stake/encash",
+                this.$axiosParam({
+                  factor,
+                  userId: this.data.userId,
+                  userToken: this.data.userToken,
+                  transferAmount: this.buyNum,
+                  userPwd: this.secPasswd
+                })
+              )
+              .then(res => {
+                this.showPop = false;
+                const status = res.data.code;
+                if (status == 0) {
+                  this.$Message.success(res.data.message);
+                  this.addr.restMoney = this.addr.restMoney - this.buyNum;
+                  // 刷新存储
+                  sessionStorage.setItem("addr", JSON.stringify(this.addr));
+                  // 返回上一页
+                  setTimeout(() => this.$goBack(), 1000);
+                } else if (status == 4002) {
+                  this.$Message.error(res.data.message);
+                  // 去设置交易密码
+                  setTimeout(
+                    () => this.$router.push({ name: "tradepasswd" }),
+                    1000
+                  );
+                } else {
+                  this.$Message.error(res.data.message);
+                }
+              });
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
       }
     }
   }

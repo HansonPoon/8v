@@ -69,42 +69,65 @@ export default {
   },
   methods: {
     getTouZhuInfo() {
-      this.$axios
-        .post("hzp/stake/getExitInfo", {
-          userId: this.data.userId,
-          userToken: this.data.userToken
-        })
-        .then(res => {
-          if (res.data.code == 0) {
-            this.showPop = true;
-            this.touzhuInfo = res.data.data;
-          }
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/stake/getExitInfo",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken
+              })
+            )
+            .then(res => {
+              if (res.data.code == 0) {
+                this.showPop = true;
+                this.touzhuInfo = res.data.data;
+              }
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     },
     exit() {
-      this.$axios
-        .post("hzp/stake/userExit", {
-          userId: this.data.userId,
-          userToken: this.data.userToken
-        })
-        .then(res => {
-          console.log(res);
-          if (res.data.code == 0) {
-            this.$Message.success("注销成功");
-            setTimeout(() => {
-              //清除所有本地存储
-              sessionStorage.clear();
-              this.$router.replace({ name: "login" });
-            }, 1000);
-          } else if (res.data.code == 4009) {
-            this.$Message.error(res.data.message);
-            setTimeout(() => {
-              this.$goto("changereceiveaddress");
-            }, 1000);
-          } else {
-            this.$Message.error(res.data.message);
-          }
-        });
+      this.$axios.get("hzp/stake/factorSource").then(res => {
+        if (res.data.code == 0) {
+          //继续请求。。
+          const factor = res.data.data;
+          this.$axios
+            .post(
+              "hzp/stake/userExit",
+              this.$axiosParam({
+                factor,
+                userId: this.data.userId,
+                userToken: this.data.userToken
+              })
+            )
+            .then(res => {
+              if (res.data.code == 0) {
+                this.$Message.success("注销成功");
+                setTimeout(() => {
+                  //清除所有本地存储
+                  sessionStorage.clear();
+                  this.$router.replace({ name: "login" });
+                }, 1000);
+              } else if (res.data.code == 4009) {
+                this.$Message.error(res.data.message);
+                setTimeout(() => {
+                  this.$goto("changereceiveaddress");
+                }, 1000);
+              } else {
+                this.$Message.error(res.data.message);
+              }
+            });
+        } else {
+          this.$Message.error(res.data.message);
+        }
+      });
     }
   }
 };

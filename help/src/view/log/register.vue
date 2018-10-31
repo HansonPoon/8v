@@ -109,23 +109,35 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$axios
-            .post("hzp/user/regist", {
-              userPhone: this.form.phone,
-              validateCode: this.form.code,
-              pwd: this.form.passwd,
-              rePwd: this.form.rpasswd,
-              inviterId: !!this.r_id ? this.r_id : this.form.inviter, //值为undefined ajax不展示字段
-              type: 0
-            })
-            .then(res => {
-              if (res.data.code == 0) {
-                this.$Message.success("注册成功");
-                this.$router.push({ name: "login" });
-              } else {
-                this.$Message.error(res.data.message);
-              }
-            });
+          this.$axios.get("hzp/stake/factorSource").then(res => {
+            if (res.data.code == 0) {
+              //继续请求。。
+              const factor = res.data.data;
+              this.$axios
+                .post(
+                  "hzp/user/regist",
+                  this.$axiosParam({
+                    factor,
+                    userPhone: this.form.phone,
+                    validateCode: this.form.code,
+                    pwd: this.form.passwd,
+                    rePwd: this.form.rpasswd,
+                    inviterId: !!this.r_id ? this.r_id : this.form.inviter, //值为undefined ajax不展示字段
+                    type: 0
+                  })
+                )
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$Message.success("注册成功");
+                    this.$router.push({ name: "login" });
+                  } else {
+                    this.$Message.error(res.data.message);
+                  }
+                });
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
         } else {
           this.$Message.error("操作失败!");
         }
@@ -136,14 +148,26 @@ export default {
         if (this.form.phone == "") {
           this.$Message.error("请先输入手机号!");
         } else {
-          this.$axios
-            .post("hzp/verifying/ObtainCode", {
-              iPhone: this.form.phone,
-              type: 0
-            })
-            .then(res => {
-              this.$Message.success(res.data.message);
-            });
+          this.$axios.get("hzp/stake/factorSource").then(res => {
+            if (res.data.code == 0) {
+              //继续请求。。
+              const factor = res.data.data;
+              this.$axios
+                .post(
+                  "hzp/verifying/ObtainCode",
+                  this.$axiosParam({
+                    factor,
+                    iPhone: this.form.phone,
+                    type: 0
+                  })
+                )
+                .then(res => {
+                  this.$Message.success(res.data.message);
+                });
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
           this.ifSend = true;
           let count = 60;
           this.timer = setInterval(() => {

@@ -63,15 +63,28 @@ export default {
         } else if (!reg.test(this.usdtAddress)) {
           this.$Message.error("请检查收款地址!");
         } else {
-          this.$axios
-            .post("hzp/verifying/ObtainCode", {
-              userId: this.data.userId,
-              userToken: this.data.userToken,
-              type: 3
-            })
-            .then(res => {
-              this.$Message.success("验证码已发送");
-            });
+          this.$axios.get("hzp/stake/factorSource").then(res => {
+            if (res.data.code == 0) {
+              //继续请求。。
+              const factor = res.data.data;
+              this.$axios
+                .post(
+                  "hzp/verifying/ObtainCode",
+                  this.$axiosParam({
+                    factor,
+                    userId: this.data.userId,
+                    userToken: this.data.userToken,
+                    type: 3
+                  })
+                )
+                .then(res => {
+                  this.$Message.success("验证码已发送");
+                });
+            } else {
+              this.$Message.error(res.data.message);
+            }
+          });
+
           this.ifSend = true;
           let count = 60;
           this.timer = setInterval(() => {
@@ -98,21 +111,33 @@ export default {
         // 添加参数
         this.data.address = this.usdtAddress;
         this.data.validateCode = this.code;
-        this.$axios
-          .post("hzp/homePage/updateAddress", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            address: this.usdtAddress,
-            validateCode: this.code
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.$Message.success(res.data.message);
-              this.$router.go(-1);
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
+        this.$axios.get("hzp/stake/factorSource").then(res => {
+          if (res.data.code == 0) {
+            //继续请求。。
+            const factor = res.data.data;
+            this.$axios
+              .post(
+                "hzp/homePage/updateAddress",
+                this.$axiosParam({
+                  factor,
+                  userId: this.data.userId,
+                  userToken: this.data.userToken,
+                  address: this.usdtAddress,
+                  validateCode: this.code
+                })
+              )
+              .then(res => {
+                if (res.data.code == 0) {
+                  this.$Message.success(res.data.message);
+                  this.$router.go(-1);
+                } else {
+                  this.$Message.error(res.data.message);
+                }
+              });
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
       } else {
         this.$Message.info("收款地址已存在，若需修改请联系客服！");
       }
@@ -129,24 +154,36 @@ export default {
       } else if (!reg.test(this.usdtAddress)) {
         this.$Message.error("请检查收款地址!");
       } else {
-        this.$axios
-          .post("hzp/homePage/updateAddress", {
-            userId: this.data.userId,
-            userToken: this.data.userToken,
-            address: this.usdtAddress,
-            validateCode: this.code
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.addr.userAddress = this.usdtAddress;
-              // 更新存储
-              sessionStorage.setItem("addr", JSON.stringify(this.addr));
-              this.$Message.success("修改成功");
-              this.$router.go(-1);
-            } else {
-              this.$Message.error(res.data.message);
-            }
-          });
+        this.$axios.get("hzp/stake/factorSource").then(res => {
+          if (res.data.code == 0) {
+            //继续请求。。
+            const factor = res.data.data;
+            this.$axios
+              .post(
+                "hzp/homePage/updateAddress",
+                this.$axiosParam({
+                  factor,
+                  userId: this.data.userId,
+                  userToken: this.data.userToken,
+                  address: this.usdtAddress,
+                  validateCode: this.code
+                })
+              )
+              .then(res => {
+                if (res.data.code == 0) {
+                  this.addr.userAddress = this.usdtAddress;
+                  // 更新存储
+                  sessionStorage.setItem("addr", JSON.stringify(this.addr));
+                  this.$Message.success("修改成功");
+                  this.$router.go(-1);
+                } else {
+                  this.$Message.error(res.data.message);
+                }
+              });
+          } else {
+            this.$Message.error(res.data.message);
+          }
+        });
       }
     }
   }
