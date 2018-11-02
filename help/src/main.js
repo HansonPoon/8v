@@ -6,7 +6,6 @@ import header from '@/components/header.vue' //头部组件
 import nodata from '@/components/nodata.vue' //头部组件
 import publicjs from '@/myconfig/public.js'
 import axios from 'axios'
-import md5 from 'js-md5'
 
 
 import Vue from 'vue'

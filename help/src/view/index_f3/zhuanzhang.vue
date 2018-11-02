@@ -39,7 +39,7 @@
     <div class="notice">
       <p>温馨提示：</p>
       <p>• 转账数量最少为1 USDT；</p>
-      <p>• 转账时收取转账金额的10%作为手续费，不满0.01按0.01收取；</p>
+      <!-- <p>• 转账时收取转账金额的{{addr.turnFee*100}}%作为手续费；</p> -->
       <p>• 转账时请仔细核对转入号码，如转入号码错误平台概不负责；</p>
 
     </div>
@@ -87,9 +87,10 @@ export default {
         if (this.buyNum < 1) {
           return 0;
         } else {
-          return this.buyNum * this.addr.encashFee < 0.01
-            ? 0.01
-            : (this.buyNum * this.addr.encashFee).toFixed(2);
+          return this.buyNum * this.addr.turnFee 
+          < 0.01
+            ? 0.00
+            : (this.buyNum * this.addr.turnFee).toFixed(2);
         }
       } else {
         return 0;
