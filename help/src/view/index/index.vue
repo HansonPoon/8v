@@ -51,18 +51,25 @@
                 </div>
               </div>
               <div class="bot clearfix">
-                <div class="left fl">
+                <div class="left">
                   <div class="money">{{stakeAccumulate}} USDT</div>
                   <div class="txt">
                     <img src="../../assets/images/mainpage/$.png" alt="">
                     投注金额
                   </div>
                 </div>
-                <div class="right fr">
+                <div class="left">
                   <div class="money">{{restMoney}} USDT</div>
                   <div class="txt">
                     <img src="../../assets/images/mainpage/last.png" alt="">
                     余额
+                  </div>
+                </div>
+                <div class="right">
+                  <div class="money">{{fuxiaoMoney}} USDT</div>
+                  <div class="txt">
+                    <img src="../../assets/images/mainpage/05.png" alt="">
+                    复消金
                   </div>
                 </div>
               </div>
@@ -202,6 +209,7 @@ export default {
       inviteId: "",
       stakeAccumulate: "",
       restMoney: "",
+      fuxiaoMoney:'',
       /* 滑动切换 */
       tabItem: ["主页", "排行榜"],
       isActive: 0, //当前显示的页面下标
@@ -234,6 +242,11 @@ export default {
       exitPop: false,
       dropDown: false //下拉刷新
     };
+  },
+  computed: {
+    // fuxiaoMoney(){
+    //   return !!this.addr.repeatAccumulate ? this.addr.repeatAccumulate : 0; 
+    // }
   },
   methods: {
     /* 滑动切换 */
@@ -324,8 +337,10 @@ export default {
               this.inviteId = userInfo.inviteUserId;
               this.stakeAccumulate = userInfo.stakeAccumulate;
               this.restMoney = userInfo.restMoney;
+              this.fuxiaoMoney = userInfo.repeatAccumulate;
 
               this.addr = userInfo;
+
 
               // 存平台地址和用户钱包地址
               sessionStorage.setItem("addr", JSON.stringify(userInfo));
@@ -389,32 +404,6 @@ export default {
         }
       });
     },
-    // getTouZhuInfo() {
-    //   this.$axios.get("hzp/stake/factorSource").then(res => {
-    //     if (res.data.code == 0) {
-    //       //继续请求。。
-    //       const factor = res.data.data;
-    //       this.$axios
-    //         .post(
-    //           "hzp/stake/getExitInfo",
-    //           this.$axiosParam({
-    //             factor,
-    //             userId: this.data.userId,
-    //             userToken: this.data.userToken
-    //           })
-    //         )
-    //         .then(res => {
-    //           if (res.data.code == 0) {
-    //             this.showPop = true;
-    //             this.touzhuInfo = res.data.data;
-    //           } else {
-    //           }
-    //         });
-    //     } else {
-    //       this.$Message.error(res.data.message);
-    //     }
-    //   });
-    // },
     exit() {
       this.$axios.get("hzp/stake/factorSource").then(res => {
         if (res.data.code == 0) {
@@ -651,6 +640,8 @@ export default {
   .bot {
     text-align: center;
     padding: 10px 10px 0 10px;
+    display: flex;
+    justify-content: space-around;
     img {
       width: 15px;
       height: 15px;

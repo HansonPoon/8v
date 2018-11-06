@@ -48,7 +48,7 @@
     </div>
     <div class="notice">
       <p>温馨提示：</p>
-      <p>• 平台收取提现服务费：{{addr.encashFee*100}}%</p>
+      <p>• 提现服务费：{{addr.encashFee*100 + addr.repeatFee*100}}%（{{addr.encashFee*100}}%平台手续费，{{addr.repeatFee*100}}%复消金）</p>
       <p>• 在转账过程中，区块链矿工需要收取每笔转账费2%</p>
       <p>• 提现数量最少为{{addr.encaLeast}} USDT</p>
       <p>• 提现申请提交后后48小时内到账绑定钱包</p>
@@ -71,110 +71,123 @@
 
 <script>
 export default {
-  created() {
-    // 读本地储存和首次ajax...
-    this.data = JSON.parse(sessionStorage.getItem("data"));
-    this.addr = JSON.parse(sessionStorage.getItem("addr"));
-  },
-  mounted() {
-    this.$Message.config({
-      duration: 3
-    });
-  },
-  data() {
-    return {
-      data: null,
-      addr: null,
-      buyNum: "", //提现数量
-      showPop: false,
-      secPasswd: "",
-      systemReceipt: "" //系统地址
-    };
-  },
-  computed: {
-    fee() {
-      // console.log(Number(this.addr.encashFee )+0.02)
-      if (this.buyNum) {
-        if (this.buyNum < this.addr.encaLeast) {
-          return 0;
-        } else {
-          return (this.buyNum * (Number(this.addr.encashFee) + 0.02)).toFixed(
-            2
-          );
-        }
-      } else {
-        return 0;
-      }
+    created() {
+        // 读本地储存和首次ajax...
+        this.data = JSON.parse(sessionStorage.getItem("data"));
+        this.addr = JSON.parse(sessionStorage.getItem("addr"));
     },
-    realFee() {
-      if (this.buyNum) {
-        if (this.buyNum < this.addr.encaLeast) {
-          return 0;
-        } else {
-          return this.buyNum - this.fee;
-        }
-      } else {
-        return 0;
-      }
-    }
-  },
-  methods: {
-    showPopBox() {
-      if (this.buyNum == "") {
-        this.$Message.error("请输入提现数量");
-      } else if (this.buyNum < Number(this.addr.encaLeast)) {
-        this.$Message.error(`提现数量最少${Number(this.addr.encaLeast)}`);
-      } else if (this.buyNum > this.addr.restMoney) {
-        this.$Message.error(`余额不足`);
-      } else {
-        this.showPop = true;
-      }
-    },
-    confirm() {
-      if (this.secPasswd) {
-        this.$axios.get("hzp/stake/factorSource").then(res => {
-          if (res.data.code == 0) {
-            //继续请求。。
-            const factor = res.data.data;
-            this.$axios
-              .post(
-                "hzp/stake/encash",
-                this.$axiosParam({
-                  factor,
-                  userId: this.data.userId,
-                  userToken: this.data.userToken,
-                  transferAmount: this.buyNum,
-                  userPwd: this.secPasswd
-                })
-              )
-              .then(res => {
-                this.showPop = false;
-                const status = res.data.code;
-                if (status == 0) {
-                  this.$Message.success(res.data.message);
-                  this.addr.restMoney = this.addr.restMoney - this.buyNum;
-                  // 刷新存储
-                  sessionStorage.setItem("addr", JSON.stringify(this.addr));
-                  // 返回上一页
-                  setTimeout(() => this.$goBack(), 1000);
-                } else if (status == 4002) {
-                  this.$Message.error(res.data.message);
-                  // 去设置交易密码
-                  setTimeout(
-                    () => this.$router.push({ name: "tradepasswd" }),
-                    1000
-                  );
-                } else {
-                  this.$Message.error(res.data.message);
-                }
-              });
-          } else {
-            this.$Message.error(res.data.message);
-          }
+    mounted() {
+        this.$Message.config({
+            duration: 3
         });
-      }
+    },
+    data() {
+        return {
+            data: null,
+            addr: null,
+            buyNum: "", //提现数量
+            showPop: false,
+            secPasswd: "",
+            systemReceipt: "" //系统地址
+        };
+    },
+    computed: {
+        fee() {
+            // console.log(Number(this.addr.encashFee )+0.02)
+            if (this.buyNum) {
+                if (this.buyNum < this.addr.encaLeast) {
+                    return 0;
+                } else {
+                    return (
+                        this.buyNum *
+                        (this.addr.encashFee * 1 +
+                            this.addr.repeatFee * 1 +
+                            0.02)
+                    ) //0.02为区块链矿工费
+                        .toFixed(2);
+                }
+            } else {
+                return 0;
+            }
+        },
+        realFee() {
+            if (this.buyNum) {
+                if (this.buyNum < this.addr.encaLeast) {
+                    return 0;
+                } else {
+                    return this.buyNum - this.fee;
+                }
+            } else {
+                return 0;
+            }
+        }
+    },
+    methods: {
+        showPopBox() {
+            if (this.buyNum == "") {
+                this.$Message.error("请输入提现数量");
+            } else if (this.buyNum < Number(this.addr.encaLeast)) {
+                this.$Message.error(
+                    `提现数量最少${Number(this.addr.encaLeast)}`
+                );
+            } else if (this.buyNum > this.addr.restMoney) {
+                this.$Message.error(`余额不足`);
+            } else {
+                this.showPop = true;
+            }
+        },
+        confirm() {
+            if (this.secPasswd) {
+                this.$axios.get("hzp/stake/factorSource").then(res => {
+                    if (res.data.code == 0) {
+                        //继续请求。。
+                        const factor = res.data.data;
+                        this.$axios
+                            .post(
+                                "hzp/stake/encash",
+                                this.$axiosParam({
+                                    factor,
+                                    userId: this.data.userId,
+                                    userToken: this.data.userToken,
+                                    transferAmount: this.buyNum,
+                                    userPwd: this.secPasswd
+                                })
+                            )
+                            .then(res => {
+                                this.showPop = false;
+                                const status = res.data.code;
+                                if (status == 0) {
+                                    this.$Message.success(res.data.message);
+                                    this.addr.restMoney =
+                                        this.addr.restMoney - this.buyNum;
+                                    // 刷新存储
+                                    sessionStorage.setItem(
+                                        "addr",
+                                        JSON.stringify(this.addr)
+                                    );
+                                    // 返回上一页
+                                    setTimeout(() => this.$goBack(), 1000);
+                                } else if (status == 4002) {
+                                    this.$Message.error(res.data.message);
+                                    // 去设置交易密码
+                                    setTimeout(
+                                        () =>
+                                            this.$router.push({
+                                                name: "tradepasswd"
+                                            }),
+                                        1000
+                                    );
+                                } else {
+                                    this.$Message.error(res.data.message);
+                                }
+                            });
+                    } else {
+                        this.$Message.error(res.data.message);
+                    }
+                });
+            }
+        }
     }
-  }
 };
 </script>
 
